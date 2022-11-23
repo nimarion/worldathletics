@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
+import { AthleteDto } from './athlete.dto';
 
 const ATHLETE_QUERY = gql`
   query Query($id: Int) {
@@ -12,6 +13,7 @@ const ATHLETE_QUERY = gql`
         birthDate
         countryName
         countryCode
+        sexNameUrlSlug
       }
       seasonsBests {
         results {
@@ -63,6 +65,7 @@ export const BasicData = z.object({
   }),
   countryName: z.string(),
   countryCode: z.string(),
+  sexNameUrlSlug: z.enum(['women', 'men']),
 });
 
 const Performance = z.object({
@@ -97,10 +100,6 @@ const Athlete = z.object({
   }),
 });
 
-export type PerfomanceType = z.infer<typeof Performance>;
-export type BasicDataType = z.infer<typeof BasicData>;
-export type AthleteType = z.infer<typeof Athlete>;
-
 @Injectable()
 export class AthletesService {
   private graphQLClient: GraphQLClient;
@@ -108,7 +107,7 @@ export class AthletesService {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
   }
 
-  async getAthlete(id: number) {
+  async getAthlete(id: number): Promise<AthleteDto> {
     try {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
@@ -118,7 +117,42 @@ export class AthletesService {
           getSingleCompetitor: Athlete,
         })
         .parse(data);
-      return reponse.getSingleCompetitor;
+      return {
+        firstname: reponse.getSingleCompetitor.basicData.firstName,
+        lastname: reponse.getSingleCompetitor.basicData.lastName,
+        birthdate: reponse.getSingleCompetitor.basicData.birthDate,
+        country: reponse.getSingleCompetitor.basicData.countryCode,
+        sex:
+          reponse.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
+            ? 'FEMALE'
+            : 'MALE',
+        seasonsbests: reponse.getSingleCompetitor.seasonsBests.results.map(
+          (result) => {
+            return {
+              date: result.date,
+              discipline: result.discipline,
+              disciplineCode: result.disciplineCode,
+              mark: result.mark,
+              venue: result.venue,
+              indoor: result.indoor,
+              notLegal: result.notLegal,
+            };
+          },
+        ),
+        personalbests: reponse.getSingleCompetitor.personalBests.results.map(
+          (result) => {
+            return {
+              date: result.date,
+              discipline: result.discipline,
+              disciplineCode: result.disciplineCode,
+              mark: result.mark,
+              venue: result.venue,
+              indoor: result.indoor,
+              notLegal: result.notLegal,
+            };
+          },
+        ),
+      };
     } catch (error) {
       console.error(error);
       Sentry.withScope((scope) => {

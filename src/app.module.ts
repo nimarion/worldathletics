@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AthletesModule } from './athletes/athletes.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -15,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
     {
       provide: APP_INTERCEPTOR,
