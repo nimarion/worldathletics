@@ -65,7 +65,7 @@ export const BasicData = z.object({
   }),
   countryName: z.string(),
   countryCode: z.string(),
-  sexNameUrlSlug: z.enum(['women', 'men']),
+  sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });
 
 const Performance = z.object({

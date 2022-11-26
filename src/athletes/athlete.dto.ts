@@ -20,7 +20,6 @@ export class PerformanceDto {
 export class AthleteDto {
   @ApiProperty()
   firstname: string;
-
   @ApiProperty()
   lastname: string;
   @ApiProperty()
@@ -28,7 +27,7 @@ export class AthleteDto {
   @ApiProperty()
   country: string;
   @ApiProperty()
-  sex: 'MALE' | 'FEMALE';
+  sex: 'MALE' | 'FEMALE' | null;
   @ApiProperty({ type: PerformanceDto })
   personalbests: PerformanceDto[];
   @ApiProperty({ type: PerformanceDto })
