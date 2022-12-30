@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
+import { Country } from './country.dto';
 
 const COUNTRIES_QUERY = gql`
   query MyQuery {
@@ -30,7 +31,7 @@ export class CountriesService {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
   }
 
-  async getCountries() {
+  async getCountries(): Promise<Country[]> {
     try {
       const data = await this.graphQLClient.request(COUNTRIES_QUERY);
       const reponse = z
@@ -38,7 +39,16 @@ export class CountriesService {
           getCountries: z.array(CountrySchema),
         })
         .parse(data);
-      return reponse.getCountries.filter((country) => country.isValid);
+      return reponse.getCountries
+        .filter((country) => country.isValid)
+        .map((country) => {
+          return {
+            areaCode: country.areaCode,
+            areaName: country.areaName,
+            id: country.id,
+            countryName: country.countryName,
+          };
+        });
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);
