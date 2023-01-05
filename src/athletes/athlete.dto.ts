@@ -19,6 +19,8 @@ export class PerformanceDto {
 
 export class AthleteDto {
   @ApiProperty()
+  id: number;
+  @ApiProperty()
   firstname: string;
   @ApiProperty()
   lastname: string;

@@ -107,7 +107,7 @@ export class AthletesService {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
   }
 
-  async getAthlete(id: number): Promise<AthleteDto> {
+  async getAthlete(id: number): Promise<AthleteDto | null> {
     try {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
@@ -118,6 +118,7 @@ export class AthletesService {
         })
         .parse(data);
       return {
+        id,
         firstname: reponse.getSingleCompetitor.basicData.firstName,
         lastname: reponse.getSingleCompetitor.basicData.lastName,
         birthdate: reponse.getSingleCompetitor.basicData.birthDate,
