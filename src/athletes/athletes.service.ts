@@ -8,10 +8,9 @@ const ATHLETE_QUERY = gql`
   query Query($id: Int) {
     getSingleCompetitor(id: $id) {
       basicData {
-        lastName
-        firstName
+        familyName
+        givenName
         birthDate
-        countryName
         countryCode
         sexNameUrlSlug
       }
@@ -42,8 +41,8 @@ const ATHLETE_QUERY = gql`
 `;
 
 export const BasicData = z.object({
-  firstName: z.string(),
-  lastName: z.string().transform((val) =>
+  givenName: z.string(),
+  familyName: z.string().transform((val) =>
     val
       .toLowerCase()
       .split(' ')
@@ -63,7 +62,6 @@ export const BasicData = z.object({
     );
     return birthday;
   }),
-  countryName: z.string(),
   countryCode: z.string(),
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });
@@ -112,15 +110,22 @@ export class AthletesService {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
       });
+      console.log(data);
       const reponse = z
         .object({
           getSingleCompetitor: Athlete,
         })
         .parse(data);
+      const lastname = reponse.getSingleCompetitor.basicData.familyName
+        .toLowerCase()
+        .split(' ')
+        .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
+        .join(' ');
+
       return {
         id,
-        firstname: reponse.getSingleCompetitor.basicData.firstName,
-        lastname: reponse.getSingleCompetitor.basicData.lastName,
+        firstname: reponse.getSingleCompetitor.basicData.givenName,
+        lastname,
         birthdate: reponse.getSingleCompetitor.basicData.birthDate,
         country: reponse.getSingleCompetitor.basicData.countryCode,
         sex:
