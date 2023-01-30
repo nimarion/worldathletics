@@ -28,7 +28,7 @@ export class AthleteDto {
   birthdate: Date;
   @ApiProperty()
   country: string;
-  @ApiProperty()
+  @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
   sex: 'MALE' | 'FEMALE' | null;
   @ApiProperty({ type: PerformanceDto })
   personalbests: PerformanceDto[];

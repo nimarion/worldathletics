@@ -110,7 +110,6 @@ export class AthletesService {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
       });
-      console.log(data);
       const reponse = z
         .object({
           getSingleCompetitor: Athlete,
@@ -128,10 +127,11 @@ export class AthletesService {
         lastname,
         birthdate: reponse.getSingleCompetitor.basicData.birthDate,
         country: reponse.getSingleCompetitor.basicData.countryCode,
-        sex:
-          reponse.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
+        sex: reponse.getSingleCompetitor.basicData.sexNameUrlSlug
+          ? reponse.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
             ? 'FEMALE'
-            : 'MALE',
+            : 'MALE'
+          : null,
         seasonsbests: reponse.getSingleCompetitor.seasonsBests.results.map(
           (result) => {
             return {
