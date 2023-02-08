@@ -17,6 +17,13 @@ export class PerformanceDto {
   notLegal: boolean;
 }
 
+export class CurrentWorldRanking {
+  @ApiProperty()
+  place: number;
+  @ApiProperty()
+  eventGroup: string;
+}
+
 export class AthleteDto {
   @ApiProperty()
   id: number;
@@ -34,4 +41,6 @@ export class AthleteDto {
   personalbests: PerformanceDto[];
   @ApiProperty({ type: PerformanceDto, isArray: true })
   seasonsbests: PerformanceDto[];
+  @ApiProperty({ type: CurrentWorldRanking, isArray: true })
+  currentWorldRankings: CurrentWorldRanking[];
 }

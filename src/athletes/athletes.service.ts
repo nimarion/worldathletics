@@ -36,6 +36,13 @@ const ATHLETE_QUERY = gql`
           notLegal
         }
       }
+      worldRankings {
+        current {
+          male
+          eventGroup
+          place
+        }
+      }
     }
   }
 `;
@@ -88,6 +95,12 @@ const Performance = z.object({
   notLegal: z.boolean(),
 });
 
+const CurrentWorldRanking = z.object({
+  male: z.boolean(),
+  eventGroup: z.string(),
+  place: z.number(),
+});
+
 const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
@@ -95,6 +108,9 @@ const Athlete = z.object({
   }),
   personalBests: z.object({
     results: z.array(Performance),
+  }),
+  worldRankings: z.object({
+    current: z.array(CurrentWorldRanking),
   }),
 });
 
@@ -121,6 +137,13 @@ export class AthletesService {
         .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
         .join(' ');
 
+      const worldRankingsSex =
+        reponse.getSingleCompetitor.worldRankings.current.length > 0
+          ? reponse.getSingleCompetitor.worldRankings.current[0].male
+            ? 'MALE'
+            : 'FEMALE'
+          : null;
+
       return {
         id,
         firstname: reponse.getSingleCompetitor.basicData.givenName,
@@ -131,7 +154,14 @@ export class AthletesService {
           ? reponse.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
             ? 'FEMALE'
             : 'MALE'
-          : null,
+          : worldRankingsSex,
+        currentWorldRankings:
+          reponse.getSingleCompetitor.worldRankings.current.map((ranking) => {
+            return {
+              eventGroup: ranking.eventGroup,
+              place: ranking.place,
+            };
+          }),
         seasonsbests: reponse.getSingleCompetitor.seasonsBests.results.map(
           (result) => {
             return {
