@@ -30,8 +30,8 @@ export class AthleteDto {
   country: string;
   @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
   sex: 'MALE' | 'FEMALE' | null;
-  @ApiProperty({ type: PerformanceDto })
+  @ApiProperty({ type: PerformanceDto, isArray: true })
   personalbests: PerformanceDto[];
-  @ApiProperty({ type: PerformanceDto })
+  @ApiProperty({ type: PerformanceDto, isArray: true })
   seasonsbests: PerformanceDto[];
 }
