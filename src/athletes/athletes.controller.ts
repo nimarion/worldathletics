@@ -22,6 +22,9 @@ export class AthletesController {
   async getAthleteById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<AthleteDto> {
+    if (id < 1) {
+      throw new NotFoundException();
+    }
     const athlete = await this.athletesService.getAthlete(id);
     if (!athlete) {
       throw new NotFoundException();

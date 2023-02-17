@@ -128,9 +128,12 @@ export class AthletesService {
       });
       const reponse = z
         .object({
-          getSingleCompetitor: Athlete,
+          getSingleCompetitor: Athlete.nullable(),
         })
         .parse(data);
+      if (!reponse.getSingleCompetitor) {
+        return null;
+      }
       const lastname = reponse.getSingleCompetitor.basicData.familyName
         .toLowerCase()
         .split(' ')
