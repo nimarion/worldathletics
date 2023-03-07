@@ -137,7 +137,7 @@ export class AthletesService {
       const lastname = reponse.getSingleCompetitor.basicData.familyName
         .toLowerCase()
         .split(' ')
-        .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
+        .map((s) => s[0].toUpperCase() + s.slice(1))
         .join(' ');
 
       const worldRankingsSex =
@@ -165,26 +165,30 @@ export class AthletesService {
               place: ranking.place,
             };
           }),
-        seasonsbests: reponse.getSingleCompetitor.seasonsBests.results.map(
-          (result) => {
+        seasonsbests: reponse.getSingleCompetitor.seasonsBests.results
+          .filter((result) => {
+            const diff = new Date().getTime() - result.date.getTime();
+            const diffInMonths = diff / (1000 * 3600 * 24 * 30);
+            return diffInMonths < 12;
+          })
+          .map((result) => {
             return {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: result.disciplineCode,
-              mark: result.mark,
+              mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               indoor: result.indoor,
               notLegal: result.notLegal,
             };
-          },
-        ),
+          }),
         personalbests: reponse.getSingleCompetitor.personalBests.results.map(
           (result) => {
             return {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: result.disciplineCode,
-              mark: result.mark,
+              mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               indoor: result.indoor,
               notLegal: result.notLegal,
