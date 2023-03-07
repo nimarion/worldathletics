@@ -58,16 +58,8 @@ export const BasicData = z.object({
   ),
   birthDate: z.string().transform((val) => {
     const date = new Date(val);
-    const birthday = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() + 1,
-      0,
-      0,
-      0,
-      0,
-    );
-    return birthday;
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
   }),
   countryCode: z.string(),
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
@@ -76,16 +68,8 @@ export const BasicData = z.object({
 const Performance = z.object({
   date: z.string().transform((val) => {
     const date = new Date(val);
-    const d = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate() + 1,
-      0,
-      0,
-      0,
-      0,
-    );
-    return d;
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
   }),
   discipline: z.string(),
   disciplineCode: z.string(),
