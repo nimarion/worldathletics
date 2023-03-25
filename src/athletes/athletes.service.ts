@@ -38,9 +38,12 @@ const ATHLETE_QUERY = gql`
       }
       worldRankings {
         current {
-          male
           eventGroup
           place
+        }
+        best {
+          place
+          eventGroup
         }
       }
     }
@@ -79,10 +82,11 @@ const Performance = z.object({
   notLegal: z.boolean(),
 });
 
-const CurrentWorldRanking = z.object({
-  male: z.boolean(),
+const WorldRanking = z.object({
   eventGroup: z.string(),
-  place: z.number(),
+  place: z.preprocess((val) => {
+    return Number(val);
+  }, z.number()),
 });
 
 const Athlete = z.object({
@@ -94,7 +98,8 @@ const Athlete = z.object({
     results: z.array(Performance),
   }),
   worldRankings: z.object({
-    current: z.array(CurrentWorldRanking),
+    best: z.array(WorldRanking),
+    current: z.array(WorldRanking),
   }),
 });
 
@@ -110,46 +115,48 @@ export class AthletesService {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
       });
-      const reponse = z
+      const response = z
         .object({
           getSingleCompetitor: Athlete.nullable(),
         })
         .parse(data);
-      if (!reponse.getSingleCompetitor) {
+      if (!response.getSingleCompetitor) {
         return null;
       }
-      const lastname = reponse.getSingleCompetitor.basicData.familyName
+      const lastname = response.getSingleCompetitor.basicData.familyName
         .toLowerCase()
         .split(' ')
         .map((s) => s[0].toUpperCase() + s.slice(1))
         .join(' ');
 
-      const worldRankingsSex =
-        reponse.getSingleCompetitor.worldRankings.current.length > 0
-          ? reponse.getSingleCompetitor.worldRankings.current[0].male
-            ? 'MALE'
-            : 'FEMALE'
+      const worldRankingSex =
+        response.getSingleCompetitor.worldRankings.best.length > 0
+          ? response.getSingleCompetitor.worldRankings.best[0].eventGroup
+              .toLowerCase()
+              .includes('women')
+            ? 'FEMALE'
+            : 'MALE'
           : null;
 
       return {
         id,
-        firstname: reponse.getSingleCompetitor.basicData.givenName,
+        firstname: response.getSingleCompetitor.basicData.givenName,
         lastname,
-        birthdate: reponse.getSingleCompetitor.basicData.birthDate,
-        country: reponse.getSingleCompetitor.basicData.countryCode,
-        sex: reponse.getSingleCompetitor.basicData.sexNameUrlSlug
-          ? reponse.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
+        birthdate: response.getSingleCompetitor.basicData.birthDate,
+        country: response.getSingleCompetitor.basicData.countryCode,
+        sex: response.getSingleCompetitor.basicData.sexNameUrlSlug
+          ? response.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
             ? 'FEMALE'
             : 'MALE'
-          : worldRankingsSex,
+          : worldRankingSex,
         currentWorldRankings:
-          reponse.getSingleCompetitor.worldRankings.current.map((ranking) => {
+          response.getSingleCompetitor.worldRankings.current.map((ranking) => {
             return {
               eventGroup: ranking.eventGroup,
               place: ranking.place,
             };
           }),
-        seasonsbests: reponse.getSingleCompetitor.seasonsBests.results
+        seasonsbests: response.getSingleCompetitor.seasonsBests.results
           .filter((result) => {
             const diff = new Date().getTime() - result.date.getTime();
             const diffInMonths = diff / (1000 * 3600 * 24 * 30);
@@ -166,7 +173,7 @@ export class AthletesService {
               notLegal: result.notLegal,
             };
           }),
-        personalbests: reponse.getSingleCompetitor.personalBests.results.map(
+        personalbests: response.getSingleCompetitor.personalBests.results.map(
           (result) => {
             return {
               date: result.date,
