@@ -24,6 +24,32 @@ export class CurrentWorldRanking {
   eventGroup: string;
 }
 
+export class Result {
+  @ApiProperty()
+  place: number;
+  @ApiProperty()
+  indoor: boolean;
+  @ApiProperty()
+  discipline: string;
+  @ApiProperty()
+  disciplineCode: string;
+  @ApiProperty()
+  mark: string;
+  @ApiProperty()
+  venue: string;
+  @ApiProperty()
+  date: Date;
+  @ApiProperty()
+  competition: string;
+}
+
+export class Honour {
+  @ApiProperty({ type: Result, isArray: true })
+  results: Result[];
+  @ApiProperty()
+  category: string;
+}
+
 export class AthleteDto {
   @ApiProperty()
   id: number;
@@ -43,4 +69,6 @@ export class AthleteDto {
   seasonsbests: PerformanceDto[];
   @ApiProperty({ type: CurrentWorldRanking, isArray: true })
   currentWorldRankings: CurrentWorldRanking[];
+  @ApiProperty({ type: Honour, isArray: true })
+  honours: Honour[];
 }

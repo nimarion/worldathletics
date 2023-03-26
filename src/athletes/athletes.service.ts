@@ -46,6 +46,19 @@ const ATHLETE_QUERY = gql`
           eventGroup
         }
       }
+      honours {
+        results {
+          place
+          indoor
+          disciplineCode
+          discipline
+          competition
+          venue
+          mark
+          date
+        }
+        categoryName
+      }
     }
   }
 `;
@@ -89,6 +102,23 @@ const WorldRanking = z.object({
   }, z.number()),
 });
 
+const Result = z.object({
+  date: z.string().transform((val) => {
+    const date = new Date(val);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+  }),
+  discipline: z.string(),
+  disciplineCode: z.string(),
+  mark: z.string(),
+  venue: z.string(),
+  indoor: z.boolean(),
+  competition: z.string(),
+  place: z.preprocess((val) => {
+    return Number(val);
+  }, z.number()),
+});
+
 const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
@@ -101,6 +131,12 @@ const Athlete = z.object({
     best: z.array(WorldRanking),
     current: z.array(WorldRanking),
   }),
+  honours: z.array(
+    z.object({
+      results: z.array(Result),
+      categoryName: z.string(),
+    }),
+  ),
 });
 
 @Injectable()
@@ -186,6 +222,23 @@ export class AthletesService {
             };
           },
         ),
+        honours: response.getSingleCompetitor.honours.map((honour) => {
+          return {
+            category: honour.categoryName,
+            results: honour.results.map((result) => {
+              return {
+                date: result.date,
+                discipline: result.discipline,
+                disciplineCode: result.disciplineCode,
+                mark: result.mark,
+                venue: result.venue,
+                indoor: result.indoor,
+                competition: result.competition,
+                place: result.place,
+              };
+            }),
+          };
+        }),
       };
     } catch (error) {
       console.error(error);
