@@ -1,143 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { gql, GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
 import { AthleteDto } from './athlete.dto';
-
-const ATHLETE_QUERY = gql`
-  query Query($id: Int) {
-    getSingleCompetitor(id: $id) {
-      basicData {
-        familyName
-        givenName
-        birthDate
-        countryCode
-        sexNameUrlSlug
-      }
-      seasonsBests {
-        results {
-          discipline
-          disciplineCode
-          date
-          mark
-          venue
-          indoor
-          notLegal
-        }
-      }
-      personalBests {
-        results {
-          discipline
-          disciplineCode
-          date
-          mark
-          venue
-          indoor
-          notLegal
-        }
-      }
-      worldRankings {
-        current {
-          eventGroup
-          place
-        }
-        best {
-          place
-          eventGroup
-        }
-      }
-      honours {
-        results {
-          place
-          indoor
-          disciplineCode
-          discipline
-          competition
-          venue
-          mark
-          date
-        }
-        categoryName
-      }
-    }
-  }
-`;
-
-export const BasicData = z.object({
-  givenName: z.string(),
-  familyName: z.string().transform((val) =>
-    val
-      .toLowerCase()
-      .split(' ')
-      .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
-      .join(' '),
-  ),
-  birthDate: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
-  countryCode: z.string(),
-  sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
-});
-
-const Performance = z.object({
-  date: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
-  discipline: z.string(),
-  disciplineCode: z.string(),
-  mark: z.string(),
-  venue: z.string(),
-  indoor: z.boolean(),
-  notLegal: z.boolean(),
-});
-
-const WorldRanking = z.object({
-  eventGroup: z.string(),
-  place: z.preprocess((val) => {
-    return Number(val);
-  }, z.number()),
-});
-
-const Result = z.object({
-  date: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
-  discipline: z.string(),
-  disciplineCode: z.string(),
-  mark: z.string(),
-  venue: z.string(),
-  indoor: z.boolean(),
-  competition: z.string(),
-  place: z.preprocess((val) => {
-    return Number(val);
-  }, z.number()),
-});
-
-const Athlete = z.object({
-  basicData: BasicData,
-  seasonsBests: z.object({
-    results: z.array(Performance),
-  }),
-  personalBests: z.object({
-    results: z.array(Performance),
-  }),
-  worldRankings: z.object({
-    best: z.array(WorldRanking),
-    current: z.array(WorldRanking),
-  }),
-  honours: z.array(
-    z.object({
-      results: z.array(Result),
-      categoryName: z.string(),
-    }),
-  ),
-});
+import ATHLETE_QUERY from './athlete.query';
+import { Athlete } from './athlete.zod';
 
 @Injectable()
 export class AthletesService {
@@ -193,6 +60,7 @@ export class AthletesService {
             };
           }),
         seasonsbests: response.getSingleCompetitor.seasonsBests.results
+          .filter((result) => !result.notLegal)
           .filter((result) => {
             const diff = new Date().getTime() - result.date.getTime();
             const diffInMonths = diff / (1000 * 3600 * 24 * 30);
@@ -209,8 +77,9 @@ export class AthletesService {
               notLegal: result.notLegal,
             };
           }),
-        personalbests: response.getSingleCompetitor.personalBests.results.map(
-          (result) => {
+        personalbests: response.getSingleCompetitor.personalBests.results
+          .filter((result) => !result.notLegal)
+          .map((result) => {
             return {
               date: result.date,
               discipline: result.discipline,
@@ -220,8 +89,7 @@ export class AthletesService {
               indoor: result.indoor,
               notLegal: result.notLegal,
             };
-          },
-        ),
+          }),
         honours: response.getSingleCompetitor.honours.map((honour) => {
           return {
             category: honour.categoryName,
@@ -230,7 +98,7 @@ export class AthletesService {
                 date: result.date,
                 discipline: result.discipline,
                 disciplineCode: result.disciplineCode,
-                mark: result.mark,
+                mark: result.mark.replace(/[^0-9:.]/g, ''),
                 venue: result.venue,
                 indoor: result.indoor,
                 competition: result.competition,
