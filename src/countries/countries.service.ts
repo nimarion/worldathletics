@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
-import { Country } from './country.dto';
+import { Country } from './country.entity';
 
 const COUNTRIES_QUERY = gql`
   query MyQuery {

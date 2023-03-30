@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
-import { AthleteDto } from './athlete.dto';
+import { Athlete } from './athlete.dto';
 import ATHLETE_QUERY from './athlete.query';
-import { Athlete } from './athlete.zod';
+import { Athlete as AthleteSchema } from './athlete.zod';
 
 @Injectable()
 export class AthletesService {
@@ -13,14 +13,14 @@ export class AthletesService {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
   }
 
-  async getAthlete(id: number): Promise<AthleteDto | null> {
+  async getAthlete(id: number): Promise<Athlete | null> {
     try {
       const data = await this.graphQLClient.request(ATHLETE_QUERY, {
         id: String(id),
       });
       const response = z
         .object({
-          getSingleCompetitor: Athlete.nullable(),
+          getSingleCompetitor: AthleteSchema.nullable(),
         })
         .parse(data);
       if (!response.getSingleCompetitor) {

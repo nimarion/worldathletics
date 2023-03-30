@@ -1,7 +1,7 @@
 import { Controller, BadGatewayException, Get } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CountriesService } from './countries.service';
-import { Country } from './country.dto';
+import { Country } from './country.entity';
 
 @Controller('countries')
 export class CountriesController {

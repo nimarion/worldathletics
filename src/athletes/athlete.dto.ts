@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class PerformanceDto {
+export class Performance {
   @ApiProperty()
   date: Date;
   @ApiProperty()
@@ -50,7 +50,7 @@ export class Honour {
   category: string;
 }
 
-export class AthleteDto {
+export class Athlete {
   @ApiProperty()
   id: number;
   @ApiProperty()
@@ -63,10 +63,10 @@ export class AthleteDto {
   country: string;
   @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
   sex: 'MALE' | 'FEMALE' | null;
-  @ApiProperty({ type: PerformanceDto, isArray: true })
-  personalbests: PerformanceDto[];
-  @ApiProperty({ type: PerformanceDto, isArray: true })
-  seasonsbests: PerformanceDto[];
+  @ApiProperty({ type: Performance, isArray: true })
+  personalbests: Performance[];
+  @ApiProperty({ type: Performance, isArray: true })
+  seasonsbests: Performance[];
   @ApiProperty({ type: CurrentWorldRanking, isArray: true })
   currentWorldRankings: CurrentWorldRanking[];
   @ApiProperty({ type: Honour, isArray: true })

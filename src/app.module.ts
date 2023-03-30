@@ -5,6 +5,7 @@ import { SentryInterceptor } from './sentry-interceptor/sentry-interceptor.inter
 import { CountriesModule } from './countries/countries.module';
 import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from './health/health.module';
+import { DisciplinesModule } from './disciplines/disciplines.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { HealthModule } from './health/health.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DisciplinesModule,
   ],
   providers: [
     {

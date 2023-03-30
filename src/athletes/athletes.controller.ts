@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
 import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger';
-import { AthleteDto } from './athlete.dto';
+import { Athlete } from './athlete.dto';
 
 @Controller('athletes')
 export class AthletesController {
@@ -16,12 +16,12 @@ export class AthletesController {
   @Get(':id')
   @ApiOkResponse({
     description: 'Returns the athlete profile',
-    type: AthleteDto,
+    type: Athlete,
   })
   @ApiNotFoundResponse({ description: 'Athlete not found' })
   async getAthleteById(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<AthleteDto> {
+  ): Promise<Athlete> {
     if (id < 1 || id > 2147483647) {
       throw new NotFoundException();
     }
