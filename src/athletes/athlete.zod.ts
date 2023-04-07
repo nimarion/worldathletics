@@ -9,11 +9,15 @@ export const BasicData = z.object({
       .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
       .join(' '),
   ),
-  birthDate: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
+  birthDate: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      if (!val) return null;
+      const date = new Date(val);
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date;
+    }),
   countryCode: z.string(),
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });

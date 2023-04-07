@@ -57,8 +57,8 @@ export class Athlete {
   firstname: string;
   @ApiProperty()
   lastname: string;
-  @ApiProperty()
-  birthdate: Date;
+  @ApiProperty({ nullable: true, type: Date })
+  birthdate: Date | null;
   @ApiProperty()
   country: string;
   @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
