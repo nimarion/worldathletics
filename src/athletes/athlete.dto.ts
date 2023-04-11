@@ -71,4 +71,6 @@ export class Athlete {
   currentWorldRankings: CurrentWorldRanking[];
   @ApiProperty({ type: Honour, isArray: true })
   honours: Honour[];
+  @ApiProperty({ type: Number, isArray: true })
+  activeSeasons: number[];
 }

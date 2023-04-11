@@ -20,6 +20,7 @@ const ATHLETE_QUERY = gql`
           indoor
           notLegal
         }
+        activeSeasons
       }
       personalBests {
         results {

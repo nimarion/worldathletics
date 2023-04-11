@@ -63,6 +63,11 @@ const Result = z.object({
 export const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
+    activeSeasons: z.array(
+      z.preprocess((val) => {
+        return Number(val);
+      }, z.number()),
+    ),
     results: z.array(Performance),
   }),
   personalBests: z.object({
