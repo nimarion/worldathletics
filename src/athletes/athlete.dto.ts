@@ -14,7 +14,21 @@ export class Performance {
   @ApiProperty()
   indoor: boolean;
   @ApiProperty()
-  notLegal: boolean;
+  legal: boolean;
+  @ApiProperty()
+  resultScore: number;
+  @ApiProperty({ nullable: true, type: Number })
+  wind: number | null;
+  @ApiProperty({ nullable: true, type: String })
+  competition: string | null;
+  @ApiProperty({ nullable: true, type: Date })
+  country: string | null;
+  @ApiProperty({ nullable: true, type: String })
+  category: string | null;
+  @ApiProperty({ nullable: true, type: String })
+  race: string | null;
+  @ApiProperty({ nullable: true, type: Number })
+  place: number | null;
 }
 
 export class CurrentWorldRanking {
@@ -24,7 +38,7 @@ export class CurrentWorldRanking {
   eventGroup: string;
 }
 
-export class Result {
+export class HonourResult {
   @ApiProperty()
   place: number;
   @ApiProperty()
@@ -44,8 +58,8 @@ export class Result {
 }
 
 export class Honour {
-  @ApiProperty({ type: Result, isArray: true })
-  results: Result[];
+  @ApiProperty({ type: HonourResult, isArray: true })
+  results: HonourResult[];
   @ApiProperty()
   category: string;
 }

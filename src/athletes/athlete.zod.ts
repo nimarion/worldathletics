@@ -34,6 +34,13 @@ const Performance = z.object({
   venue: z.string(),
   indoor: z.boolean(),
   notLegal: z.boolean(),
+  resultScore: z.number(),
+  wind: z
+    .preprocess((val) => {
+      if (!val) return null;
+      return Number(val);
+    }, z.number().nullable())
+    .nullable(),
 });
 
 const WorldRanking = z.object({

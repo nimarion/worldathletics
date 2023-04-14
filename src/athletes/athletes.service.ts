@@ -61,7 +61,6 @@ export class AthletesService {
             };
           }),
         seasonsbests: response.getSingleCompetitor.seasonsBests.results
-          .filter((result) => !result.notLegal)
           .filter((result) => {
             const diff = new Date().getTime() - result.date.getTime();
             const diffInMonths = diff / (1000 * 3600 * 24 * 30);
@@ -75,12 +74,18 @@ export class AthletesService {
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               indoor: result.indoor,
-              notLegal: result.notLegal,
+              legal: !result.notLegal,
+              resultScore: result.resultScore,
+              wind: result.wind,
+              competition: null,
+              country: null,
+              category: null,
+              race: null,
+              place: null,
             };
           }),
-        personalbests: response.getSingleCompetitor.personalBests.results
-          .filter((result) => !result.notLegal)
-          .map((result) => {
+        personalbests: response.getSingleCompetitor.personalBests.results.map(
+          (result) => {
             return {
               date: result.date,
               discipline: result.discipline,
@@ -88,9 +93,17 @@ export class AthletesService {
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               indoor: result.indoor,
-              notLegal: result.notLegal,
+              legal: !result.notLegal,
+              resultScore: result.resultScore,
+              wind: result.wind,
+              competition: null,
+              country: null,
+              category: null,
+              race: null,
+              place: null,
             };
-          }),
+          },
+        ),
         honours: response.getSingleCompetitor.honours.map((honour) => {
           return {
             category: honour.categoryName,
@@ -104,6 +117,7 @@ export class AthletesService {
                 indoor: result.indoor,
                 competition: result.competition,
                 place: result.place,
+                resultScore: 0,
               };
             }),
           };

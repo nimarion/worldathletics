@@ -4,14 +4,19 @@ import {
   Param,
   ParseIntPipe,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
 import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger';
-import { Athlete } from './athlete.dto';
+import { Athlete, Performance } from './athlete.dto';
+import { ResultsService } from './results/result.service';
 
 @Controller('athletes')
 export class AthletesController {
-  constructor(private readonly athletesService: AthletesService) {}
+  constructor(
+    private readonly athletesService: AthletesService,
+    private readonly resultsService: ResultsService,
+  ) {}
 
   @Get(':id')
   @ApiOkResponse({
@@ -30,5 +35,18 @@ export class AthletesController {
       throw new NotFoundException();
     }
     return athlete;
+  }
+
+  @Get(':id/results')
+  async getResultsbyAthleteId(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('year') year?: number,
+  ): Promise<Performance[]> {
+    console.log(year);
+    const results = await this.resultsService.getResultsFromAthlete(id, year);
+    if (!results) {
+      throw new NotFoundException();
+    }
+    return results;
   }
 }

@@ -19,6 +19,8 @@ const ATHLETE_QUERY = gql`
           venue
           indoor
           notLegal
+          resultScore
+          wind
         }
         activeSeasons
       }
@@ -31,6 +33,8 @@ const ATHLETE_QUERY = gql`
           venue
           indoor
           notLegal
+          resultScore
+          wind
         }
       }
       worldRankings {
