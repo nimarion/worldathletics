@@ -38,6 +38,7 @@ const Performance = z.object({
   wind: z
     .preprocess((val) => {
       if (!val) return null;
+      if (isNaN(Number(val))) return null;
       return Number(val);
     }, z.number().nullable())
     .nullable(),
