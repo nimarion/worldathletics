@@ -15,9 +15,15 @@ export class AthletesService {
 
   async getAthlete(id: number): Promise<Athlete | null> {
     try {
-      const data = await this.graphQLClient.request(ATHLETE_QUERY, {
-        id: String(id),
-      });
+      const data = await this.graphQLClient.request(
+        ATHLETE_QUERY,
+        {
+          id: String(id),
+        },
+        {
+          'x-athlete-id': String(id),
+        },
+      );
       const response = z
         .object({
           getSingleCompetitor: AthleteSchema.nullable(),

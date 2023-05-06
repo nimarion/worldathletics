@@ -17,10 +17,16 @@ export class ResultsService {
     year?: number,
   ): Promise<Performance[] | null> {
     try {
-      const data = await this.graphQLClient.request(RESULTS_QUERY, {
-        id: String(id),
-        year: year,
-      });
+      const data = await this.graphQLClient.request(
+        RESULTS_QUERY,
+        {
+          id: String(id),
+          year: year,
+        },
+        {
+          'x-athlete-id': String(id),
+        },
+      );
       const response = z
         .object({
           getSingleCompetitorResultsDiscipline: ResultsByEvent.nullable(),
