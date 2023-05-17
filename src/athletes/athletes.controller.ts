@@ -42,7 +42,6 @@ export class AthletesController {
     @Param('id', ParseIntPipe) id: number,
     @Query('year') year?: number,
   ): Promise<Performance[]> {
-    console.log(year);
     const results = await this.resultsService.getResultsFromAthlete(id, year);
     if (!results) {
       throw new NotFoundException();

@@ -57,6 +57,7 @@ export class ResultsService {
               venue: result.venue,
               country: result.country,
               race: result.race,
+              records: null,
             });
           });
         },

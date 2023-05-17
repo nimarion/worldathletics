@@ -21,6 +21,7 @@ const ATHLETE_QUERY = gql`
           notLegal
           resultScore
           wind
+          records
         }
         activeSeasons
       }
@@ -35,6 +36,7 @@ const ATHLETE_QUERY = gql`
           notLegal
           resultScore
           wind
+          records
         }
       }
       worldRankings {

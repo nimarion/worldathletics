@@ -88,6 +88,7 @@ export class AthletesService {
               category: null,
               race: null,
               place: null,
+              records: result.records,
             };
           }),
         personalbests: response.getSingleCompetitor.personalBests.results.map(
@@ -107,6 +108,7 @@ export class AthletesService {
               category: null,
               race: null,
               place: null,
+              records: result.records,
             };
           },
         ),

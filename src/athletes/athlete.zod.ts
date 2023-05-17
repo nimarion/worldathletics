@@ -42,6 +42,7 @@ const Performance = z.object({
       return Number(val);
     }, z.number().nullable())
     .nullable(),
+  records: z.array(z.string()),
 });
 
 const WorldRanking = z.object({

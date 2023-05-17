@@ -29,6 +29,8 @@ export class Performance {
   race: string | null;
   @ApiProperty({ nullable: true, type: Number })
   place: number | null;
+  @ApiProperty({ nullable: true, type: String, isArray: true })
+  records: string[] | null;
 }
 
 export class CurrentWorldRanking {
