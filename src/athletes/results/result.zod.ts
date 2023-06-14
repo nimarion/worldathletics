@@ -20,13 +20,30 @@ export const ResultsByEvent = z.object({
           venue: z.string(),
           wind: z
             .preprocess((val) => {
-              return Number(val);
-            }, z.number())
+              if (val === 'NWI') {
+                return null;
+              }
+              try {
+                return Number(val);
+              } catch (error) {
+                console.log(val, error);
+                return null;
+              }
+            }, z.number().nullable())
             .nullable(),
           resultScore: z.number(),
           race: z.string(),
           place: z.preprocess((val) => {
-            return Number(val);
+            // Out of competition results are marked as OC
+            if (val === 'OC') {
+              return 0;
+            }
+            try {
+              return Number(val);
+            } catch (error) {
+              console.log(val, error);
+              return -1;
+            }
           }, z.number()),
           category: z.string(),
         }),
