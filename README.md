@@ -46,6 +46,7 @@ The project provides a standardized method for fetching athlete and competition 
 - [NestJS](https://nestjs.com/)
 - [Zod](https://zod.dev/)
 - [Graphql Request](https://github.com/jasonkuhrt/graphql-request)
+- [WorldAthletics Key Updater](https://github.com/nimarion/worldathletics_key_updater)
 
 
 <a href="https://stellate.co/?ref=powered-by">
