@@ -7,7 +7,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
-import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiNotFoundResponse, ApiQuery } from '@nestjs/swagger';
 import { Athlete, Performance } from './athlete.dto';
 import { ResultsService } from './results/result.service';
 
@@ -38,6 +38,11 @@ export class AthletesController {
   }
 
   @Get(':id/results')
+  @ApiQuery({
+    name: 'year',
+    type: Number,
+    required: false,
+  })
   async getResultsbyAthleteId(
     @Param('id', ParseIntPipe) id: number,
     @Query('year') year?: number,
