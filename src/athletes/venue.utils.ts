@@ -10,7 +10,8 @@ export default function parseVenue(venue: string): Location {
       city,
     };
   }
-  const [stadium, rest] = parts;
+  const stadium = parts[0];
+  const rest = parts.slice(1).join(', ');
   const [city, country] = parseCountryAndCity(rest);
   return {
     stadium,
@@ -20,7 +21,6 @@ export default function parseVenue(venue: string): Location {
 }
 
 function parseCountryAndCity(countryAndCity: string): [string, string] {
-  console.log(countryAndCity);
   const regex = /(.+?)\s*\((\w+(?:\s+\w+)*)\)/;
   const matchResult = countryAndCity.match(regex);
   if (!matchResult) {
