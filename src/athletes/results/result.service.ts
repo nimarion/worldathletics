@@ -4,6 +4,7 @@ import { z } from 'zod';
 import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
+import parseVenue from '../venue.utils';
 
 @Injectable()
 export class ResultsService {
@@ -55,6 +56,7 @@ export class ResultsService {
               mark: result.mark,
               legal: !result.notLegal,
               venue: result.venue,
+              location: parseVenue(result.venue),
               country: result.country,
               race: result.race,
               records: null,

@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/node';
 import { Athlete } from './athlete.dto';
 import ATHLETE_QUERY from './athlete.query';
 import { Athlete as AthleteSchema } from './athlete.zod';
+import parseVenue from './venue.utils';
 
 @Injectable()
 export class AthletesService {
@@ -79,6 +80,7 @@ export class AthletesService {
               disciplineCode: result.disciplineCode,
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
+              location: parseVenue(result.venue),
               indoor: result.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
@@ -99,6 +101,7 @@ export class AthletesService {
               disciplineCode: result.disciplineCode,
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
+              location: parseVenue(result.venue),
               indoor: result.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
@@ -122,6 +125,7 @@ export class AthletesService {
                 disciplineCode: result.disciplineCode,
                 mark: result.mark.replace(/[^0-9:.]/g, ''),
                 venue: result.venue,
+                location: parseVenue(result.venue),
                 indoor: result.indoor,
                 competition: result.competition,
                 place: result.place,

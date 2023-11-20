@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Location } from './location.dto';
 
 export class Performance {
   @ApiProperty()
@@ -11,6 +12,8 @@ export class Performance {
   mark: string;
   @ApiProperty()
   venue: string;
+  @ApiProperty()
+  location: Location;
   @ApiProperty()
   indoor: boolean;
   @ApiProperty()
@@ -53,6 +56,8 @@ export class HonourResult {
   mark: string;
   @ApiProperty()
   venue: string;
+  @ApiProperty()
+  location: Location;
   @ApiProperty()
   date: Date;
   @ApiProperty()

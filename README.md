@@ -15,6 +15,9 @@ The project provides a standardized method for fetching athlete and competition 
     - disciplineCode -> 100,400H
     - mark
     - venue
+      - stadium
+      - city
+      - country
     - indoor
     - legal
   - World Ranking
@@ -26,6 +29,9 @@ The project provides a standardized method for fetching athlete and competition 
     - disciplineCode
     - mark
     - venue
+      - stadium
+      - city
+      - country
     - indoor
     - competition
     - place
