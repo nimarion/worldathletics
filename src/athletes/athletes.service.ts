@@ -74,19 +74,19 @@ export class AthletesService {
             return diffInMonths < 12;
           })
           .map((result) => {
+            const location = parseVenue(result.venue);
             return {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: result.disciplineCode,
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
-              location: parseVenue(result.venue),
+              location,
               indoor: result.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
               competition: null,
-              country: null,
               category: null,
               race: null,
               place: null,
@@ -95,19 +95,19 @@ export class AthletesService {
           }),
         personalbests: response.getSingleCompetitor.personalBests.results.map(
           (result) => {
+            const location = parseVenue(result.venue);
             return {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: result.disciplineCode,
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
-              location: parseVenue(result.venue),
+              location,
               indoor: result.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
               competition: null,
-              country: null,
               category: null,
               race: null,
               place: null,

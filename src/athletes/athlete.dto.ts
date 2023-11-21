@@ -24,8 +24,6 @@ export class Performance {
   wind: number | null;
   @ApiProperty({ nullable: true, type: String })
   competition: string | null;
-  @ApiProperty({ nullable: true, type: Date })
-  country: string | null;
   @ApiProperty({ nullable: true, type: String })
   category: string | null;
   @ApiProperty({ nullable: true, type: String })

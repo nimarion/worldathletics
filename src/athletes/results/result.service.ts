@@ -57,7 +57,6 @@ export class ResultsService {
               legal: !result.notLegal,
               venue: result.venue,
               location: parseVenue(result.venue),
-              country: result.country,
               race: result.race,
               records: null,
             });
