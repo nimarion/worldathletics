@@ -1,0 +1,16 @@
+name: Monitoring
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run monitoring script
+        uses: actions/checkout@v4
+      - run: |
+          bash monitoring.sh

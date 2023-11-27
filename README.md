@@ -1,6 +1,3 @@
-[![Swagger Playground](https://stellate.co/badge.svg)](https://worldathletics.pfingstsportfest.de/swagger)
-
-
 # worldathletics
 
 The project provides a standardized method for fetching athlete and competition data from worldathletics. The server applies schema validation, value conversion and error handling for all fields retrieved from the worldathletics backend.
