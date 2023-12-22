@@ -17,7 +17,6 @@ const ATHLETE_QUERY = gql`
           date
           mark
           venue
-          indoor
           notLegal
           resultScore
           wind
@@ -32,7 +31,6 @@ const ATHLETE_QUERY = gql`
           date
           mark
           venue
-          indoor
           notLegal
           resultScore
           wind
@@ -52,7 +50,6 @@ const ATHLETE_QUERY = gql`
       honours {
         results {
           place
-          indoor
           disciplineCode
           discipline
           competition

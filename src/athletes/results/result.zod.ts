@@ -3,9 +3,7 @@ import { z } from 'zod';
 export const ResultsByEvent = z.object({
   resultsByEvent: z.array(
     z.object({
-      disciplineCode: z.string().nullable(),
       discipline: z.string(),
-      indoor: z.boolean().nullable().default(false),
       results: z.array(
         z.object({
           mark: z.string(),

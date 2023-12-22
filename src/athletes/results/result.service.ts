@@ -5,6 +5,7 @@ import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
 import parseVenue from '../venue.utils';
+import mapDisciplineToCode from 'src/discipline.utils';
 
 @Injectable()
 export class ResultsService {
@@ -39,10 +40,12 @@ export class ResultsService {
       const results: Performance[] = [];
       response.getSingleCompetitorResultsDiscipline.resultsByEvent.forEach(
         (event) => {
-          const indoor = event.indoor;
           const discipline = event.discipline;
-          const disciplineCode = event.disciplineCode;
+          const disciplineCode = mapDisciplineToCode(discipline);
           event.results.forEach((result) => {
+            const indoor = result.venue.endsWith('(i)');
+            result.venue = result.venue.replace(' (i)', '');
+            result.competition = result.competition.replace(' (i)', '');
             results.push({
               category: result.category,
               competition: result.competition,

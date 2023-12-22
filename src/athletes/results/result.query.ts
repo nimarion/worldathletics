@@ -10,7 +10,6 @@ const RESULTS_QUERY = gql`
       resultsByEvent {
         disciplineCode
         discipline
-        indoor
         results {
           mark
           competition

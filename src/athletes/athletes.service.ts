@@ -76,15 +76,16 @@ export class AthletesService {
           })
           .map((result) => {
             const location = parseVenue(result.venue);
+            const indoor = result.venue.endsWith('(i)');
+            result.venue = result.venue.replace(' (i)', '');
             return {
               date: result.date,
               discipline: result.discipline,
-              disciplineCode:
-                result.disciplineCode || mapDisciplineToCode(result.discipline),
+              disciplineCode: mapDisciplineToCode(result.discipline),
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               location,
-              indoor: result.indoor,
+              indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
@@ -98,14 +99,16 @@ export class AthletesService {
         personalbests: response.getSingleCompetitor.personalBests.results.map(
           (result) => {
             const location = parseVenue(result.venue);
+            const indoor = result.venue.endsWith('(i)');
+            result.venue = result.venue.replace(' (i)', '');
             return {
               date: result.date,
               discipline: result.discipline,
-              disciplineCode: result.disciplineCode,
+              disciplineCode: mapDisciplineToCode(result.discipline),
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               location,
-              indoor: result.indoor,
+              indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
@@ -121,14 +124,16 @@ export class AthletesService {
           return {
             category: honour.categoryName,
             results: honour.results.map((result) => {
+              const indoor = result.venue.endsWith('(i)');
+              result.venue = result.venue.replace(' (i)', '');
               return {
                 date: result.date,
                 discipline: result.discipline,
-                disciplineCode: result.disciplineCode,
+                disciplineCode: mapDisciplineToCode(result.discipline),
                 mark: result.mark.replace(/[^0-9:.]/g, ''),
                 venue: result.venue,
                 location: parseVenue(result.venue),
-                indoor: result.indoor,
+                indoor,
                 competition: result.competition,
                 place: result.place,
                 resultScore: 0,
