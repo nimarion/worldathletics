@@ -14,3 +14,12 @@ jobs:
         uses: actions/checkout@v4
       - run: |
           bash monitoring.sh
+      - name: Update Disciplines
+        run: |
+          bash updateDisciplines.sh
+          git config user.name Github Action
+          git config user.email actions@github.com
+          git add src/disciplines.json
+          timestamp=$(date -u)
+          git commit -m "update disciplines: ${timestamp}" || exit 0
+          git push

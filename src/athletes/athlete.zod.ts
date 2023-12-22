@@ -29,7 +29,7 @@ const Performance = z.object({
     return date;
   }),
   discipline: z.string(),
-  disciplineCode: z.string(),
+  disciplineCode: z.string().nullable(),
   mark: z.string(),
   venue: z.string(),
   indoor: z.boolean(),
@@ -59,10 +59,10 @@ const Result = z.object({
     return date;
   }),
   discipline: z.string(),
-  disciplineCode: z.string(),
+  disciplineCode: z.string().nullable(),
   mark: z.string(),
   venue: z.string(),
-  indoor: z.boolean(),
+  indoor: z.boolean().nullable().default(false),
   competition: z.string(),
   place: z.preprocess((val) => {
     return Number(val);
