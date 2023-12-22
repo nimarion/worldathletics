@@ -5,7 +5,7 @@ export const ResultsByEvent = z.object({
     z.object({
       disciplineCode: z.string().nullable(),
       discipline: z.string(),
-      indoor: z.boolean(),
+      indoor: z.boolean().nullable().default(false),
       results: z.array(
         z.object({
           mark: z.string(),
