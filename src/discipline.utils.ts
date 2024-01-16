@@ -12,5 +12,5 @@ export default function mapDisciplineToCode(discipline: string): string {
     }
     return disciplineItem.disciplineCode;
   }
-  throw new Error(`Discipline ${discipline} not found`);
+  return discipline;
 }
