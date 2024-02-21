@@ -38,7 +38,9 @@ export class AthletesService {
         .toLowerCase()
         .split(' ')
         .map((s) => s[0].toUpperCase() + s.slice(1))
-        .join(' ');
+        .join(' ')
+        // if lastname contains "-" like Skupin-alfa -> capitalize both parts
+        .split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join('-');
 
       const worldRankingSex =
         response.getSingleCompetitor.worldRankings.best.length > 0
