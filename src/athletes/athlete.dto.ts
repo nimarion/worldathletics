@@ -9,6 +9,8 @@ export class Performance {
   @ApiProperty()
   disciplineCode: string;
   @ApiProperty()
+  shortTrack: boolean;
+  @ApiProperty()
   mark: string;
   @ApiProperty()
   venue: string;
@@ -50,6 +52,8 @@ export class HonourResult {
   discipline: string;
   @ApiProperty()
   disciplineCode: string;
+  @ApiProperty()
+  shortTrack: boolean;
   @ApiProperty()
   mark: string;
   @ApiProperty()

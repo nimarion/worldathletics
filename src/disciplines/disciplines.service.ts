@@ -40,6 +40,7 @@ export class DisciplinesService {
         return {
           discipline: discipline.name,
           disciplineCode: discipline.code,
+          shortTrack: discipline.name.endsWith('Short Track'),
         };
       });
     } catch (error) {

@@ -5,4 +5,6 @@ export class Discipline {
   discipline: string;
   @ApiProperty()
   disciplineCode: string;
+  @ApiProperty()
+  shortTrack: boolean;
 }

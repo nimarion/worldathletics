@@ -52,6 +52,7 @@ export class ResultsService {
               date: result.date,
               discipline,
               disciplineCode,
+              shortTrack: discipline.endsWith('Short Track'),
               indoor,
               place: result.place,
               resultScore: result.resultScore,

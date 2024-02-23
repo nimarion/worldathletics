@@ -40,7 +40,9 @@ export class AthletesService {
         .map((s) => s[0].toUpperCase() + s.slice(1))
         .join(' ')
         // if lastname contains "-" like Skupin-alfa -> capitalize both parts
-        .split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join('-');
+        .split('-')
+        .map((s) => s[0].toUpperCase() + s.slice(1))
+        .join('-');
 
       const worldRankingSex =
         response.getSingleCompetitor.worldRankings.best.length > 0
@@ -84,6 +86,7 @@ export class AthletesService {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: mapDisciplineToCode(result.discipline),
+              shortTrack: result.discipline.endsWith('Short Track'),
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               location,
@@ -107,6 +110,7 @@ export class AthletesService {
               date: result.date,
               discipline: result.discipline,
               disciplineCode: mapDisciplineToCode(result.discipline),
+              shortTrack: result.discipline.endsWith('Short Track'),
               mark: result.mark.replace(/[^0-9:.]/g, ''),
               venue: result.venue,
               location,
@@ -132,6 +136,7 @@ export class AthletesService {
                 date: result.date,
                 discipline: result.discipline,
                 disciplineCode: mapDisciplineToCode(result.discipline),
+                shortTrack: result.discipline.endsWith('Short Track'),
                 mark: result.mark.replace(/[^0-9:.]/g, ''),
                 venue: result.venue,
                 location: parseVenue(result.venue),
