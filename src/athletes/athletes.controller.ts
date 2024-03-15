@@ -47,9 +47,31 @@ export class AthletesController {
     @Param('id', ParseIntPipe) id: number,
     @Query('year') year?: number,
   ): Promise<Performance[]> {
+    if (!year) {
+      const athlete = await this.athletesService.getAthlete(id);
+      if (!athlete) {
+        throw new NotFoundException();
+      }
+      const allResults = [];
+      const promises = athlete.activeSeasons.map(async (season) => {
+        try {
+          const results = await this.resultsService.getResultsFromAthlete(
+            id,
+            season,
+          );
+          if (results) {
+            allResults.push(results);
+          }
+        } catch (error) {
+          console.error(`Error fetching results for season ${season}:`, error);
+        }
+      });
+      await Promise.all(promises);
+      return allResults;
+    }
     const results = await this.resultsService.getResultsFromAthlete(id, year);
     if (!results) {
-      throw new NotFoundException();
+      return [];
     }
     return results;
   }

@@ -37,13 +37,17 @@ export const ResultsByEvent = z.object({
               return 0;
             }
             try {
-              return Number(val);
+              const number = Number(val);
+              if (isNaN(number)) {
+                return -1;
+              }
+              return number;
             } catch (error) {
               console.log(val, error);
               return -1;
             }
           }, z.number()),
-          category: z.string(),
+          category: z.string().nullable().default('F'),
         }),
       ),
     }),

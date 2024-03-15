@@ -67,7 +67,7 @@ export class ResultsService {
           });
         },
       );
-      return results;
+      return results.filter((result) => result.place > 0);
     } catch (error) {
       console.log(error);
     }
