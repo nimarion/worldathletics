@@ -67,7 +67,7 @@ export class AthletesController {
         }
       });
       await Promise.all(promises);
-      return allResults;
+      return allResults.flat();
     }
     const results = await this.resultsService.getResultsFromAthlete(id, year);
     if (!results) {
