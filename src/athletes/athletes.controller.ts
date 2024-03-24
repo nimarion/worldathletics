@@ -43,6 +43,11 @@ export class AthletesController {
     type: Number,
     required: false,
   })
+  @ApiOkResponse({
+    description: 'Returns the athlete results',
+    type: Performance,
+    isArray: true,
+  })
   async getResultsbyAthleteId(
     @Param('id', ParseIntPipe) id: number,
     @Query('year') year?: number,

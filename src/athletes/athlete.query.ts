@@ -21,6 +21,8 @@ const ATHLETE_QUERY = gql`
           resultScore
           wind
           records
+          eventId
+          competitionId
         }
         activeSeasons
       }
@@ -35,6 +37,8 @@ const ATHLETE_QUERY = gql`
           resultScore
           wind
           records
+          eventId
+          competitionId
         }
       }
       worldRankings {
@@ -56,6 +60,8 @@ const ATHLETE_QUERY = gql`
           venue
           mark
           date
+          eventId
+          competitionId
         }
         categoryName
       }

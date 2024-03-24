@@ -99,6 +99,8 @@ export class AthletesService {
               race: null,
               place: null,
               records: result.records,
+              competitionId: result.competitionId,
+              eventId: result.eventId,
             };
           }),
         personalbests: response.getSingleCompetitor.personalBests.results.map(
@@ -123,6 +125,8 @@ export class AthletesService {
               race: null,
               place: null,
               records: result.records,
+              competitionId: result.competitionId,
+              eventId: result.eventId,
             };
           },
         ),
@@ -143,7 +147,8 @@ export class AthletesService {
                 indoor,
                 competition: result.competition,
                 place: result.place,
-                resultScore: 0,
+                competitionId: result.competitionId,
+                eventId: result.eventId,
               };
             }),
           };

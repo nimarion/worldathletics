@@ -26,14 +26,18 @@ export class Performance {
   wind: number | null;
   @ApiProperty({ nullable: true, type: String })
   competition: string | null;
+  @ApiProperty({ nullable: true, type: Number })
+  competitionId: number | null;
+  @ApiProperty({ nullable: true, type: Number })
+  eventId: number | null;
   @ApiProperty({ nullable: true, type: String })
   category: string | null;
   @ApiProperty({ nullable: true, type: String })
   race: string | null;
   @ApiProperty({ nullable: true, type: Number })
   place: number | null;
-  @ApiProperty({ nullable: true, type: String, isArray: true })
-  records: string[] | null;
+  @ApiProperty({ type: String, isArray: true })
+  records: string[];
 }
 
 export class CurrentWorldRanking {
@@ -64,6 +68,10 @@ export class HonourResult {
   date: Date;
   @ApiProperty()
   competition: string;
+  @ApiProperty({ nullable: true, type: Number })
+  competitionId: number | null;
+  @ApiProperty({ nullable: true, type: Number })
+  eventId: number | null;
 }
 
 export class Honour {

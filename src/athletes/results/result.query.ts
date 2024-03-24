@@ -22,6 +22,8 @@ const RESULTS_QUERY = gql`
           race
           place
           category
+          eventId
+          competitionId
         }
       }
     }

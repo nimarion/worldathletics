@@ -63,6 +63,8 @@ export class ResultsService {
               location: parseVenue(result.venue),
               race: result.race,
               records: null,
+              competitionId: result.competitionId,
+              eventId: result.eventId,
             });
           });
         },

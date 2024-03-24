@@ -48,6 +48,28 @@ export const ResultsByEvent = z.object({
             }
           }, z.number()),
           category: z.string().nullable().default('F'),
+          competitionId: z.preprocess((val) => {
+            if (val == null) {
+              return null;
+            }
+            try {
+              return Number(val);
+            } catch (error) {
+              console.log(val, error);
+              return null;
+            }
+          }, z.number().nullable()),
+          eventId: z.preprocess((val) => {
+            if (val == null) {
+              return null;
+            }
+            try {
+              return Number(val);
+            } catch (error) {
+              console.log(val, error);
+              return null;
+            }
+          }, z.number().nullable()),
         }),
       ),
     }),

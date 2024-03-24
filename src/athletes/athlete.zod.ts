@@ -41,6 +41,28 @@ const Performance = z.object({
     }, z.number().nullable())
     .nullable(),
   records: z.array(z.string()),
+  eventId: z.preprocess((val) => {
+    if (val === null) {
+      return null;
+    }
+    try {
+      return Number(val);
+    } catch (error) {
+      console.log(val, error);
+      return null;
+    }
+  }, z.number().nullable()),
+  competitionId: z.preprocess((val) => {
+    if (val === null) {
+      return null;
+    }
+    try {
+      return Number(val);
+    } catch (error) {
+      console.log(val, error);
+      return null;
+    }
+  }, z.number().nullable()),
 });
 
 const WorldRanking = z.object({
@@ -63,6 +85,28 @@ const Result = z.object({
   place: z.preprocess((val) => {
     return Number(val);
   }, z.number()),
+  competitionId: z.preprocess((val) => {
+    if (val == null) {
+      return null;
+    }
+    try {
+      return Number(val);
+    } catch (error) {
+      console.log(val, error);
+      return null;
+    }
+  }, z.number().nullable()),
+  eventId: z.preprocess((val) => {
+    if (val == null) {
+      return null;
+    }
+    try {
+      return Number(val);
+    } catch (error) {
+      console.log(val, error);
+      return null;
+    }
+  }, z.number().nullable()),
 });
 
 export const Athlete = z.object({
