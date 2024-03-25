@@ -18,7 +18,7 @@ export const ResultsByEvent = z.object({
           venue: z.string(),
           wind: z
             .preprocess((val) => {
-              if (val === 'NWI') {
+              if (isNaN(Number(val))) {
                 return null;
               }
               try {
