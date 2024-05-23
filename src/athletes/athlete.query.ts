@@ -10,6 +10,15 @@ const ATHLETE_QUERY = gql`
         countryCode
         sexNameUrlSlug
       }
+      athleteRepresentative {
+        name
+        email
+        mobile
+        telephone
+        email
+        countryCode
+        countryName
+      }
       seasonsBests {
         results {
           discipline

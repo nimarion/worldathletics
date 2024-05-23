@@ -6,6 +6,7 @@ import { CountriesModule } from './countries/countries.module';
 import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from './health/health.module';
 import { DisciplinesModule } from './disciplines/disciplines.module';
+import { AthleteRepresentativesModule } from './athlete_representatives/athlete_representatives.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DisciplinesModule } from './disciplines/disciplines.module';
       isGlobal: true,
     }),
     DisciplinesModule,
+    AthleteRepresentativesModule,
   ],
   providers: [
     {

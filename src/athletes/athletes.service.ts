@@ -7,6 +7,7 @@ import ATHLETE_QUERY from './athlete.query';
 import { Athlete as AthleteSchema } from './athlete.zod';
 import parseVenue from './venue.utils';
 import mapDisciplineToCode from 'src/discipline.utils';
+import { formatLastname } from 'src/name.utils';
 
 @Injectable()
 export class AthletesService {
@@ -34,15 +35,9 @@ export class AthletesService {
       if (!response.getSingleCompetitor) {
         return null;
       }
-      const lastname = response.getSingleCompetitor.basicData.familyName
-        .toLowerCase()
-        .split(' ')
-        .map((s) => s[0].toUpperCase() + s.slice(1))
-        .join(' ')
-        // if lastname contains "-" like Skupin-alfa -> capitalize both parts
-        .split('-')
-        .map((s) => s[0].toUpperCase() + s.slice(1))
-        .join('-');
+      const lastname = formatLastname(
+        response.getSingleCompetitor.basicData.familyName,
+      );
 
       const worldRankingSex =
         response.getSingleCompetitor.worldRankings.best.length > 0

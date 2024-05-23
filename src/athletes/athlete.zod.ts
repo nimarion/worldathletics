@@ -1,14 +1,9 @@
+import { formatLastname } from 'src/name.utils';
 import { z } from 'zod';
 
 export const BasicData = z.object({
   givenName: z.string(),
-  familyName: z.string().transform((val) =>
-    val
-      .toLowerCase()
-      .split(' ')
-      .map((s) => s[0].toUpperCase() + s.substr(1, s.length))
-      .join(' '),
-  ),
+  familyName: z.string().transform((val) => formatLastname(val)),
   birthDate: z
     .string()
     .nullable()
