@@ -66,13 +66,24 @@ export class AthleteRepresentativesService {
     if (!response.getAthleteRepresentativeDirectory) {
       return null;
     }
-    return response.getAthleteRepresentativeDirectory.map((ar) => ({
-      country: ar.countryCode,
-      email: ar.email.length > 0 ? ar.email[0] : null,
-      firstname: ar.firstName,
-      lastname: formatLastname(ar.lastName),
-      phone: ar.mobile.length > 0 ? ar.mobile[0] : null,
-      id: ar.athleteRepresentativeId,
-    }));
+    const arResponse: AthleteRepresentative[] = [];
+    const promises = await response.getAthleteRepresentativeDirectory.map(
+      async (ar) => {
+        const arData = await this.getAthleteRepresentative(
+          ar.athleteRepresentativeId,
+        );
+
+        arResponse.push({
+          country: ar.countryCode,
+          email: arData ? arData.email : null,
+          firstname: ar.firstName,
+          lastname: formatLastname(ar.lastName),
+          phone: arData ? arData.phone : null,
+          id: ar.athleteRepresentativeId,
+        });
+      },
+    );
+    await Promise.all(promises);
+    return arResponse;
   }
 }
