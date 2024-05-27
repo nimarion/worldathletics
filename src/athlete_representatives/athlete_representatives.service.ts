@@ -8,6 +8,7 @@ import {
 } from './athlete_representatives.query';
 import { z } from 'zod';
 import { formatLastname } from 'src/name.utils';
+import parsePhoneNumber from 'libphonenumber-js';
 
 @Injectable()
 export class AthleteRepresentativesService {
@@ -57,6 +58,12 @@ export class AthleteRepresentativesService {
     if (!response.getAthleteRepresentativeProfile) {
       return null;
     }
+
+    const phoneNumber =
+      response.getAthleteRepresentativeProfile.mobile.length > 0
+        ? parsePhoneNumber(response.getAthleteRepresentativeProfile.mobile[0])
+        : null;
+
     return {
       country: response.getAthleteRepresentativeProfile.countryCode,
       email:
@@ -69,10 +76,7 @@ export class AthleteRepresentativesService {
       lastname: formatLastname(
         response.getAthleteRepresentativeProfile.lastName,
       ),
-      phone:
-        response.getAthleteRepresentativeProfile.mobile.length > 0
-          ? response.getAthleteRepresentativeProfile.mobile[0]
-          : null,
+      phone: phoneNumber ? phoneNumber.formatInternational() : null,
       id: response.getAthleteRepresentativeProfile.athleteRepresentativeId,
     };
   }
