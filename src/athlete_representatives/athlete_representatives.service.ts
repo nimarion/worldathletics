@@ -16,6 +16,27 @@ export class AthleteRepresentativesService {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
   }
 
+  sanitizeEmail(email) {
+    // Define regex for valid characters in the local part of the email
+    const localPartRegex = /[^a-zA-Z0-9._%+-]/g;
+    // Define regex for valid characters in the domain part of the email
+    const domainPartRegex = /[^a-zA-Z0-9.-]/g;
+
+    // Split the email into local and domain parts
+    let [localPart, domainPart] = email.split('@');
+
+    // Sanitize the local part
+    localPart = localPart.replace(localPartRegex, '');
+
+    // Sanitize the domain part if it exists
+    if (domainPart) {
+      domainPart = domainPart.replace(domainPartRegex, '');
+    }
+
+    // Reassemble the sanitized email
+    return domainPart ? `${localPart}@${domainPart}` : localPart;
+  }
+
   async getAthleteRepresentative(
     id: number,
   ): Promise<AthleteRepresentative | null> {
@@ -40,7 +61,9 @@ export class AthleteRepresentativesService {
       country: response.getAthleteRepresentativeProfile.countryCode,
       email:
         response.getAthleteRepresentativeProfile.email.length > 0
-          ? response.getAthleteRepresentativeProfile.email[0]
+          ? this.sanitizeEmail(
+              response.getAthleteRepresentativeProfile.email[0],
+            )
           : null,
       firstname: response.getAthleteRepresentativeProfile.firstName,
       lastname: formatLastname(

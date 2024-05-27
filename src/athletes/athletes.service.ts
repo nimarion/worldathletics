@@ -59,6 +59,8 @@ export class AthletesService {
             ? 'FEMALE'
             : 'MALE'
           : worldRankingSex,
+        athleteRepresentativeId:
+          response.getSingleCompetitor.athleteRepresentative?._id ?? null,
         activeSeasons: response.getSingleCompetitor.seasonsBests.activeSeasons,
         currentWorldRankings:
           response.getSingleCompetitor.worldRankings.current.map((ranking) => {

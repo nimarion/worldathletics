@@ -104,4 +104,6 @@ export class Athlete {
   honours: Honour[];
   @ApiProperty({ type: Number, isArray: true })
   activeSeasons: number[];
+  @ApiProperty({ nullable: true, type: Number })
+  athleteRepresentativeId: number | null;
 }

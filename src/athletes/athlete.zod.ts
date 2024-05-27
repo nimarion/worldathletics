@@ -127,4 +127,5 @@ export const Athlete = z.object({
       categoryName: z.string(),
     }),
   ),
+  athleteRepresentative: z.nullable(z.object({ _id: z.number() })),
 });
