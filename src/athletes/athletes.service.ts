@@ -8,12 +8,13 @@ import { Athlete as AthleteSchema } from './athlete.zod';
 import parseVenue from './venue.utils';
 import mapDisciplineToCode from 'src/discipline.utils';
 import { formatLastname } from 'src/name.utils';
+import { GraphqlService } from 'src/graphql/graphql.service';
 
 @Injectable()
 export class AthletesService {
   private graphQLClient: GraphQLClient;
-  constructor() {
-    this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  constructor(private readonly graphqlService: GraphqlService) {
+    this.graphQLClient = this.graphqlService.getClient();
   }
 
   async searchAthlete(name: string): Promise<AthleteSearchResult[] | null> {

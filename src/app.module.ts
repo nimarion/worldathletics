@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from './health/health.module';
 import { DisciplinesModule } from './disciplines/disciplines.module';
 import { AthleteRepresentativesModule } from './athlete_representatives/athlete_representatives.module';
+import { GraphqlModule } from './graphql/graphql.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AthleteRepresentativesModule } from './athlete_representatives/athlete_
     }),
     DisciplinesModule,
     AthleteRepresentativesModule,
+    GraphqlModule,
   ],
   providers: [
     {

@@ -3,6 +3,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
 import { Country } from './country.entity';
+import { GraphqlService } from 'src/graphql/graphql.service';
 
 const COUNTRIES_QUERY = gql`
   query MyQuery {
@@ -27,8 +28,8 @@ const CountrySchema = z.object({
 @Injectable()
 export class CountriesService {
   private graphQLClient: GraphQLClient;
-  constructor() {
-    this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  constructor(private readonly graphqlService: GraphqlService) {
+    this.graphQLClient = this.graphqlService.getClient();
   }
 
   async getCountries(): Promise<Country[]> {

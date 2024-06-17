@@ -3,6 +3,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import { Discipline } from './discipline.entity';
 import * as Sentry from '@sentry/node';
+import { GraphqlService } from 'src/graphql/graphql.service';
 
 const COUNTRIES_QUERY = gql`
   query MyQuery {
@@ -23,9 +24,10 @@ const DisciplineSchema = z.object({
 @Injectable()
 export class DisciplinesService {
   private graphQLClient: GraphQLClient;
-  constructor() {
-    this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  constructor(private readonly graphqlService: GraphqlService) {
+    this.graphQLClient = this.graphqlService.getClient();
   }
+
   async findAll(): Promise<Discipline[]> {
     try {
       const data = await this.graphQLClient.request(COUNTRIES_QUERY);

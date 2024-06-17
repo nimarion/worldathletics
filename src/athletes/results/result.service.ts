@@ -6,12 +6,13 @@ import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
 import parseVenue from '../venue.utils';
 import mapDisciplineToCode from 'src/discipline.utils';
+import { GraphqlService } from 'src/graphql/graphql.service';
 
 @Injectable()
 export class ResultsService {
   private graphQLClient: GraphQLClient;
-  constructor() {
-    this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  constructor(private readonly graphqlService: GraphqlService) {
+    this.graphQLClient = this.graphqlService.getClient();
   }
 
   async getResultsFromAthlete(

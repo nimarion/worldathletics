@@ -9,12 +9,13 @@ import {
 import { z } from 'zod';
 import { formatLastname } from 'src/name.utils';
 import parsePhoneNumber from 'libphonenumber-js';
+import { GraphqlService } from 'src/graphql/graphql.service';
 
 @Injectable()
 export class AthleteRepresentativesService {
   private graphQLClient: GraphQLClient;
-  constructor() {
-    this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  constructor(private readonly graphqlService: GraphqlService) {
+    this.graphQLClient = this.graphqlService.getClient();
   }
 
   sanitizeEmail(email) {
