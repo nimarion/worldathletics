@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
 import { ApiOkResponse, ApiNotFoundResponse, ApiQuery } from '@nestjs/swagger';
-import { Athlete, Performance } from './athlete.dto';
+import { Athlete, AthleteSearchResult, Performance } from './athlete.dto';
 import { ResultsService } from './results/result.service';
 
 @Controller('athletes')
@@ -17,6 +17,23 @@ export class AthletesController {
     private readonly athletesService: AthletesService,
     private readonly resultsService: ResultsService,
   ) {}
+
+  @Get('/search')
+  @ApiOkResponse({
+    type: AthleteSearchResult,
+  })
+  async searchAthlete(
+    @Query('name') name: string,
+  ): Promise<AthleteSearchResult[]> {
+    if (!name) {
+      throw new NotFoundException();
+    }
+    const athlete = await this.athletesService.searchAthlete(name);
+    if (!athlete) {
+      throw new NotFoundException();
+    }
+    return athlete;
+  }
 
   @Get(':id')
   @ApiOkResponse({

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import * as Sentry from '@sentry/node';
-import { Athlete } from './athlete.dto';
-import ATHLETE_QUERY from './athlete.query';
+import { Athlete, AthleteSearchResult } from './athlete.dto';
+import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema } from './athlete.zod';
 import parseVenue from './venue.utils';
 import mapDisciplineToCode from 'src/discipline.utils';
@@ -14,6 +14,61 @@ export class AthletesService {
   private graphQLClient: GraphQLClient;
   constructor() {
     this.graphQLClient = new GraphQLClient(process.env.STELLATE_ENDPOINT);
+  }
+
+  async searchAthlete(name: string): Promise<AthleteSearchResult[] | null> {
+    try {
+      const data = await this.graphQLClient.request(ATHLETE_SEARCH_QUERY, {
+        name,
+      });
+      console.log(data);
+      const response = z
+        .object({
+          searchCompetitors: z.array(
+            z.object({
+              aaAthleteId: z.string(),
+              familyName: z.string(),
+              givenName: z.string(),
+              birthDate: z
+                .string()
+                .nullable()
+                .transform((val) => {
+                  if (!val) return null;
+                  const date = new Date(val);
+                  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                  return date;
+                }),
+              gender: z.string(),
+              country: z.string(),
+            }),
+          ),
+        })
+        .parse(data);
+      if (response.searchCompetitors.length === 0) {
+        return null;
+      }
+      return response.searchCompetitors.map((item) => {
+        console.log(item.gender, item.gender in ['Men', 'Women']);
+        const sex =
+          item.gender === 'Men'
+            ? 'MALE'
+            : item.gender === 'Women'
+              ? 'FEMALE'
+              : null;
+        return {
+          id: Number(item.aaAthleteId),
+          country: item.country,
+          firstname: item.givenName,
+          lastname: formatLastname(item.familyName),
+          birthdate: item.birthDate,
+          sex,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+      Sentry.captureException(error);
+    }
+    return null;
   }
 
   async getAthlete(id: number): Promise<Athlete | null> {

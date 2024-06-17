@@ -107,3 +107,18 @@ export class Athlete {
   @ApiProperty({ nullable: true, type: Number })
   athleteRepresentativeId: number | null;
 }
+
+export class AthleteSearchResult {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  country: string;
+  @ApiProperty()
+  firstname: string;
+  @ApiProperty()
+  lastname: string;
+  @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
+  sex: 'MALE' | 'FEMALE' | null;
+  @ApiProperty({ nullable: true, type: Date })
+  birthdate: Date | null;
+}

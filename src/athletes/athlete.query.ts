@@ -1,6 +1,20 @@
 import { gql } from 'graphql-request';
 
-const ATHLETE_QUERY = gql`
+export const ATHLETE_SEARCH_QUERY = gql`
+  query SearchCompetitors($name: String) {
+    searchCompetitors(query: $name) {
+      aaAthleteId
+      familyName
+      givenName
+      birthDate
+      disciplines
+      gender
+      country
+    }
+  }
+`;
+
+export const ATHLETE_QUERY = gql`
   query Query($id: Int) {
     getSingleCompetitor(id: $id) {
       basicData {
