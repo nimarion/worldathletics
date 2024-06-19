@@ -9,6 +9,7 @@ import parseVenue from './venue.utils';
 import mapDisciplineToCode from 'src/discipline.utils';
 import { formatLastname } from 'src/name.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
+import { levenshteinDistance } from 'src/levenshtein-distance';
 
 @Injectable()
 export class AthletesService {
@@ -27,7 +28,7 @@ export class AthletesService {
           searchCompetitors: z.array(AthleteSearchSchema),
         })
         .parse(data);
-      return response.searchCompetitors.map((item) => {
+      const searchResults = response.searchCompetitors.map((item) => {
         const sex =
           item.gender === 'Men'
             ? 'MALE'
@@ -40,9 +41,16 @@ export class AthletesService {
           firstname: item.givenName,
           lastname: formatLastname(item.familyName),
           birthdate: item.birthDate,
+          levenshteinDistance: levenshteinDistance(
+            name.toLowerCase().trim(),
+            (item.givenName + ' ' + item.familyName).toLowerCase().trim(),
+          ),
           sex,
         };
-      });
+      }) as AthleteSearchResult[];
+      return searchResults.sort(
+        (a, b) => a.levenshteinDistance - b.levenshteinDistance,
+      );
     } catch (error) {
       console.error(error);
       Sentry.captureException(error);

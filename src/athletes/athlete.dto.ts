@@ -121,4 +121,9 @@ export class AthleteSearchResult {
   sex: 'MALE' | 'FEMALE' | null;
   @ApiProperty({ nullable: true, type: Date })
   birthdate: Date | null;
+  @ApiProperty({
+    type: Number,
+    description: 'Levenshtein distance between search query and athlete name',
+  })
+  levenshteinDistance: number;
 }
