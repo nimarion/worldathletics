@@ -129,3 +129,20 @@ export const Athlete = z.object({
   ),
   athleteRepresentative: z.nullable(z.object({ _id: z.number() })),
 });
+
+export const AthleteSearchSchema = z.object({
+  aaAthleteId: z.string(),
+  familyName: z.string(),
+  givenName: z.string(),
+  birthDate: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      if (!val) return null;
+      const date = new Date(val);
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date;
+    }),
+  gender: z.string(),
+  country: z.string(),
+});

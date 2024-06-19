@@ -1,5 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { CompetitionsService } from './competitions.service';
+import { CompetitionOrganiserInfo } from './competition.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('competitions')
 export class CompetitionsController {
@@ -17,8 +19,17 @@ export class CompetitionsController {
   }
 
   @Get(':id/organiser')
-  findOrganiser(@Param('id') id: string) {
-    console.log(id);
-    return null;
+  @ApiOkResponse({
+    type: CompetitionOrganiserInfo,
+  })
+  async findOrganiser(
+    @Param('id') id: number,
+  ): Promise<CompetitionOrganiserInfo> {
+    const data =
+      await this.competitionsService.findCompetitionOrganiserInfo(id);
+    if (!data) {
+      throw new NotFoundException();
+    }
+    return data;
   }
 }
