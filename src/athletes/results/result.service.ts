@@ -5,8 +5,9 @@ import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
 import parseVenue from '../venue.utils';
-import mapDisciplineToCode from 'src/discipline.utils';
+import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
+import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class ResultsService {
@@ -47,6 +48,7 @@ export class ResultsService {
             const indoor = result.venue.endsWith('(i)');
             result.venue = result.venue.replace(' (i)', '');
             result.competition = result.competition.replace(' (i)', '');
+            result.mark = result.mark.replace(/[^0-9:.]/g, '');
             results.push({
               category: result.category,
               competition: result.competition,
@@ -59,6 +61,13 @@ export class ResultsService {
               resultScore: result.resultScore,
               wind: result.wind,
               mark: result.mark,
+              performanceValue: performanceToFloat({
+                performance: result.mark,
+                technical: isTechnical({
+                  disciplineCode,
+                  performance: result.mark,
+                }),
+              }),
               legal: !result.notLegal,
               venue: result.venue,
               location: parseVenue(result.venue),

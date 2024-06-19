@@ -14,3 +14,20 @@ export default function mapDisciplineToCode(discipline: string): string {
   }
   return discipline;
 }
+
+export function isTechnical({
+  disciplineCode,
+  performance,
+}: {
+  disciplineCode: string;
+  performance: string;
+}): boolean {
+  const containsDigits = /\d/.test(disciplineCode);
+  if (containsDigits) {
+    return false;
+  }
+  if (performance.includes(':')) {
+    return false;
+  }
+  return true;
+}

@@ -12,6 +12,12 @@ export class Performance {
   shortTrack: boolean;
   @ApiProperty()
   mark: string;
+  @ApiProperty({
+    description:
+      'Performance in milliseconds for track events and centimeters for field events',
+    nullable: true,
+  })
+  performanceValue: number | null;
   @ApiProperty()
   venue: string;
   @ApiProperty()
@@ -60,6 +66,12 @@ export class HonourResult {
   shortTrack: boolean;
   @ApiProperty()
   mark: string;
+  @ApiProperty({
+    description:
+      'Performance in milliseconds for track events and centimeters for field events',
+    nullable: true,
+  })
+  performanceValue: number | null;
   @ApiProperty()
   venue: string;
   @ApiProperty()

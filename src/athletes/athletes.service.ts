@@ -6,10 +6,11 @@ import { Athlete, AthleteSearchResult } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import parseVenue from './venue.utils';
-import mapDisciplineToCode from 'src/discipline.utils';
+import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { formatLastname } from 'src/name.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { levenshteinDistance } from 'src/levenshtein-distance';
+import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class AthletesService {
@@ -121,12 +122,21 @@ export class AthletesService {
             const location = parseVenue(result.venue);
             const indoor = result.venue.endsWith('(i)');
             result.venue = result.venue.replace(' (i)', '');
+            const disciplineCode = mapDisciplineToCode(result.discipline);
+            result.mark = result.mark.replace(/[^0-9:.]/g, '');
             return {
               date: result.date,
               discipline: result.discipline,
-              disciplineCode: mapDisciplineToCode(result.discipline),
+              disciplineCode,
               shortTrack: result.discipline.endsWith('Short Track'),
-              mark: result.mark.replace(/[^0-9:.]/g, ''),
+              mark: result.mark,
+              performanceValue: performanceToFloat({
+                performance: result.mark,
+                technical: isTechnical({
+                  disciplineCode,
+                  performance: result.mark,
+                }),
+              }),
               venue: result.venue,
               location,
               indoor,
@@ -147,12 +157,21 @@ export class AthletesService {
             const location = parseVenue(result.venue);
             const indoor = result.venue.endsWith('(i)');
             result.venue = result.venue.replace(' (i)', '');
+            result.mark = result.mark.replace(/[^0-9:.]/g, '');
+            const disciplineCode = mapDisciplineToCode(result.discipline);
             return {
               date: result.date,
               discipline: result.discipline,
-              disciplineCode: mapDisciplineToCode(result.discipline),
+              disciplineCode,
               shortTrack: result.discipline.endsWith('Short Track'),
-              mark: result.mark.replace(/[^0-9:.]/g, ''),
+              mark: result.mark,
+              performanceValue: performanceToFloat({
+                performance: result.mark,
+                technical: isTechnical({
+                  disciplineCode,
+                  performance: result.mark,
+                }),
+              }),
               venue: result.venue,
               location,
               indoor,
@@ -175,12 +194,21 @@ export class AthletesService {
             results: honour.results.map((result) => {
               const indoor = result.venue.endsWith('(i)');
               result.venue = result.venue.replace(' (i)', '');
+              const disciplineCode = mapDisciplineToCode(result.discipline);
+              result.mark = result.mark.replace(/[^0-9:.]/g, '');
               return {
                 date: result.date,
                 discipline: result.discipline,
-                disciplineCode: mapDisciplineToCode(result.discipline),
+                disciplineCode,
                 shortTrack: result.discipline.endsWith('Short Track'),
-                mark: result.mark.replace(/[^0-9:.]/g, ''),
+                mark: result.mark,
+                performanceValue: performanceToFloat({
+                  performance: result.mark,
+                  technical: isTechnical({
+                    disciplineCode,
+                    performance: result.mark,
+                  }),
+                }),
                 venue: result.venue,
                 location: parseVenue(result.venue),
                 indoor,
