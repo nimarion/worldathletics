@@ -10,6 +10,7 @@ import { AthleteRepresentativesModule } from './athlete_representatives/athlete_
 import { GraphqlModule } from './graphql/graphql.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { LoggerMiddleware } from './logger.middleware';
+import { RecordsModule } from './records/records.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LoggerMiddleware } from './logger.middleware';
     AthleteRepresentativesModule,
     GraphqlModule,
     CompetitionsModule,
+    RecordsModule,
   ],
   providers: [
     {
