@@ -79,6 +79,7 @@ export class RecordsService {
             mark: result.performance,
             wind: result.wind,
             indoor: result.setIndoor,
+            country: result.country,
             athletes: athletes.map((competitor) => ({
               firstname: competitor.name.split(' ')[0],
               lastname: formatLastname(competitor.name.split(' ')[1]),

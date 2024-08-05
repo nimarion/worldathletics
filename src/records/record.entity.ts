@@ -30,6 +30,8 @@ export class Record {
   wind: number | null;
   @ApiProperty()
   indoor: boolean;
+  @ApiProperty()
+  country: string;
   @ApiProperty({ type: RecordAthlete, isArray: true })
   athletes: RecordAthlete[];
 }
