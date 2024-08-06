@@ -30,3 +30,17 @@ export const RECORD_QUERY = gql`
     }
   }
 `;
+
+export const RECORD_CATEGORIES_QUERY = gql`
+  query getRecordsDetailByCategory {
+    getRecordsCategories {
+      id
+      name
+      urlSlug
+      items {
+        id
+        name
+      }
+    }
+  }
+`;

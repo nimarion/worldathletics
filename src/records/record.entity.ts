@@ -9,3 +9,10 @@ export class Record extends BasePerformance {
   @ApiProperty({ type: BaseAthlete, isArray: true })
   athletes: BaseAthlete[];
 }
+
+export class RecordCategory {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  name: string;
+}

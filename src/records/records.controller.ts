@@ -1,7 +1,7 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { RecordsService } from './records.service';
-import { Record } from './record.entity';
+import { Record, RecordCategory } from './record.entity';
 
 @Controller('records')
 export class RecordsController {
@@ -19,5 +19,15 @@ export class RecordsController {
       throw new NotFoundException();
     }
     return records;
+  }
+
+  @Get()
+  @ApiOkResponse({
+    isArray: true,
+    type: RecordCategory,
+    description: 'Returns all records',
+  })
+  async findCategories(): Promise<RecordCategory[]> {
+    return this.recordsService.findCategories();
   }
 }

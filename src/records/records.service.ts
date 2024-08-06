@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 
 import { GraphqlService } from 'src/graphql/graphql.service';
-import { RECORD_QUERY } from './record.query';
+import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
 import { extractName, isShortTrack, parseVenue } from 'src/utils';
-import { Record } from './record.entity';
+import { Record, RecordCategory } from './record.entity';
 import {
   BirthdateSchema,
   DateSchema,
@@ -115,5 +115,49 @@ export class RecordsService {
       console.error(error);
     }
     return records;
+  }
+
+  async findCategories(): Promise<RecordCategory[]> {
+    const categories: RecordCategory[] = [];
+    try {
+      const data = await this.graphQLClient.request(RECORD_CATEGORIES_QUERY);
+      const response = z
+        .object({
+          getRecordsCategories: z
+            .array(
+              z.object({
+                id: z.number().nullable(),
+                name: z.string(),
+                items: z
+                  .array(z.object({ id: z.number(), name: z.string() }))
+                  .nullable(),
+              }),
+            )
+            .nullable(),
+        })
+        .parse(data);
+
+      if (response.getRecordsCategories === null) {
+        return [];
+      }
+      response.getRecordsCategories.forEach((category) => {
+        if (!category.items || category.items.length == 0) {
+          categories.push({
+            id: category.id,
+            name: category.name,
+          });
+        } else {
+          category.items.forEach((item) => {
+            categories.push({
+              id: item.id,
+              name: `${category.name} - ${item.name}`,
+            });
+          });
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    return categories.sort((a, b) => a.id - b.id);
   }
 }
