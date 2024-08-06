@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import * as Sentry from '@sentry/node';
 import { Athlete, AthleteSearchResult } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
@@ -53,7 +52,6 @@ export class AthletesService {
       );
     } catch (error) {
       console.error(error);
-      Sentry.captureException(error);
     }
     return null;
   }
@@ -134,7 +132,6 @@ export class AthletesService {
                 }),
               }),
               location,
-              indoor: location.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
@@ -165,7 +162,6 @@ export class AthletesService {
                 }),
               }),
               location,
-              indoor: location.indoor,
               legal: !result.notLegal,
               resultScore: result.resultScore,
               wind: result.wind,
@@ -198,9 +194,7 @@ export class AthletesService {
                     performance: result.mark,
                   }),
                 }),
-                venue: result.venue,
                 location,
-                indoor: location.indoor,
                 competition: result.competition,
                 place: result.place,
                 competitionId: result.competitionId,
@@ -212,10 +206,6 @@ export class AthletesService {
       };
     } catch (error) {
       console.error(error);
-      Sentry.withScope((scope) => {
-        scope.setExtra('id', id);
-        Sentry.captureException(error);
-      });
     }
     return null;
   }

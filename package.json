@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -22,9 +22,6 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.2.10",
     "@nestjs/swagger": "^7.1.16",
-    "@nestjs/terminus": "^10.1.1",
-    "@sentry/node": "^7.81.0",
-    "@sentry/tracing": "^7.81.0",
     "graphql-request": "^6.1.0",
     "libphonenumber-js": "^1.11.2",
     "reflect-metadata": "^0.1.13",

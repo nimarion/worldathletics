@@ -10,34 +10,22 @@ export const RECORD_QUERY = gql`
           name
           country
           birthDate
-          urlSlug
-          iaafId
-          hasProfile
           id
           teamMembers {
             name
             country
             birthDate
-            urlSlug
-            iaafId
-            hasProfile
             id
           }
         }
         discipline
         date
         performance
-        typeNameUrlSlug
         venue
         wind
-        disciplineNameUrlSlug
-        progressionListId
         pending
         equal
-        womenOnly
         mixed
-        yard
-        setIndoor
       }
     }
   }

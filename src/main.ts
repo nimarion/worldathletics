@@ -1,12 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as Sentry from '@sentry/node';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  Sentry.init();
   const config = new DocumentBuilder()
     .setTitle('WorldAthletics Proxy API')
     .setDescription('The worldathletics proxy API description')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import { Discipline } from './discipline.entity';
-import * as Sentry from '@sentry/node';
+
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { isShortTrack } from 'src/utils';
 
@@ -48,7 +48,6 @@ export class DisciplinesService {
       });
     } catch (error) {
       console.error(error);
-      Sentry.captureException(error);
     }
     return null;
   }

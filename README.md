@@ -13,7 +13,7 @@ The project provides a standardized method for fetching athlete and competition 
 - Country (Country Code, Country Name, Area Code, Area Name)
 - Competition results
 - Competition details
-- All Worldrecords,Arearecords,Worldleads,Arealeads,Olympicrecords,Championshiprecords,...
+- All ratified Worldrecords,Arearecords,Worldleads,Arealeads,Olympicrecords,Championshiprecords,...
   
 For field events the service converts the results to centimeters and milliseconds for track events. Athletes seasonbests results older than 12 months are filtered out. The search endpoint /athletes/search?name adds a field with the calculated levenshtein distance between the search query and the results. Results are sorted by the levenshtein distance. 
 

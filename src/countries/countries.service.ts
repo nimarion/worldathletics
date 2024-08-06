@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { gql, GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import * as Sentry from '@sentry/node';
 import { Country } from './country.entity';
 import { GraphqlService } from 'src/graphql/graphql.service';
 
@@ -52,7 +51,6 @@ export class CountriesService {
         });
     } catch (error) {
       console.error(error);
-      Sentry.captureException(error);
     }
     return null;
   }

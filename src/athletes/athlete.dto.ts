@@ -1,15 +1,29 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { Location } from './location.dto';
+import { Discipline } from 'src/disciplines/discipline.entity';
 
-export class Performance {
+export class BaseAthlete {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  firstname: string;
+  @ApiProperty()
+  lastname: string;
+  @ApiProperty({ nullable: true, type: Date })
+  birthdate: Date | null;
+  @ApiProperty()
+  country: string;
+  @ApiProperty({
+    description: 'null if sex could not be determined',
+    nullable: true,
+    enum: ['MALE', 'FEMALE'],
+  })
+  sex: 'MALE' | 'FEMALE' | null;
+}
+
+export class BasePerformance extends Discipline {
   @ApiProperty()
   date: Date;
-  @ApiProperty()
-  discipline: string;
-  @ApiProperty()
-  disciplineCode: string;
-  @ApiProperty()
-  shortTrack: boolean;
   @ApiProperty()
   mark: string;
   @ApiProperty({
@@ -20,14 +34,15 @@ export class Performance {
   performanceValue: number | null;
   @ApiProperty()
   location: Location;
-  @ApiProperty()
-  indoor: boolean;
+  @ApiProperty({ nullable: true, type: Number })
+  wind: number | null;
+}
+
+export class Performance extends BasePerformance {
   @ApiProperty()
   legal: boolean;
   @ApiProperty()
   resultScore: number;
-  @ApiProperty({ nullable: true, type: Number })
-  wind: number | null;
   @ApiProperty({ nullable: true, type: String })
   competition: string | null;
   @ApiProperty({ nullable: true, type: Number })
@@ -51,31 +66,9 @@ export class CurrentWorldRanking {
   eventGroup: string;
 }
 
-export class HonourResult {
+export class HonourResult extends OmitType(BasePerformance, ['wind'] as const) {
   @ApiProperty()
   place: number;
-  @ApiProperty()
-  indoor: boolean;
-  @ApiProperty()
-  discipline: string;
-  @ApiProperty()
-  disciplineCode: string;
-  @ApiProperty()
-  shortTrack: boolean;
-  @ApiProperty()
-  mark: string;
-  @ApiProperty({
-    description:
-      'Performance in milliseconds for track events and centimeters for field events',
-    nullable: true,
-  })
-  performanceValue: number | null;
-  @ApiProperty()
-  venue: string;
-  @ApiProperty()
-  location: Location;
-  @ApiProperty()
-  date: Date;
   @ApiProperty()
   competition: string;
   @ApiProperty({ nullable: true, type: Number })
@@ -91,19 +84,7 @@ export class Honour {
   category: string;
 }
 
-export class Athlete {
-  @ApiProperty()
-  id: number;
-  @ApiProperty()
-  firstname: string;
-  @ApiProperty()
-  lastname: string;
-  @ApiProperty({ nullable: true, type: Date })
-  birthdate: Date | null;
-  @ApiProperty()
-  country: string;
-  @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
-  sex: 'MALE' | 'FEMALE' | null;
+export class Athlete extends BaseAthlete {
   @ApiProperty({ type: Performance, isArray: true })
   personalbests: Performance[];
   @ApiProperty({ type: Performance, isArray: true })
@@ -118,19 +99,7 @@ export class Athlete {
   athleteRepresentativeId: number | null;
 }
 
-export class AthleteSearchResult {
-  @ApiProperty()
-  id: number;
-  @ApiProperty()
-  country: string;
-  @ApiProperty()
-  firstname: string;
-  @ApiProperty()
-  lastname: string;
-  @ApiProperty({ nullable: true, enum: ['MALE', 'FEMALE'] })
-  sex: 'MALE' | 'FEMALE' | null;
-  @ApiProperty({ nullable: true, type: Date })
-  birthdate: Date | null;
+export class AthleteSearchResult extends BaseAthlete {
   @ApiProperty({
     type: Number,
     description: 'Levenshtein distance between search query and athlete name',

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
-import * as Sentry from '@sentry/node';
 import { COMPETITION_ORGANISER } from './competition.query';
 import { z } from 'zod';
 import { CompetitionOrganiserInfo } from './competition.dto';
@@ -57,7 +56,6 @@ export class CompetitionsService {
       };
     } catch (error) {
       console.error(error);
-      Sentry.captureException(error);
     }
     return null;
   }

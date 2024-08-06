@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
-import * as Sentry from '@sentry/node';
+
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_QUERY } from './record.query';
 import { z } from 'zod';
@@ -12,6 +12,8 @@ import {
   MarkSchema,
   WindSchema,
 } from 'src/athletes/athlete.zod';
+import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
+import { performanceToFloat } from 'src/performance-conversion';
 
 export const CompetitionOrganiserInfoSchema = z.object({
   gender: z.enum(['women', 'men', 'mixed']),
@@ -79,16 +81,26 @@ export class RecordsService {
             ? result.competitor.teamMembers
             : [result.competitor];
           const location = parseVenue(result.venue);
+          const disciplineCode = mapDisciplineToCode(result.discipline);
           records.push({
             gender: record.gender,
             discipline: result.discipline,
+            disciplineCode,
             date: new Date(result.date),
             shortTrack: isShortTrack(result.discipline),
             mark: result.performance,
+            performanceValue: performanceToFloat({
+              performance: result.performance,
+              technical: isTechnical({
+                disciplineCode,
+                performance: result.performance,
+              }),
+            }),
             wind: result.wind,
             country: result.country,
             location,
             athletes: athletes.map((competitor) => ({
+              sex: null,
               ...extractName(competitor.name),
               country: competitor.country,
               birthdate: competitor.birthDate
@@ -101,7 +113,6 @@ export class RecordsService {
       });
     } catch (error) {
       console.error(error);
-      Sentry.captureException(error);
     }
     return records;
   }

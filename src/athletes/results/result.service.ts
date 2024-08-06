@@ -53,7 +53,6 @@ export class ResultsService {
               discipline,
               disciplineCode,
               shortTrack: isShortTrack(discipline),
-              indoor: location.indoor,
               place: result.place,
               resultScore: result.resultScore,
               wind: result.wind,
