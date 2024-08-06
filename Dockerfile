@@ -1,4 +1,4 @@
-FROM node:16-bullseye-slim AS builder
+FROM node:20-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:16-bullseye-slim
+FROM node:20-bookworm-slim
 
 ARG BRANCH="main"
 ARG COMMIT=""
