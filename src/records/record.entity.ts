@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Location } from 'src/athletes/location.dto';
 
 export class RecordAthlete {
   @ApiProperty()
@@ -23,15 +24,13 @@ export class Record {
   @ApiProperty()
   shortTrack: boolean;
   @ApiProperty()
-  pending: boolean;
-  @ApiProperty()
   mark: string;
   @ApiProperty({ nullable: true, type: Number })
   wind: number | null;
   @ApiProperty()
-  indoor: boolean;
-  @ApiProperty()
   country: string;
+  @ApiProperty()
+  location: Location;
   @ApiProperty({ type: RecordAthlete, isArray: true })
   athletes: RecordAthlete[];
 }

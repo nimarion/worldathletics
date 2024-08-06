@@ -19,8 +19,6 @@ export class Performance {
   })
   performanceValue: number | null;
   @ApiProperty()
-  venue: string;
-  @ApiProperty()
   location: Location;
   @ApiProperty()
   indoor: boolean;

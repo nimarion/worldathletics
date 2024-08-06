@@ -7,7 +7,7 @@ import {
   ATHLETE_REPRESENTATIVE_QUERY,
 } from './athlete_representatives.query';
 import { z } from 'zod';
-import { formatLastname } from 'src/name.utils';
+import { formatLastname } from 'src/utils';
 import parsePhoneNumber from 'libphonenumber-js';
 import { GraphqlService } from 'src/graphql/graphql.service';
 

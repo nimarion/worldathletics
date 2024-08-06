@@ -1,4 +1,13 @@
 import { z } from 'zod';
+import {
+  CompetitionIdSchema,
+  CompetitionSchema,
+  DateSchema,
+  EventIdSchema,
+  MarkSchema,
+  PlaceSchema,
+  WindSchema,
+} from '../athlete.zod';
 
 export const ResultsByEvent = z.object({
   resultsByEvent: z.array(
@@ -6,70 +15,19 @@ export const ResultsByEvent = z.object({
       discipline: z.string(),
       results: z.array(
         z.object({
-          mark: z.string(),
-          competition: z.string(),
-          date: z.string().transform((val) => {
-            const date = new Date(val);
-            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-            return date;
-          }),
+          mark: MarkSchema,
+          competition: CompetitionSchema,
+          date: DateSchema,
           country: z.string(),
           notLegal: z.boolean(),
           venue: z.string(),
-          wind: z
-            .preprocess((val) => {
-              if (isNaN(Number(val))) {
-                return null;
-              }
-              try {
-                return Number(val);
-              } catch (error) {
-                console.log(val, error);
-                return null;
-              }
-            }, z.number().nullable())
-            .nullable(),
+          wind: WindSchema,
           resultScore: z.number(),
           race: z.string(),
-          place: z.preprocess((val) => {
-            // Out of competition results are marked as OC
-            if (val === 'OC') {
-              return 0;
-            }
-            try {
-              const number = Number(val);
-              if (isNaN(number)) {
-                return -1;
-              }
-              return number;
-            } catch (error) {
-              console.log(val, error);
-              return -1;
-            }
-          }, z.number()),
+          place: PlaceSchema,
           category: z.string().nullable().default('F'),
-          competitionId: z.preprocess((val) => {
-            if (val == null) {
-              return null;
-            }
-            try {
-              return Number(val);
-            } catch (error) {
-              console.log(val, error);
-              return null;
-            }
-          }, z.number().nullable()),
-          eventId: z.preprocess((val) => {
-            if (val == null) {
-              return null;
-            }
-            try {
-              return Number(val);
-            } catch (error) {
-              console.log(val, error);
-              return null;
-            }
-          }, z.number().nullable()),
+          competitionId: CompetitionIdSchema,
+          eventId: EventIdSchema,
         }),
       ),
     }),

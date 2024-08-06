@@ -4,8 +4,14 @@ import * as Sentry from '@sentry/node';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_QUERY } from './record.query';
 import { z } from 'zod';
-import { formatLastname } from 'src/name.utils';
+import { extractName, isShortTrack, parseVenue } from 'src/utils';
 import { Record } from './record.entity';
+import {
+  BirthdateSchema,
+  DateSchema,
+  MarkSchema,
+  WindSchema,
+} from 'src/athletes/athlete.zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
   gender: z.enum(['women', 'men', 'mixed']),
@@ -13,30 +19,23 @@ export const CompetitionOrganiserInfoSchema = z.object({
     z.object({
       country: z.string(),
       discipline: z.string(),
-      date: z.string(),
-      performance: z.string(),
+      date: DateSchema,
+      performance: MarkSchema,
       venue: z.string(),
-      wind: z
-        .preprocess((val) => {
-          if (!val) return null;
-          if (isNaN(Number(val))) return null;
-          return Number(val);
-        }, z.number().nullable())
-        .nullable(),
+      wind: WindSchema,
       pending: z.boolean(),
       mixed: z.boolean(),
-      setIndoor: z.boolean(),
       competitor: z.object({
         name: z.string(),
         country: z.string().nullable(),
-        birthDate: z.string().nullable(),
+        birthDate: BirthdateSchema,
         id: z.number().nullable(),
         teamMembers: z
           .array(
             z.object({
               name: z.string(),
               country: z.string(),
-              birthDate: z.string().nullable(),
+              birthDate: BirthdateSchema,
               id: z.number().nullable(),
             }),
           )
@@ -53,7 +52,7 @@ export class RecordsService {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
-  async find(category: number): Promise<Record[]> {
+  async find(category: number): Promise<Record[]> | null {
     const records: Record[] = [];
     try {
       const data = await this.graphQLClient.request(RECORD_QUERY, {
@@ -61,28 +60,36 @@ export class RecordsService {
       });
       const response = z
         .object({
-          getRecordsDetailByCategory: z.array(CompetitionOrganiserInfoSchema),
+          getRecordsDetailByCategory: z
+            .array(CompetitionOrganiserInfoSchema)
+            .nullable(),
         })
         .parse(data);
 
+      if (response.getRecordsDetailByCategory === null) {
+        return null;
+      }
+
       response.getRecordsDetailByCategory.forEach((record) => {
         record.results.forEach((result) => {
+          if (result.pending) {
+            return;
+          }
           const athletes = result.competitor.teamMembers
             ? result.competitor.teamMembers
             : [result.competitor];
+          const location = parseVenue(result.venue);
           records.push({
             gender: record.gender,
             discipline: result.discipline,
             date: new Date(result.date),
-            shortTrack: result.discipline.endsWith('Short Track'),
-            pending: result.pending,
+            shortTrack: isShortTrack(result.discipline),
             mark: result.performance,
             wind: result.wind,
-            indoor: result.setIndoor,
             country: result.country,
+            location,
             athletes: athletes.map((competitor) => ({
-              firstname: competitor.name.split(' ')[0],
-              lastname: formatLastname(competitor.name.split(' ')[1]),
+              ...extractName(competitor.name),
               country: competitor.country,
               birthdate: competitor.birthDate
                 ? new Date(competitor.birthDate)

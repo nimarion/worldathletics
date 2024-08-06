@@ -4,10 +4,10 @@ import { z } from 'zod';
 import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
-import parseVenue from '../venue.utils';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { performanceToFloat } from 'src/performance-conversion';
+import { isShortTrack, parseVenue } from 'src/utils';
 
 @Injectable()
 export class ResultsService {
@@ -45,18 +45,15 @@ export class ResultsService {
           const discipline = event.discipline;
           const disciplineCode = mapDisciplineToCode(discipline);
           event.results.forEach((result) => {
-            const indoor = result.venue.endsWith('(i)');
-            result.venue = result.venue.replace(' (i)', '');
-            result.competition = result.competition.replace(' (i)', '');
-            result.mark = result.mark.replace(/[^0-9:.]/g, '');
+            const location = parseVenue(result.venue);
             results.push({
               category: result.category,
               competition: result.competition,
               date: result.date,
               discipline,
               disciplineCode,
-              shortTrack: discipline.endsWith('Short Track'),
-              indoor,
+              shortTrack: isShortTrack(discipline),
+              indoor: location.indoor,
               place: result.place,
               resultScore: result.resultScore,
               wind: result.wind,
@@ -69,8 +66,7 @@ export class ResultsService {
                 }),
               }),
               legal: !result.notLegal,
-              venue: result.venue,
-              location: parseVenue(result.venue),
+              location,
               race: result.race,
               records: null,
               competitionId: result.competitionId,

@@ -1,107 +1,115 @@
-import { formatLastname } from 'src/name.utils';
+import { cleanupMark, formatLastname } from 'src/utils';
 import { z } from 'zod';
+
+export const BirthdateSchema = z
+  .string()
+  .nullable()
+  .transform((val) => {
+    if (!val) return null;
+    const date = new Date(val);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+  });
+
+export const LastnameSchema = z
+  .string()
+  .transform((val) => formatLastname(val));
 
 export const BasicData = z.object({
   givenName: z.string(),
-  familyName: z.string().transform((val) => formatLastname(val)),
-  birthDate: z
-    .string()
-    .nullable()
-    .transform((val) => {
-      if (!val) return null;
-      const date = new Date(val);
-      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-      return date;
-    }),
+  familyName: LastnameSchema,
+  birthDate: BirthdateSchema,
   countryCode: z.string(),
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });
 
+export const MarkSchema = z.string().transform((val) => cleanupMark(val));
+export const PlaceSchema = z.preprocess((val) => {
+  // Out of competition results are marked as OC
+  if (val === 'OC') {
+    return -1;
+  }
+  try {
+    const number = Number(val);
+    if (isNaN(number)) {
+      return -1;
+    }
+    return number;
+  } catch (error) {
+    console.log(val, error);
+    return -1;
+  }
+}, z.number());
+
+export const WindSchema = z
+  .preprocess((val) => {
+    if (!val) return null;
+    if (isNaN(Number(val))) return null;
+    return Number(val);
+  }, z.number().nullable())
+  .nullable();
+
+export const CompetitionSchema = z
+  .string()
+  .transform((val) => val.replace(' (i)', ''));
+
+export const DateSchema = z.string().transform((val) => {
+  const date = new Date(val);
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date;
+});
+
+export const CompetitionIdSchema = z.preprocess((val) => {
+  if (val == null) {
+    return null;
+  }
+  try {
+    return Number(val);
+  } catch (error) {
+    console.log(val, error);
+    return null;
+  }
+}, z.number().nullable());
+
+export const EventIdSchema = z.preprocess((val) => {
+  if (val == null) {
+    return null;
+  }
+  try {
+    return Number(val);
+  } catch (error) {
+    console.log(val, error);
+    return null;
+  }
+}, z.number().nullable());
+
 const Performance = z.object({
-  date: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
+  date: DateSchema,
   discipline: z.string(),
-  mark: z.string(),
+  mark: MarkSchema,
   venue: z.string(),
   notLegal: z.boolean(),
   resultScore: z.number(),
-  wind: z
-    .preprocess((val) => {
-      if (!val) return null;
-      if (isNaN(Number(val))) return null;
-      return Number(val);
-    }, z.number().nullable())
-    .nullable(),
+  wind: WindSchema,
   records: z.array(z.string()),
-  eventId: z.preprocess((val) => {
-    if (val === null) {
-      return null;
-    }
-    try {
-      return Number(val);
-    } catch (error) {
-      console.log(val, error);
-      return null;
-    }
-  }, z.number().nullable()),
-  competitionId: z.preprocess((val) => {
-    if (val === null) {
-      return null;
-    }
-    try {
-      return Number(val);
-    } catch (error) {
-      console.log(val, error);
-      return null;
-    }
-  }, z.number().nullable()),
+  eventId: EventIdSchema,
+  competitionId: CompetitionIdSchema,
 });
 
 const WorldRanking = z.object({
   eventGroup: z.string(),
-  place: z.preprocess((val) => {
-    return Number(val);
-  }, z.number()),
+  place: PlaceSchema,
 });
 
 const Result = z.object({
-  date: z.string().transform((val) => {
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
+  date: DateSchema,
   discipline: z.string(),
-  mark: z.string(),
+  mark: MarkSchema,
   venue: z.string(),
-  competition: z.string(),
-  place: z.preprocess((val) => {
-    return Number(val);
-  }, z.number()),
-  competitionId: z.preprocess((val) => {
-    if (val == null) {
-      return null;
-    }
-    try {
-      return Number(val);
-    } catch (error) {
-      console.log(val, error);
-      return null;
-    }
-  }, z.number().nullable()),
-  eventId: z.preprocess((val) => {
-    if (val == null) {
-      return null;
-    }
-    try {
-      return Number(val);
-    } catch (error) {
-      console.log(val, error);
-      return null;
-    }
-  }, z.number().nullable()),
+  competition: CompetitionSchema,
+  place: PlaceSchema,
+  competitionId: CompetitionIdSchema,
+  eventId: EventIdSchema,
 });
 
 export const Athlete = z.object({
@@ -132,17 +140,9 @@ export const Athlete = z.object({
 
 export const AthleteSearchSchema = z.object({
   aaAthleteId: z.string(),
-  familyName: z.string(),
+  familyName: LastnameSchema,
   givenName: z.string(),
-  birthDate: z
-    .string()
-    .nullable()
-    .transform((val) => {
-      if (!val) return null;
-      const date = new Date(val);
-      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-      return date;
-    }),
+  birthDate: BirthdateSchema,
   gender: z.string(),
   country: z.string(),
 });

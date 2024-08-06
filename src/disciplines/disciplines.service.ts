@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { Discipline } from './discipline.entity';
 import * as Sentry from '@sentry/node';
 import { GraphqlService } from 'src/graphql/graphql.service';
+import { isShortTrack } from 'src/utils';
 
 const COUNTRIES_QUERY = gql`
   query MyQuery {
@@ -42,7 +43,7 @@ export class DisciplinesService {
         return {
           discipline: discipline.name,
           disciplineCode: discipline.code,
-          shortTrack: discipline.name.endsWith('Short Track'),
+          shortTrack: isShortTrack(discipline.name),
         };
       });
     } catch (error) {

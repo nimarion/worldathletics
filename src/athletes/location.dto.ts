@@ -7,4 +7,6 @@ export class Location {
   stadium?: string;
   @ApiProperty()
   city: string;
+  @ApiProperty()
+  indoor: boolean;
 }
