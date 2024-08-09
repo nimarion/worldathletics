@@ -1,4 +1,4 @@
-import { cleanupMark, formatLastname } from 'src/utils';
+import { cleanupCompetitionName, cleanupMark, formatLastname } from 'src/utils';
 import { z } from 'zod';
 
 export const BirthdateSchema = z
@@ -51,7 +51,7 @@ export const WindSchema = z
 
 export const CompetitionSchema = z
   .string()
-  .transform((val) => val.replace(' (i)', ''));
+  .transform((val) => cleanupCompetitionName(val));
 
 export const DateSchema = z.string().transform((val) => {
   const date = new Date(val);

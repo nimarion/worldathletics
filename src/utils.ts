@@ -31,6 +31,10 @@ export function cleanupMark(mark: string): string {
   return mark.replace(/[^0-9:.]/g, '');
 }
 
+export function cleanupCompetitionName(competitionName: string) {
+  return competitionName.replace(' (i)', '').split(',')[0];
+}
+
 export function isShortTrack(discipline: string): boolean {
   return discipline.endsWith('Short Track');
 }
