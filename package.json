@@ -23,7 +23,6 @@
     "graphql-request": "^6.1.0",
     "libphonenumber-js": "^1.11.11",
     "rimraf": "^6.0.1",
-    "rxjs": "^7.8.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -31,11 +30,6 @@
     "@nestjs/schematics": "^10.1.4",
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.4",
-    "@typescript-eslint/eslint-plugin": "^8.8.0",
-    "@typescript-eslint/parser": "^8.8.0",
-    "eslint": "^9.12.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.5.1",
