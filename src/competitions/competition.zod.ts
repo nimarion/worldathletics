@@ -19,3 +19,30 @@ export const CompetitionOrganiserInfoSchema = z.object({
     }),
   ),
 });
+
+export const CompetitionSchema = z.object({
+  id: z.number(),
+  hasResults: z.boolean(),
+  name: z.string(),
+  venue: z.string(),
+  area: z.string(),
+  rankingCategory: z.string(),
+  disciplines: z.string().nullable(),
+  startDate: z.string().transform((val) => {
+    if (!val) return null;
+    const date = new Date(val);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+  }),
+  endDate: z.string().transform((val) => {
+    if (!val) return null;
+    const date = new Date(val);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+  }),
+  dateRange: z.string(),
+  hasCompetitionInformation: z.boolean(),
+  hasStartlist: z.boolean(),
+  competitionGroup: z.string().nullable(),
+  competitionSubgroup: z.string().nullable(),
+});

@@ -1,6 +1,6 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { CompetitionsService } from './competitions.service';
-import { CompetitionOrganiserInfo } from './competition.dto';
+import { Competition, CompetitionOrganiserInfo } from './competition.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('competitions')
@@ -8,8 +8,15 @@ export class CompetitionsController {
   constructor(private readonly competitionsService: CompetitionsService) {}
 
   @Get()
-  findAll() {
-    return null;
+  @ApiOkResponse({
+    type: Competition,
+    isArray: true,
+  })
+  findAll(
+    @Query('name') name?: string,): Promise<Competition[]> {
+    return this.competitionsService.findCompetitions({
+      query: name
+    });
   }
 
   @Get(':id')

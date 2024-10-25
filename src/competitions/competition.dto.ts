@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Location } from 'src/athletes/location.dto';
 
 export class ContactPerson {
   @ApiProperty()
@@ -24,4 +25,33 @@ export class CompetitionOrganiserInfo {
     type: [Map<string, string[]>],
   })
   events: any;
+}
+
+export class Competition {
+  @ApiProperty()
+  id: number;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  location: Location;
+  @ApiProperty()
+  area: string;
+  @ApiProperty()
+  rankingCategory: string;
+  @ApiProperty()
+  disciplines: string[];
+  @ApiProperty()
+  startDate: Date;
+  @ApiProperty()
+  endDate: Date;
+  @ApiProperty({nullable: true})
+  competitionGroup: string | null;
+  @ApiProperty({nullable: true})
+  competitionSubgroup: string | null;
+  @ApiProperty()
+  hasResults: boolean;
+  @ApiProperty()
+  hasStartlist: boolean;
+  @ApiProperty()
+  hasCompetitionInformation: boolean;
 }
