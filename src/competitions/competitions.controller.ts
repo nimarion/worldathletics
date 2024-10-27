@@ -19,12 +19,6 @@ export class CompetitionsController {
     });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    console.log(id);
-    return null;
-  }
-
   @Get(':id/organiser')
   @ApiOkResponse({
     type: CompetitionOrganiserInfo,
@@ -38,5 +32,12 @@ export class CompetitionsController {
       throw new NotFoundException();
     }
     return data;
+  }
+
+  @Get(':id/results')
+  async findResults(
+    @Param('id') id: number,
+  ): Promise<any> {
+    return await this.competitionsService.findCompetitionResults(id);
   }
 }

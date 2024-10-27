@@ -137,3 +137,115 @@ export const COMPETITION_CALENDAR_OPTIONS = gql`query getCalendarEvents($startDa
     }
   }
 }`;
+
+export const COMPETITON_RESULTS = gql`
+query getCalendarCompetitionResults($competitionId: Int, $day: Int, $eventId: Int) {
+  getCalendarCompetitionResults(competitionId: $competitionId, day: $day, eventId: $eventId) {
+    eventTitles {
+      rankingCategory
+      eventTitle
+      events {
+        event
+        eventId
+        gender
+        isRelay
+        perResultWind
+        withWind
+        summary {
+          competitor {
+            teamMembers {
+              id
+              name
+              iaafId
+              urlSlug
+            }
+            id
+            name
+            iaafId
+            urlSlug
+            birthDate
+            __typename
+          }
+          mark
+          nationality
+          placeInRace
+          placeInRound
+          points
+          raceNumber
+          records
+          wind
+        }
+        races {
+          date
+          day
+          race
+          raceId
+          raceNumber
+          results {
+            competitor {
+              teamMembers {
+                id
+                name
+                iaafId
+                urlSlug
+              }
+              id
+              name
+              iaafId
+              urlSlug
+              birthDate
+              hasProfile
+            }
+            mark
+            nationality
+            place
+            points
+            qualified
+            records
+            wind
+            remark
+            details {
+              event
+              eventId
+              raceNumber
+              mark
+              wind
+              placeInRound
+              placeInRace
+              points
+              overallPoints
+              placeInRoundByPoints
+              overallPlaceByPoints
+            }
+          }
+          startList {
+            competitor {
+              birthDate
+              country
+              id
+              name
+              urlSlug
+            }
+            order
+            pb
+            sb
+            bib
+          }
+          wind
+        }
+      }
+    }
+    options {
+      days {
+        date
+        day
+      }
+      events {
+        gender
+        id
+        name
+        combined
+      }
+    }
+  }
+}`;

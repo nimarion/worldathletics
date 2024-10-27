@@ -35,15 +35,13 @@ export class Competition {
   @ApiProperty()
   location: Location;
   @ApiProperty()
-  area: string;
-  @ApiProperty()
   rankingCategory: string;
   @ApiProperty()
   disciplines: string[];
   @ApiProperty()
-  startDate: Date;
+  start: Date;
   @ApiProperty()
-  endDate: Date;
+  end: Date;
   @ApiProperty({nullable: true})
   competitionGroup: string | null;
   @ApiProperty({nullable: true})

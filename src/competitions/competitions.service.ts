@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
-import { COMPETITION_CALENDAR, COMPETITION_ORGANISER } from './competition.query';
+import { COMPETITION_CALENDAR, COMPETITION_ORGANISER, COMPETITON_RESULTS } from './competition.query';
 import { z } from 'zod';
 import { Competition, CompetitionOrganiserInfo } from './competition.dto';
 import parsePhoneNumber from 'libphonenumber-js';
 import { CompetitionOrganiserInfoSchema, CompetitionSchema } from './competition.zod';
 import { parseVenue } from 'src/utils';
+import { PlaceSchema, WindSchema } from 'src/athletes/athlete.zod';
 
 @Injectable()
 export class CompetitionsService {
@@ -108,11 +109,10 @@ export class CompetitionsService {
             id: result.id,
             name: result.name,
             location: parseVenue(result.venue),
-            area: result.area,
             rankingCategory: result.rankingCategory,
             disciplines: result.disciplines ? result.disciplines.split(',').map((discipline) => discipline.trim()) : [],
-            startDate: result.startDate,
-            endDate: result.endDate,
+            start: result.startDate,
+            end: result.endDate,
             competitionGroup: result.competitionGroup,
             competitionSubgroup: result.competitionSubgroup,
             hasResults: result.hasResults,
@@ -122,5 +122,84 @@ export class CompetitionsService {
         });
       }
       return [];
+  }
+
+  async findCompetitionResults(competitionId: number): Promise<any> {
+    const data = await this.graphQLClient.request(COMPETITON_RESULTS,
+      {
+        competitionId,
+      }
+    );
+    const response = z
+      .object({
+        getCalendarCompetitionResults: z.object({
+          eventTitles: z.array(
+            z.object({ 
+              rankingCategory: z.string(),
+              eventTitle: z.string().nullable(),
+              events: z.array(z.object({
+                event: z.string(),
+                eventId: z.number(),
+                gender: z.string(),
+                isRelay: z.boolean(),
+                perResultWind: z.boolean(),
+                withWind: z.boolean(),
+                races: z.array(z.object({
+                  date: z.string().nullable(),
+                  day: z.number().nullable(),
+                  race: z.string(),
+                  raceId: z.number(),
+                  raceNumber: z.number(),
+                  results: z.array(z.object({
+                    competitor: z.object({
+                      teamMembers: z.array(z.object({
+                        id: z.number().nullable(),
+                        name: z.string(),
+                        urlSlug: z.string().nullable(),
+                      })).nullable(),
+                      name: z.string(),
+                      urlSlug: z.string().nullable(),
+                      birthDate: z.string().nullable(),
+                    }),
+                    mark: z.string(),
+                    nationality: z.string(),
+                    place: PlaceSchema,
+                    points: z.any().nullable(),
+                    qualified: z.any().nullable(),
+                    records: z.string(),
+                    wind: WindSchema,
+                    remark: z.any().nullable(),
+                    details: z.any().nullable(),
+                  })),
+                  startlist: z.any().nullable(),
+                  wind: WindSchema,
+                }))
+            }))
+         })),
+          options: z.object({
+            days: z.array(z.object({
+              date: z.string().transform((val) => {
+                if (!val) return null;
+                const date = new Date(val);
+                date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                return date;
+              }),
+              day: z.number(),
+            })),
+            events: z.array(z.object({
+              gender: z.string(),
+              id: z.number(),
+              name: z.string(),
+              combined: z.boolean().nullable().default(false),
+            })),
+          })
+        })
+      })
+      .safeParse(data);
+    if(response.success){
+      return response.data.getCalendarCompetitionResults;
+    }
+    console.log(response.error);
+    return null;
   }
 }
