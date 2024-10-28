@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 export const ATHLETE_REPRESENTATIVE_QUERY = gql`
-  query Query($id: Int) {
+  query getAthleteRepresentativeProfile($id: Int) {
     getAthleteRepresentativeProfile(athleteRepresentativeId: $id) {
       athleteRepresentativeId
       countryCode
@@ -19,7 +19,7 @@ export const ATHLETE_REPRESENTATIVE_QUERY = gql`
 `;
 
 export const ATHLETE_REPRESENTATIVES_QUERY = gql`
-  query Query {
+  query getAthleteRepresentativeDirectory {
     getAthleteRepresentativeDirectory {
       athleteRepresentativeId
       countryCode

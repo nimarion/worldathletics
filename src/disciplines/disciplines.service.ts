@@ -7,7 +7,7 @@ import { GraphqlService } from 'src/graphql/graphql.service';
 import { isShortTrack } from 'src/utils';
 
 const COUNTRIES_QUERY = gql`
-  query MyQuery {
+  query getMetaData {
     getMetaData(types: disciplineCodes) {
       disciplineCodes {
         name

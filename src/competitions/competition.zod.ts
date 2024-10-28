@@ -1,3 +1,4 @@
+import { DateSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
@@ -30,19 +31,8 @@ export const CompetitionSchema = z.object({
   disciplines: z.string().nullable().transform((val) => {
     return val ? val.split(',').map((discipline) => discipline.trim()) : []
   }),
-  startDate: z.string().transform((val) => {
-    if (!val) return null;
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
-  endDate: z.string().transform((val) => {
-    if (!val) return null;
-    const date = new Date(val);
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-  }),
-  dateRange: z.string(),
+  startDate: DateSchema,
+  endDate: DateSchema,
   hasCompetitionInformation: z.boolean(),
   hasStartlist: z.boolean(),
   competitionGroup: z.string().nullable(),

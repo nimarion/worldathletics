@@ -6,15 +6,9 @@ import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
 import { isShortTrack, parseVenue } from 'src/utils';
 import { Record, RecordCategory } from './record.entity';
-import {
-  BirthdateSchema,
-  DateSchema,
-  FullnameSchema,
-  MarkSchema,
-  WindSchema,
-} from 'src/athletes/athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { performanceToFloat } from 'src/performance-conversion';
+import { DateSchema, FullnameSchema, MarkSchema, StringNumberSchema } from 'src/zod.schema';
 
 export const CompetitionOrganiserInfoSchema = z.object({
   gender: z.enum(['women', 'men', 'mixed']),
@@ -25,20 +19,20 @@ export const CompetitionOrganiserInfoSchema = z.object({
       date: DateSchema,
       performance: MarkSchema,
       venue: z.string(),
-      wind: WindSchema,
+      wind: StringNumberSchema,
       pending: z.boolean(),
       mixed: z.boolean(),
       competitor: z.object({
         name: FullnameSchema,
         country: z.string().nullable(),
-        birthDate: BirthdateSchema,
+        birthDate: DateSchema,
         id: z.number().nullable(),
         teamMembers: z
           .array(
             z.object({
               name: FullnameSchema,
               country: z.string(),
-              birthDate: BirthdateSchema,
+              birthDate: DateSchema,
               id: z.number().nullable(),
             }),
           )

@@ -5,7 +5,7 @@ import { Country } from './country.entity';
 import { GraphqlService } from 'src/graphql/graphql.service';
 
 const COUNTRIES_QUERY = gql`
-  query MyQuery {
+  query getCountries {
     getCountries {
       areaCode
       areaName

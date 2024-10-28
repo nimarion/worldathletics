@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 const RESULTS_QUERY = gql`
-  query Query($id: Int, $year: Int) {
+  query getSingleCompetitorResultsDiscipline($id: Int, $year: Int) {
     getSingleCompetitorResultsDiscipline(
       id: $id
       resultsByYearOrderBy: "discipline"

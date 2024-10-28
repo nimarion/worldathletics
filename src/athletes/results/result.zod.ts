@@ -1,13 +1,5 @@
+import { CompetitionNameSchema, DateSchema, MarkSchema, PlaceSchema, StringNumberSchema } from 'src/zod.schema';
 import { z } from 'zod';
-import {
-  CompetitionIdSchema,
-  CompetitionSchema,
-  DateSchema,
-  EventIdSchema,
-  MarkSchema,
-  PlaceSchema,
-  WindSchema,
-} from '../athlete.zod';
 
 export const ResultsByEvent = z.object({
   resultsByEvent: z.array(
@@ -16,18 +8,18 @@ export const ResultsByEvent = z.object({
       results: z.array(
         z.object({
           mark: MarkSchema,
-          competition: CompetitionSchema,
+          competition: CompetitionNameSchema,
           date: DateSchema,
           country: z.string(),
           notLegal: z.boolean(),
           venue: z.string(),
-          wind: WindSchema,
+          wind: StringNumberSchema,
           resultScore: z.number(),
           race: z.string(),
           place: PlaceSchema,
           category: z.string().nullable().default('F'),
-          competitionId: CompetitionIdSchema,
-          eventId: EventIdSchema,
+          competitionId: StringNumberSchema,
+          eventId: StringNumberSchema,
         }),
       ),
     }),

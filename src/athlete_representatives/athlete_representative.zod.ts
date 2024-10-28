@@ -1,5 +1,5 @@
 import { formatIncompletePhoneNumber, isValidPhoneNumber, parseIncompletePhoneNumber, parsePhoneNumberWithError } from 'libphonenumber-js/max';
-import { formatLastname } from 'src/utils';
+import { LastnameSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 function sanitizeEmail(email) {
@@ -27,7 +27,7 @@ export const AthleteRepresentative = z.object({
   athleteRepresentativeId: z.number(),
   countryCode: z.string().nullable(),
   firstName: z.string(),
-  lastName: z.string().transform((val) => formatLastname(val)),
+  lastName: LastnameSchema,
   email: z.array(z.string().nullable()).optional().default([]).transform((val) => {
     if(val.length === 0) return null;
     return sanitizeEmail(

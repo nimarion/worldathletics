@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 
 export const COMPETITION_ORGANISER = gql`
-  query GetCompetitionOrganiserInfo($competitionId: Int!) {
+  query getCompetitionOrganiserInfo($competitionId: Int!) {
     getCompetitionOrganiserInfo(competitionId: $competitionId) {
       liveStreamingUrl
       resultsPageUrl

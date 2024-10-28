@@ -7,8 +7,8 @@ import { Competition, CompetitionOrganiserInfo, CompetitionResults } from './com
 import parsePhoneNumber from 'libphonenumber-js';
 import { CompetitionOrganiserInfoSchema, CompetitionSchema } from './competition.zod';
 import { parseVenue } from 'src/utils';
-import { BirthdateSchema, EventIdSchema, FullnameSchema, MarkSchema, PlaceSchema, UrlSlugIdSchema, WindSchema } from 'src/athletes/athlete.zod';
 import mapDisciplineToCode from 'src/discipline.utils';
+import { DateSchema, FullnameSchema, MarkSchema, PlaceSchema, StringNumberSchema, UrlSlugIdSchema } from 'src/zod.schema';
 
 @Injectable()
 export class CompetitionsService {
@@ -140,7 +140,7 @@ export class CompetitionsService {
               eventTitle: z.string().nullable(),
               events: z.array(z.object({
                 event: z.string(),
-                eventId: EventIdSchema,
+                eventId: StringNumberSchema,
                 gender: z.string(),
                 isRelay: z.boolean(),
                 perResultWind: z.boolean(),
@@ -159,7 +159,7 @@ export class CompetitionsService {
                       })).nullable(),
                       name: FullnameSchema,
                       urlSlug: UrlSlugIdSchema,
-                      birthDate: BirthdateSchema,
+                      birthDate: DateSchema
                     }),
                     mark: MarkSchema,
                     nationality: z.string(),
@@ -168,23 +168,18 @@ export class CompetitionsService {
                       if(val === "")  return [];
                       return val.split(',').map((record) => record.trim());
                     }),
-                    wind: WindSchema,
+                    wind: StringNumberSchema,
                     //remark: z.any().nullable(),
                     details: z.any().nullable(),
                   })),
                   startlist: z.any().nullable(),
-                  wind: WindSchema,
+                  wind: StringNumberSchema,
                 }))
             }))
          })),
           options: z.object({
             days: z.array(z.object({
-              date: z.string().transform((val) => {
-                if (!val) return null;
-                const date = new Date(val);
-                date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-                return date;
-              }),
+              date: DateSchema,
               day: z.number(),
             })),
             events: z.array(z.object({
