@@ -18,7 +18,6 @@ export class AthletesService {
   }
 
   async searchAthlete(name: string): Promise<AthleteSearchResult[] | null> {
-    try {
       const data = await this.graphQLClient.request(ATHLETE_SEARCH_QUERY, {
         name,
       });
@@ -44,14 +43,9 @@ export class AthletesService {
       return searchResults.sort(
         (a, b) => a.levenshteinDistance - b.levenshteinDistance,
       );
-    } catch (error) {
-      console.error(error);
-    }
-    return null;
   }
 
   async getAthlete(id: number): Promise<Athlete | null> {
-    try {
       const data = await this.graphQLClient.request(
         ATHLETE_QUERY,
         {
@@ -195,9 +189,5 @@ export class AthletesService {
           };
         }),
       };
-    } catch (error) {
-      console.error(error);
-    }
-    return null;
   }
 }

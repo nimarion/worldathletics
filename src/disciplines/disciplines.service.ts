@@ -30,7 +30,6 @@ export class DisciplinesService {
   }
 
   async findAll(): Promise<Discipline[]> {
-    try {
       const data = await this.graphQLClient.request(COUNTRIES_QUERY);
       const reponse = z
         .object({
@@ -46,9 +45,5 @@ export class DisciplinesService {
           shortTrack: isShortTrack(discipline.name),
         };
       });
-    } catch (error) {
-      console.error(error);
-    }
-    return null;
   }
 }

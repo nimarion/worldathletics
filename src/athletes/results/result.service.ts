@@ -20,7 +20,6 @@ export class ResultsService {
     id: number,
     year?: number,
   ): Promise<Performance[] | null> {
-    try {
       const data = await this.graphQLClient.request(
         RESULTS_QUERY,
         {
@@ -75,8 +74,5 @@ export class ResultsService {
         },
       );
       return results.filter((result) => result.place > 0);
-    } catch (error) {
-      console.log(error);
-    }
   }
 }

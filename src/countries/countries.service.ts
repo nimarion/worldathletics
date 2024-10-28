@@ -32,7 +32,6 @@ export class CountriesService {
   }
 
   async getCountries(): Promise<Country[]> {
-    try {
       const data = await this.graphQLClient.request(COUNTRIES_QUERY);
       const reponse = z
         .object({
@@ -49,9 +48,5 @@ export class CountriesService {
             countryName: country.countryName,
           };
         });
-    } catch (error) {
-      console.error(error);
-    }
-    return null;
   }
 }

@@ -51,7 +51,6 @@ export class RecordsService {
 
   async find(category: number): Promise<Record[]> | null {
     const records: Record[] = [];
-    try {
       const data = await this.graphQLClient.request(RECORD_QUERY, {
         categoryId: category,
       });
@@ -104,15 +103,11 @@ export class RecordsService {
           });
         });
       });
-    } catch (error) {
-      console.error(error);
-    }
     return records;
   }
 
   async findCategories(): Promise<RecordCategory[]> {
     const categories: RecordCategory[] = [];
-    try {
       const data = await this.graphQLClient.request(RECORD_CATEGORIES_QUERY);
       const response = z
         .object({
@@ -148,9 +143,6 @@ export class RecordsService {
           });
         }
       });
-    } catch (error) {
-      console.error(error);
-    }
     return categories.sort((a, b) => a.id - b.id);
   }
 }
