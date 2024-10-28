@@ -16,7 +16,7 @@ export function formatLastname(lastname: string): string {
 }
 
 export function extractName(name: string) {
-  const regex = /^(.*)\s+([A-Z\s]+)$/;
+  const regex = /^(.*)\s+([A-Z\s\W]+)$/;
   const match = name.match(regex);
 
   if (match) {
@@ -25,6 +25,7 @@ export function extractName(name: string) {
       lastname: formatLastname(match[2].trim()),
     };
   }
+  return null;
 }
 
 export function cleanupMark(mark: string): string {
