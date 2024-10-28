@@ -53,3 +53,23 @@ export class Competition {
   @ApiProperty()
   hasCompetitionInformation: boolean;
 }
+
+export class CompetitionResults {
+  @ApiProperty({nullable: true})
+  name: string | null;
+  @ApiProperty()
+  rankingCategory: string;
+  @ApiProperty()
+  events: CompetitionResultEvent[];
+}
+
+export class CompetitionResultEvent {
+  @ApiProperty()
+  event?: string;
+  eventId?: number;
+  gender?: string;
+  isRelay?: boolean;
+  perResultWind?: boolean;
+  withWind?: boolean;
+  races?: any[];
+}

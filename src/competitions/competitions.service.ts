@@ -3,11 +3,12 @@ import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { COMPETITION_CALENDAR, COMPETITION_ORGANISER, COMPETITON_RESULTS } from './competition.query';
 import { z } from 'zod';
-import { Competition, CompetitionOrganiserInfo } from './competition.dto';
+import { Competition, CompetitionOrganiserInfo, CompetitionResults } from './competition.dto';
 import parsePhoneNumber from 'libphonenumber-js';
 import { CompetitionOrganiserInfoSchema, CompetitionSchema } from './competition.zod';
 import { parseVenue } from 'src/utils';
-import { PlaceSchema, WindSchema } from 'src/athletes/athlete.zod';
+import { BirthdateSchema, EventIdSchema, FullnameSchema, MarkSchema, PlaceSchema, UrlSlugIdSchema, WindSchema } from 'src/athletes/athlete.zod';
+import mapDisciplineToCode from 'src/discipline.utils';
 
 @Injectable()
 export class CompetitionsService {
@@ -110,7 +111,7 @@ export class CompetitionsService {
             name: result.name,
             location: parseVenue(result.venue),
             rankingCategory: result.rankingCategory,
-            disciplines: result.disciplines ? result.disciplines.split(',').map((discipline) => discipline.trim()) : [],
+            disciplines: result.disciplines,
             start: result.startDate,
             end: result.endDate,
             competitionGroup: result.competitionGroup,
@@ -124,14 +125,14 @@ export class CompetitionsService {
       return [];
   }
 
-  async findCompetitionResults(competitionId: number): Promise<any> {
+  async findCompetitionResults({competitionId, eventId=undefined}: {competitionId: number, eventId?: number}): Promise<CompetitionResults[]> {
     const data = await this.graphQLClient.request(COMPETITON_RESULTS,
       {
         competitionId,
+        eventId
       }
     );
-    const response = z
-      .object({
+    const response = z.object({
         getCalendarCompetitionResults: z.object({
           eventTitles: z.array(
             z.object({ 
@@ -139,7 +140,7 @@ export class CompetitionsService {
               eventTitle: z.string().nullable(),
               events: z.array(z.object({
                 event: z.string(),
-                eventId: z.number(),
+                eventId: EventIdSchema,
                 gender: z.string(),
                 isRelay: z.boolean(),
                 perResultWind: z.boolean(),
@@ -154,21 +155,21 @@ export class CompetitionsService {
                     competitor: z.object({
                       teamMembers: z.array(z.object({
                         id: z.number().nullable(),
-                        name: z.string(),
-                        urlSlug: z.string().nullable(),
+                        name: FullnameSchema,
                       })).nullable(),
-                      name: z.string(),
-                      urlSlug: z.string().nullable(),
-                      birthDate: z.string().nullable(),
+                      name: FullnameSchema,
+                      urlSlug: UrlSlugIdSchema,
+                      birthDate: BirthdateSchema,
                     }),
-                    mark: z.string(),
+                    mark: MarkSchema,
                     nationality: z.string(),
                     place: PlaceSchema,
-                    points: z.any().nullable(),
-                    qualified: z.any().nullable(),
-                    records: z.string(),
+                    records: z.string().transform((val) => {
+                      if(val === "")  return [];
+                      return val.split(',').map((record) => record.trim());
+                    }),
                     wind: WindSchema,
-                    remark: z.any().nullable(),
+                    //remark: z.any().nullable(),
                     details: z.any().nullable(),
                   })),
                   startlist: z.any().nullable(),
@@ -195,11 +196,42 @@ export class CompetitionsService {
           })
         })
       })
-      .safeParse(data);
-    if(response.success){
-      return response.data.getCalendarCompetitionResults;
-    }
-    console.log(response.error);
-    return null;
+      .parse(data);
+    return response.getCalendarCompetitionResults.eventTitles.map((event) => {
+      return {
+        name: event.eventTitle,
+        rankingCategory: event.rankingCategory,
+        events: event.events.map((event) => {
+          return {
+            ...event,
+            disciplineCode: mapDisciplineToCode(event.event),
+            races: event.races.map((race) => {
+              return {
+                ...race,
+                results: race.results.map((result) => {
+                  const athletes = result.competitor.teamMembers
+                      ? result.competitor.teamMembers.map((teamMember) => {
+                          return {
+                            id: teamMember.id,
+                            ...teamMember.name,
+                          }
+                      })
+                      : [{
+                        id: result.competitor.urlSlug,
+                        ...result.competitor.name,
+                        birthDate: result.competitor.birthDate,
+                      }];
+                  return {
+                    ...result,
+                    country: result.nationality,
+                    athletes
+                  }}
+                )
+              }
+            })
+          }
+        })
+      };
+    });
   }
 }
