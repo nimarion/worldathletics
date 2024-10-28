@@ -1,6 +1,7 @@
 import * as disciplines from './disciplines.json';
 
 export default function mapDisciplineToCode(discipline: string): string {
+  discipline = discipline.replace('Women\'s ', '').replace('Men\'s ', '').replace('Mixed ', '');
   if (discipline == '3x800 Metres Relay') {
     return '3X8';
   }
