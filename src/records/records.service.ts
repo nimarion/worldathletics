@@ -4,11 +4,12 @@ import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
-import { extractName, isShortTrack, parseVenue } from 'src/utils';
+import { isShortTrack, parseVenue } from 'src/utils';
 import { Record, RecordCategory } from './record.entity';
 import {
   BirthdateSchema,
   DateSchema,
+  FullnameSchema,
   MarkSchema,
   WindSchema,
 } from 'src/athletes/athlete.zod';
@@ -28,14 +29,14 @@ export const CompetitionOrganiserInfoSchema = z.object({
       pending: z.boolean(),
       mixed: z.boolean(),
       competitor: z.object({
-        name: z.string(),
+        name: FullnameSchema,
         country: z.string().nullable(),
         birthDate: BirthdateSchema,
         id: z.number().nullable(),
         teamMembers: z
           .array(
             z.object({
-              name: z.string(),
+              name: FullnameSchema,
               country: z.string(),
               birthDate: BirthdateSchema,
               id: z.number().nullable(),
@@ -86,7 +87,7 @@ export class RecordsService {
             gender: record.gender,
             discipline: result.discipline,
             disciplineCode,
-            date: new Date(result.date),
+            date: result.date,
             shortTrack: isShortTrack(result.discipline),
             mark: result.performance,
             performanceValue: performanceToFloat({
@@ -101,11 +102,9 @@ export class RecordsService {
             location,
             athletes: athletes.map((competitor) => ({
               sex: null,
-              ...extractName(competitor.name),
+              ...competitor.name,
               country: competitor.country,
-              birthdate: competitor.birthDate
-                ? new Date(competitor.birthDate)
-                : null,
+              birthdate: competitor.birthDate,
               id: competitor.id,
             })),
           });

@@ -1,4 +1,4 @@
-import { cleanupCompetitionName, cleanupMark, formatLastname } from 'src/utils';
+import { cleanupCompetitionName, cleanupMark, extractName, formatLastname } from 'src/utils';
 import { z } from 'zod';
 
 export const BirthdateSchema = z
@@ -14,6 +14,15 @@ export const BirthdateSchema = z
 export const LastnameSchema = z
   .string()
   .transform((val) => formatLastname(val));
+
+export const FullnameSchema = z.string().transform(extractName);
+
+export const UrlSlugIdSchema = z.string().nullable().transform((val) => {
+  if (!val) return null;
+  const idMatch = val.match(/-(\d+)$/);
+  const id = idMatch ? idMatch[1] : null;
+  return Number(id);
+});
 
 export const BasicData = z.object({
   givenName: z.string(),
@@ -135,14 +144,28 @@ export const Athlete = z.object({
       categoryName: z.string(),
     }),
   ),
-  athleteRepresentative: z.nullable(z.object({ _id: z.number() })),
+  athleteRepresentative: z.nullable(z.object({ _id: z.number() })).transform(
+    (val) => {
+      return val?._id ?? null;
+    },
+  ),
 });
 
 export const AthleteSearchSchema = z.object({
-  aaAthleteId: z.string(),
+  aaAthleteId: z.preprocess((val) => {
+    if (!val) return null;
+    if (isNaN(Number(val))) return null;
+    return Number(val);
+  }, z.number()),
   familyName: LastnameSchema,
   givenName: z.string(),
   birthDate: BirthdateSchema,
-  gender: z.string(),
+  gender: z.string().transform((val) => {
+    return val === 'Men'
+    ? 'MALE'
+    : val === 'Women'
+      ? 'FEMALE'
+      : null
+  }),
   country: z.string(),
 });

@@ -27,7 +27,9 @@ export const CompetitionSchema = z.object({
   venue: z.string(),
   area: z.string(),
   rankingCategory: z.string(),
-  disciplines: z.string().nullable(),
+  disciplines: z.string().nullable().transform((val) => {
+    return val ? val.split(',').map((discipline) => discipline.trim()) : []
+  }),
   startDate: z.string().transform((val) => {
     if (!val) return null;
     const date = new Date(val);

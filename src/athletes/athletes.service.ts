@@ -5,7 +5,7 @@ import { Athlete, AthleteSearchResult } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
-import { formatLastname, isShortTrack, parseVenue } from 'src/utils';
+import { isShortTrack, parseVenue } from 'src/utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { levenshteinDistance } from 'src/levenshtein-distance';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -28,14 +28,8 @@ export class AthletesService {
         })
         .parse(data);
       const searchResults = response.searchCompetitors.map((item) => {
-        const sex =
-          item.gender === 'Men'
-            ? 'MALE'
-            : item.gender === 'Women'
-              ? 'FEMALE'
-              : null;
         return {
-          id: Number(item.aaAthleteId),
+          id: item.aaAthleteId,
           country: item.country,
           firstname: item.givenName,
           lastname: item.familyName,
@@ -44,7 +38,7 @@ export class AthletesService {
             name.toLowerCase().trim(),
             (item.givenName + ' ' + item.familyName).toLowerCase().trim(),
           ),
-          sex,
+          sex: item.gender,
         };
       }) as AthleteSearchResult[];
       return searchResults.sort(
@@ -75,9 +69,6 @@ export class AthletesService {
       if (!response.getSingleCompetitor) {
         return null;
       }
-      const lastname = formatLastname(
-        response.getSingleCompetitor.basicData.familyName,
-      );
 
       const worldRankingSex =
         response.getSingleCompetitor.worldRankings.best.length > 0
@@ -91,7 +82,7 @@ export class AthletesService {
       return {
         id,
         firstname: response.getSingleCompetitor.basicData.givenName,
-        lastname,
+        lastname: response.getSingleCompetitor.basicData.familyName,
         birthdate: response.getSingleCompetitor.basicData.birthDate,
         country: response.getSingleCompetitor.basicData.countryCode,
         sex: response.getSingleCompetitor.basicData.sexNameUrlSlug
@@ -100,7 +91,7 @@ export class AthletesService {
             : 'MALE'
           : worldRankingSex,
         athleteRepresentativeId:
-          response.getSingleCompetitor.athleteRepresentative?._id ?? null,
+          response.getSingleCompetitor.athleteRepresentative,
         activeSeasons: response.getSingleCompetitor.seasonsBests.activeSeasons,
         currentWorldRankings:
           response.getSingleCompetitor.worldRankings.current.map((ranking) => {
