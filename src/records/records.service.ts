@@ -54,10 +54,10 @@ export class RecordsService {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
-  async find(category: number): Promise<Record[]> | null {
+  async find(categoryId: number): Promise<Record[]> | null {
     const records: Record[] = [];
     const data = await this.graphQLClient.request(RECORD_QUERY, {
-      categoryId: category,
+      categoryId,
     });
     const response = z
       .object({
@@ -112,42 +112,40 @@ export class RecordsService {
   }
 
   async findCategories(): Promise<RecordCategory[]> {
-    const categories: RecordCategory[] = [];
     const data = await this.graphQLClient.request(RECORD_CATEGORIES_QUERY);
     const response = z
       .object({
-        getRecordsCategories: z
-          .array(
-            z.object({
-              id: z.number().nullable(),
-              name: z.string(),
-              items: z
-                .array(z.object({ id: z.number(), name: z.string() }))
-                .nullable(),
-            }),
-          )
-          .nullable(),
+        getRecordsCategories: z.array(
+          z.object({
+            id: z.number().nullable(),
+            name: z.string(),
+            items: z
+              .array(z.object({ id: z.number(), name: z.string() }))
+              .nullable(),
+          }),
+        ),
       })
       .parse(data);
 
-    if (response.getRecordsCategories === null) {
-      return [];
-    }
-    response.getRecordsCategories.forEach((category) => {
-      if (!category.items || category.items.length == 0) {
-        categories.push({
-          id: category.id,
-          name: category.name,
-        });
-      } else {
-        category.items.forEach((item) => {
-          categories.push({
-            id: item.id,
-            name: `${category.name} - ${item.name}`,
+    return response.getRecordsCategories
+      .map((category) => {
+        if (!category.items || category.items.length == 0) {
+          return [
+            {
+              id: category.id,
+              name: category.name,
+            } as RecordCategory,
+          ];
+        } else {
+          return category.items.map((item) => {
+            return {
+              id: item.id,
+              name: `${category.name} - ${item.name}`,
+            } as RecordCategory;
           });
-        });
-      }
-    });
-    return categories.sort((a, b) => a.id - b.id);
+        }
+      })
+      .flat()
+      .sort((a, b) => a.id - b.id);
   }
 }

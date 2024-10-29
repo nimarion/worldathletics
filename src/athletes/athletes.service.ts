@@ -39,7 +39,7 @@ export class AthletesService {
         ),
         sex: item.gender,
       };
-    }) as AthleteSearchResult[];
+    });
     return searchResults.sort(
       (a, b) => a.levenshteinDistance - b.levenshteinDistance,
     );
@@ -63,104 +63,81 @@ export class AthletesService {
     if (!response.getSingleCompetitor) {
       return null;
     }
+    const {
+      basicData,
+      worldRankings,
+      seasonsBests,
+      personalBests,
+      honours,
+      athleteRepresentative,
+    } = response.getSingleCompetitor;
 
     const worldRankingSex =
-      response.getSingleCompetitor.worldRankings.best.length > 0
-        ? response.getSingleCompetitor.worldRankings.best[0].eventGroup
-            .toLowerCase()
-            .includes('women')
+      worldRankings.best.length > 0
+        ? worldRankings.best[0].eventGroup.toLowerCase().includes('women')
           ? 'FEMALE'
           : 'MALE'
         : null;
+    const sex = basicData.sexNameUrlSlug
+      ? basicData.sexNameUrlSlug === 'women'
+        ? 'FEMALE'
+        : 'MALE'
+      : worldRankingSex;
+
+    function resultToPerformance(result: (typeof seasonsBests.results)[0]) {
+      const location = parseVenue(result.venue);
+      const disciplineCode = mapDisciplineToCode(result.discipline);
+      return {
+        date: result.date,
+        discipline: result.discipline,
+        disciplineCode,
+        shortTrack: isShortTrack(result.discipline),
+        mark: result.mark,
+        performanceValue: performanceToFloat({
+          performance: result.mark,
+          technical: isTechnical({
+            disciplineCode,
+            performance: result.mark,
+          }),
+        }),
+        location,
+        legal: !result.notLegal,
+        resultScore: result.resultScore,
+        wind: result.wind,
+        competition: null,
+        category: null,
+        race: null,
+        place: null,
+        records: result.records,
+        competitionId: result.competitionId,
+        eventId: result.eventId,
+      };
+    }
 
     return {
       id,
-      firstname: response.getSingleCompetitor.basicData.givenName,
-      lastname: response.getSingleCompetitor.basicData.familyName,
-      birthdate: response.getSingleCompetitor.basicData.birthDate,
-      country: response.getSingleCompetitor.basicData.countryCode,
-      sex: response.getSingleCompetitor.basicData.sexNameUrlSlug
-        ? response.getSingleCompetitor.basicData.sexNameUrlSlug === 'women'
-          ? 'FEMALE'
-          : 'MALE'
-        : worldRankingSex,
-      athleteRepresentativeId:
-        response.getSingleCompetitor.athleteRepresentative,
-      activeSeasons: response.getSingleCompetitor.seasonsBests.activeSeasons,
-      currentWorldRankings:
-        response.getSingleCompetitor.worldRankings.current.map((ranking) => {
-          return {
-            eventGroup: ranking.eventGroup,
-            place: ranking.place,
-          };
-        }),
-      seasonsbests: response.getSingleCompetitor.seasonsBests.results
+      firstname: basicData.givenName,
+      lastname: basicData.familyName,
+      birthdate: basicData.birthDate,
+      country: basicData.countryCode,
+      sex,
+      athleteRepresentativeId: athleteRepresentative,
+      activeSeasons: seasonsBests.activeSeasons,
+      currentWorldRankings: worldRankings.current.map((ranking) => {
+        return {
+          eventGroup: ranking.eventGroup,
+          place: ranking.place,
+        };
+      }),
+      seasonsbests: seasonsBests.results
         .filter((result) => {
           const diff = new Date().getTime() - result.date.getTime();
           const diffInMonths = diff / (1000 * 3600 * 24 * 30);
           return diffInMonths < 12;
         })
-        .map((result) => {
-          const location = parseVenue(result.venue);
-          const disciplineCode = mapDisciplineToCode(result.discipline);
-          return {
-            date: result.date,
-            discipline: result.discipline,
-            disciplineCode,
-            shortTrack: isShortTrack(result.discipline),
-            mark: result.mark,
-            performanceValue: performanceToFloat({
-              performance: result.mark,
-              technical: isTechnical({
-                disciplineCode,
-                performance: result.mark,
-              }),
-            }),
-            location,
-            legal: !result.notLegal,
-            resultScore: result.resultScore,
-            wind: result.wind,
-            competition: null,
-            category: null,
-            race: null,
-            place: null,
-            records: result.records,
-            competitionId: result.competitionId,
-            eventId: result.eventId,
-          };
-        }),
-      personalbests: response.getSingleCompetitor.personalBests.results.map(
-        (result) => {
-          const location = parseVenue(result.venue);
-          const disciplineCode = mapDisciplineToCode(result.discipline);
-          return {
-            date: result.date,
-            discipline: result.discipline,
-            disciplineCode,
-            shortTrack: isShortTrack(result.discipline),
-            mark: result.mark,
-            performanceValue: performanceToFloat({
-              performance: result.mark,
-              technical: isTechnical({
-                disciplineCode,
-                performance: result.mark,
-              }),
-            }),
-            location,
-            legal: !result.notLegal,
-            resultScore: result.resultScore,
-            wind: result.wind,
-            competition: null,
-            category: null,
-            race: null,
-            place: null,
-            records: result.records,
-            competitionId: result.competitionId,
-            eventId: result.eventId,
-          };
-        },
-      ),
-      honours: response.getSingleCompetitor.honours.map((honour) => {
+        .map(resultToPerformance),
+      personalbests: personalBests.results.map(resultToPerformance),
+      honours: honours.map((honour) => {
         return {
           category: honour.categoryName,
           results: honour.results.map((result) => {

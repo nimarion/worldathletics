@@ -10,12 +10,13 @@ export class GraphqlService {
     const graphqlApiKey = process.env.GRAPHQL_API_KEY;
 
     const headers = {
-      'x-graphql-client-name': process.env.GRAPHQL_CLIENT_NAME ? process.env.GRAPHQL_CLIENT_NAME : 'worldathletics'
-    }
+      'x-graphql-client-name': process.env.GRAPHQL_CLIENT_NAME
+        ? process.env.GRAPHQL_CLIENT_NAME
+        : 'worldathletics',
+    };
     if (graphqlApiKey) {
       headers['x-api-key'] = graphqlApiKey;
     }
-
 
     this.graphqlClient = new GraphQLClient(graphqlHost, {
       headers,
