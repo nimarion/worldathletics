@@ -1,4 +1,9 @@
-import { formatIncompletePhoneNumber, isValidPhoneNumber, parseIncompletePhoneNumber, parsePhoneNumberWithError } from 'libphonenumber-js/max';
+import {
+  formatIncompletePhoneNumber,
+  isValidPhoneNumber,
+  parseIncompletePhoneNumber,
+  parsePhoneNumberWithError,
+} from 'libphonenumber-js/max';
 import { LastnameSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
@@ -28,29 +33,35 @@ export const AthleteRepresentative = z.object({
   countryCode: z.string().nullable(),
   firstName: z.string(),
   lastName: LastnameSchema,
-  email: z.array(z.string().nullable()).optional().default([]).transform((val) => {
-    if(val.length === 0) return null;
-    return sanitizeEmail(
-      val[0],
-    ) as string;
-  }),
-  mobile: z.array(z.string().nullable()).optional().default([]).transform((val) => {
-    if(val.length === 0) return null;
-    if(!isValidPhoneNumber(val[0], 'US')) {
-      if(isValidPhoneNumber(parseIncompletePhoneNumber(val[0]), 'US')) {
-        val[0] = formatIncompletePhoneNumber(val[0]);
-      } else {
-        console.error("invalid phone number", val[0]);
+  email: z
+    .array(z.string().nullable())
+    .optional()
+    .default([])
+    .transform((val) => {
+      if (val.length === 0) return null;
+      return sanitizeEmail(val[0]) as string;
+    }),
+  mobile: z
+    .array(z.string().nullable())
+    .optional()
+    .default([])
+    .transform((val) => {
+      if (val.length === 0) return null;
+      if (!isValidPhoneNumber(val[0], 'US')) {
+        if (isValidPhoneNumber(parseIncompletePhoneNumber(val[0]), 'US')) {
+          val[0] = formatIncompletePhoneNumber(val[0]);
+        } else {
+          console.error('invalid phone number', val[0]);
+          return null;
+        }
+      }
+      try {
+        const phoneNumber = parsePhoneNumberWithError(val[0], 'US');
+        if (!phoneNumber) return null;
+        return phoneNumber.formatInternational();
+      } catch (error) {
+        console.error('error parsing phone number', val[0]);
         return null;
       }
-    }
-    try {
-      const phoneNumber = parsePhoneNumberWithError(val[0], 'US');
-      if(!phoneNumber) return null;
-      return phoneNumber.formatInternational();
-    } catch (error) {
-      console.error("error parsing phone number", val[0]);
-      return null;
-    }
-  }),
+    }),
 });

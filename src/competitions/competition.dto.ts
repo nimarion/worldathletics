@@ -13,12 +13,12 @@ export class ContactPerson {
 }
 
 export class CompetitionOrganiserInfo {
-  @ApiProperty()
-  websiteUrl: string;
-  @ApiProperty()
-  liveStreamUrl: string;
-  @ApiProperty()
-  resultsUrl: string;
+  @ApiProperty({ nullable: true })
+  websiteUrl: string | null;
+  @ApiProperty({ nullable: true })
+  liveStreamUrl: string | null;
+  @ApiProperty({ nullable: true })
+  resultsUrl: string | null;
   @ApiProperty({ type: [ContactPerson] })
   contactPersons: ContactPerson[];
   @ApiProperty({
@@ -42,9 +42,9 @@ export class Competition {
   start: Date;
   @ApiProperty()
   end: Date;
-  @ApiProperty({nullable: true})
+  @ApiProperty({ nullable: true })
   competitionGroup: string | null;
-  @ApiProperty({nullable: true})
+  @ApiProperty({ nullable: true })
   competitionSubgroup: string | null;
   @ApiProperty()
   hasResults: boolean;
@@ -55,7 +55,7 @@ export class Competition {
 }
 
 export class CompetitionResults {
-  @ApiProperty({nullable: true})
+  @ApiProperty({ nullable: true })
   name: string | null;
   @ApiProperty()
   rankingCategory: string;

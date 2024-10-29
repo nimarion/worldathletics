@@ -9,12 +9,17 @@ export class GraphqlService {
     const graphqlHost = process.env.GRAPHQL_ENDPOINT;
     const graphqlApiKey = process.env.GRAPHQL_API_KEY;
 
-      this.graphqlClient = new GraphQLClient(graphqlHost, {
-        headers: graphqlApiKey && {
-          'x-api-key': graphqlApiKey
-        },
-      });
-    
+    const headers = {
+      'x-graphql-client-name': process.env.GRAPHQL_CLIENT_NAME ? process.env.GRAPHQL_CLIENT_NAME : 'worldathletics'
+    }
+    if (graphqlApiKey) {
+      headers['x-api-key'] = graphqlApiKey;
+    }
+
+
+    this.graphqlClient = new GraphQLClient(graphqlHost, {
+      headers,
+    });
   }
 
   getClient() {

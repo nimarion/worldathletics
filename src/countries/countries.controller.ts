@@ -14,10 +14,6 @@ export class CountriesController {
     description: 'Returns all countries',
   })
   async getCountries(): Promise<Country[]> {
-    const countries = await this.countriesService.getCountries();
-    if (countries) {
-      return countries;
-    }
-    throw new BadGatewayException();
+    return await this.countriesService.getCountries();
   }
 }

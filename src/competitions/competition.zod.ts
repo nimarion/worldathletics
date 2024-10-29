@@ -2,9 +2,15 @@ import { DateSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
-  liveStreamingUrl: z.string(),
-  resultsPageUrl: z.string(),
-  websiteUrl: z.string(),
+  liveStreamingUrl: z.string().transform((val) => {
+    return val === '' ? null : val;
+  }),
+  resultsPageUrl: z.string().transform((val) => {
+    return val === '' ? null : val;
+  }),
+  websiteUrl: z.string().transform((val) => {
+    return val === '' ? null : val;
+  }),
   units: z.array(
     z.object({
       events: z.array(z.string()),
@@ -28,9 +34,12 @@ export const CompetitionSchema = z.object({
   venue: z.string(),
   area: z.string(),
   rankingCategory: z.string(),
-  disciplines: z.string().nullable().transform((val) => {
-    return val ? val.split(',').map((discipline) => discipline.trim()) : []
-  }),
+  disciplines: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      return val ? val.split(',').map((discipline) => discipline.trim()) : [];
+    }),
   startDate: DateSchema,
   endDate: DateSchema,
   hasCompetitionInformation: z.boolean(),

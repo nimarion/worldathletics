@@ -1,4 +1,11 @@
-import { CompetitionNameSchema, DateSchema, LastnameSchema, MarkSchema, PlaceSchema, StringNumberSchema } from 'src/zod.schema';
+import {
+  CompetitionNameSchema,
+  DateSchema,
+  LastnameSchema,
+  MarkSchema,
+  PlaceSchema,
+  StringNumberSchema,
+} from 'src/zod.schema';
 import { z } from 'zod';
 
 export const BasicData = z.object({
@@ -61,11 +68,11 @@ export const Athlete = z.object({
       categoryName: z.string(),
     }),
   ),
-  athleteRepresentative: z.nullable(z.object({ _id: z.number() })).transform(
-    (val) => {
+  athleteRepresentative: z
+    .nullable(z.object({ _id: z.number() }))
+    .transform((val) => {
       return val?._id ?? null;
-    },
-  ),
+    }),
 });
 
 export const AthleteSearchSchema = z.object({
@@ -74,11 +81,7 @@ export const AthleteSearchSchema = z.object({
   givenName: z.string(),
   birthDate: DateSchema,
   gender: z.string().transform((val) => {
-    return val === 'Men'
-    ? 'MALE'
-    : val === 'Women'
-      ? 'FEMALE'
-      : null
+    return val === 'Men' ? 'MALE' : val === 'Women' ? 'FEMALE' : null;
   }),
   country: z.string(),
 });

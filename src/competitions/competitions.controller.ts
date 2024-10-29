@@ -1,7 +1,17 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { CompetitionsService } from './competitions.service';
-import { Competition, CompetitionOrganiserInfo, CompetitionResults } from './competition.dto';
-import { ApiOkResponse } from '@nestjs/swagger';
+import {
+  Competition,
+  CompetitionOrganiserInfo,
+  CompetitionResults,
+} from './competition.dto';
+import { ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 
 @Controller('competitions')
 export class CompetitionsController {
@@ -12,10 +22,9 @@ export class CompetitionsController {
     type: Competition,
     isArray: true,
   })
-  findAll(
-    @Query('name') name?: string,): Promise<Competition[]> {
+  findAll(@Query('name') name?: string): Promise<Competition[]> {
     return this.competitionsService.findCompetitions({
-      query: name
+      query: name,
     });
   }
 
@@ -35,13 +44,18 @@ export class CompetitionsController {
   }
 
   @Get(':id/results')
+  @ApiQuery({
+    name: 'eventId',
+    required: false,
+    type: Number,
+  })
   async findResults(
     @Param('id') id: number,
     @Query('eventId') eventId?: number,
   ): Promise<CompetitionResults[]> {
     return await this.competitionsService.findCompetitionResults({
       competitionId: id,
-      eventId
+      eventId,
     });
   }
 }

@@ -5,6 +5,7 @@ import {
   ParseIntPipe,
   NotFoundException,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
 import { ApiOkResponse, ApiNotFoundResponse, ApiQuery } from '@nestjs/swagger';
@@ -26,13 +27,9 @@ export class AthletesController {
     @Query('name') name: string,
   ): Promise<AthleteSearchResult[]> {
     if (!name) {
-      throw new NotFoundException();
+      throw new BadRequestException('Query parameter "name" is required');
     }
-    const athlete = await this.athletesService.searchAthlete(name);
-    if (!athlete) {
-      throw new NotFoundException();
-    }
-    return athlete;
+    return await this.athletesService.searchAthlete(name);
   }
 
   @Get(':id')
@@ -45,13 +42,14 @@ export class AthletesController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<Athlete> {
     if (id < 1 || id > 2147483647) {
-      throw new NotFoundException();
+      throw new BadRequestException('Invalid value for athlete id');
     }
-    const athlete = await this.athletesService.getAthlete(id);
-    if (!athlete) {
-      throw new NotFoundException();
-    }
-    return athlete;
+    return this.athletesService.getAthlete(id).then((athlete) => {
+      if (!athlete) {
+        throw new NotFoundException();
+      }
+      return athlete;
+    });
   }
 
   @Get(':id/results')

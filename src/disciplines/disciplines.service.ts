@@ -30,20 +30,20 @@ export class DisciplinesService {
   }
 
   async findAll(): Promise<Discipline[]> {
-      const data = await this.graphQLClient.request(COUNTRIES_QUERY);
-      const reponse = z
-        .object({
-          getMetaData: z.object({
-            disciplineCodes: z.array(DisciplineSchema),
-          }),
-        })
-        .parse(data);
-      return reponse.getMetaData.disciplineCodes.map((discipline) => {
-        return {
-          discipline: discipline.name,
-          disciplineCode: discipline.code,
-          shortTrack: isShortTrack(discipline.name),
-        };
-      });
+    const data = await this.graphQLClient.request(COUNTRIES_QUERY);
+    const reponse = z
+      .object({
+        getMetaData: z.object({
+          disciplineCodes: z.array(DisciplineSchema),
+        }),
+      })
+      .parse(data);
+    return reponse.getMetaData.disciplineCodes.map((discipline) => {
+      return {
+        discipline: discipline.name,
+        disciplineCode: discipline.code,
+        shortTrack: isShortTrack(discipline.name),
+      };
+    });
   }
 }

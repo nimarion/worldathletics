@@ -1,4 +1,10 @@
-import { CompetitionNameSchema, DateSchema, MarkSchema, PlaceSchema, StringNumberSchema } from 'src/zod.schema';
+import {
+  CompetitionNameSchema,
+  DateSchema,
+  MarkSchema,
+  PlaceSchema,
+  StringNumberSchema,
+} from 'src/zod.schema';
 import { z } from 'zod';
 
 export const ResultsByEvent = z.object({
