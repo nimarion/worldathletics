@@ -1,4 +1,11 @@
-import { Location } from './athletes/location.dto';
+import {
+  formatIncompletePhoneNumber,
+  isValidPhoneNumber,
+  parseIncompletePhoneNumber,
+  parsePhoneNumberWithError,
+} from 'libphonenumber-js/max';
+import { Location } from './location.dto';
+import { Sex } from './athletes/athlete.dto';
 
 export function formatLastname(lastname: string): string {
   return (
@@ -87,4 +94,37 @@ function parseCountryAndCity(countryAndCity: string): [string, string] {
 
 export function isIndoor(venue: string): boolean {
   return venue.endsWith('(i)');
+}
+
+export function parsePhoneNumber(number: string): string | null {
+  if (!isValidPhoneNumber(number, 'US')) {
+    if (isValidPhoneNumber(parseIncompletePhoneNumber(number), 'US')) {
+      number = formatIncompletePhoneNumber(number);
+    } else {
+      console.error('invalid phone number', number);
+      return null;
+    }
+  }
+  try {
+    const phoneNumber = parsePhoneNumberWithError(number, 'US');
+    if (!phoneNumber) return null;
+    return phoneNumber.formatInternational();
+  } catch (error) {
+    console.error('error parsing phone number', number);
+    return null;
+  }
+}
+
+export function formatSex(input: string): Sex {
+  switch (input.trim().toLowerCase()) {
+    case 'men':
+    case 'Men':
+      return 'M';
+    case 'women':
+    case 'Women':
+      return 'W';
+    case 'mixed':
+      return 'X';
+  }
+  throw new Error(`Could not determine sex for input ${input}`);
 }

@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { gql, GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import { Discipline } from './discipline.entity';
+import { Discipline } from './discipline.dto';
 
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { isShortTrack } from 'src/utils';
-
-const COUNTRIES_QUERY = gql`
-  query getMetaData {
-    getMetaData(types: disciplineCodes) {
-      disciplineCodes {
-        name
-        code
-      }
-    }
-  }
-`;
-
-const DisciplineSchema = z.object({
-  name: z.string(),
-  code: z.string(),
-});
+import { DISCIPLINES_QUERY } from 'src/disciplines/disciplines.query';
+import { DisciplineSchema } from './disciplines.zod';
 
 @Injectable()
 export class DisciplinesService {
@@ -30,7 +16,7 @@ export class DisciplinesService {
   }
 
   async findAll(): Promise<Discipline[]> {
-    const data = await this.graphQLClient.request(COUNTRIES_QUERY);
+    const data = await this.graphQLClient.request(DISCIPLINES_QUERY);
     const reponse = z
       .object({
         getMetaData: z.object({

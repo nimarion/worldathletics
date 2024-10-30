@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { Discipline } from './discipline.entity';
+import { Discipline } from './discipline.dto';
 import { DisciplinesService } from './disciplines.service';
 
 @Controller('disciplines')

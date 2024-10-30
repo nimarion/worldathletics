@@ -2,15 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AthleteRepresentative {
   @ApiProperty()
-  id: number;
+  id!: number;
   @ApiProperty({ nullable: true })
-  country: string | null;
+  country!: string | null;
   @ApiProperty()
-  firstname: string;
+  firstname!: string;
   @ApiProperty()
-  lastname: string;
+  lastname!: string;
   @ApiProperty({ nullable: true })
-  email: string | null;
+  email!: string | null;
   @ApiProperty({ nullable: true })
-  phone: string | null;
+  phone!: string | null;
 }

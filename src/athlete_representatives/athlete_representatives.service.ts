@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
-import { AthleteRepresentative } from './dto/athlete_representative.dto';
+import { AthleteRepresentative } from './athlete_representative.dto';
 import { AthleteRepresentative as AthleteRepresentativeSchema } from './athlete_representative.zod';
 import {
   ATHLETE_REPRESENTATIVES_QUERY,
@@ -36,18 +36,25 @@ export class AthleteRepresentativesService {
     if (!response.getAthleteRepresentativeProfile) {
       return null;
     }
+    const {
+      countryCode: country,
+      email,
+      firstName: firstname,
+      lastName: lastname,
+      mobile: phone,
+    } = response.getAthleteRepresentativeProfile;
 
     return {
-      country: response.getAthleteRepresentativeProfile.countryCode,
-      email: response.getAthleteRepresentativeProfile.email,
-      firstname: response.getAthleteRepresentativeProfile.firstName,
-      lastname: response.getAthleteRepresentativeProfile.lastName,
-      phone: response.getAthleteRepresentativeProfile.mobile,
-      id: response.getAthleteRepresentativeProfile.athleteRepresentativeId,
+      country,
+      email,
+      firstname,
+      lastname,
+      phone,
+      id,
     };
   }
 
-  async getAthleteRepresentatives(): Promise<AthleteRepresentative[] | null> {
+  async getAthleteRepresentatives(): Promise<AthleteRepresentative[]> {
     const data = await this.graphQLClient.request(
       ATHLETE_REPRESENTATIVES_QUERY,
     );
@@ -56,27 +63,19 @@ export class AthleteRepresentativesService {
         getAthleteRepresentativeDirectory: z.array(AthleteRepresentativeSchema),
       })
       .parse(data);
-    if (!response.getAthleteRepresentativeDirectory) {
-      return null;
-    }
     const arResponse: AthleteRepresentative[] = [];
     const promises = await response.getAthleteRepresentativeDirectory.map(
       async (ar) => {
         const arData = await this.getAthleteRepresentative(
           ar.athleteRepresentativeId,
         );
-
-        arResponse.push({
-          country: ar.countryCode,
-          email: arData.email,
-          firstname: ar.firstName,
-          lastname: ar.lastName,
-          phone: arData.phone,
-          id: ar.athleteRepresentativeId,
-        });
+        if (arData) {
+          arResponse.push(arData);
+        }
       },
     );
-    await Promise.all(promises);
-    return arResponse;
+    return await Promise.all(promises).then(() => {
+      return arResponse;
+    });
   }
 }

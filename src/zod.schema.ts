@@ -25,20 +25,11 @@ export const UrlSlugIdSchema = z
     return Number(id);
   });
 
-// Converts a string to a numer and checks if string is a number
-export const StringNumberSchema = z.preprocess((val) => {
-  if (!val) return null;
-  if (isNaN(Number(val))) return null;
-  return Number(val);
-}, z.number().nullable());
-
 // Converts string to date and removes timezone offset
 export const DateSchema = z
   .string()
-  .nullable()
   .pipe(z.coerce.date())
   .transform((val) => {
-    if (!val) return null;
     val.setMinutes(val.getMinutes() - val.getTimezoneOffset());
     return val;
   });

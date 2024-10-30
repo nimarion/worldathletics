@@ -1,3 +1,4 @@
+import { formatSex } from 'src/utils';
 import { DateSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
@@ -14,7 +15,7 @@ export const CompetitionOrganiserInfoSchema = z.object({
   units: z.array(
     z.object({
       events: z.array(z.string()),
-      gender: z.string(),
+      gender: z.string().transform(formatSex),
     }),
   ),
   contactPersons: z.array(

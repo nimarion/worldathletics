@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Discipline {
   @ApiProperty()
-  discipline: string;
+  discipline!: string;
   @ApiProperty()
-  disciplineCode: string;
+  disciplineCode!: string;
   @ApiProperty()
-  shortTrack: boolean;
+  shortTrack!: boolean;
 }

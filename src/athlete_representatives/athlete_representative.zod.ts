@@ -1,13 +1,8 @@
-import {
-  formatIncompletePhoneNumber,
-  isValidPhoneNumber,
-  parseIncompletePhoneNumber,
-  parsePhoneNumberWithError,
-} from 'libphonenumber-js/max';
+import { parsePhoneNumber } from 'src/utils';
 import { LastnameSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
-function sanitizeEmail(email) {
+function sanitizeEmail(email: string): string {
   // Define regex for valid characters in the local part of the email
   const localPartRegex = /[^a-zA-Z0-9._%+-]/g;
   // Define regex for valid characters in the domain part of the email
@@ -38,7 +33,7 @@ export const AthleteRepresentative = z.object({
     .optional()
     .default([])
     .transform((val) => {
-      if (val.length === 0) return null;
+      if (val.length === 0 || !val[0]) return null;
       return sanitizeEmail(val[0]) as string;
     }),
   mobile: z
@@ -46,22 +41,7 @@ export const AthleteRepresentative = z.object({
     .optional()
     .default([])
     .transform((val) => {
-      if (val.length === 0) return null;
-      if (!isValidPhoneNumber(val[0], 'US')) {
-        if (isValidPhoneNumber(parseIncompletePhoneNumber(val[0]), 'US')) {
-          val[0] = formatIncompletePhoneNumber(val[0]);
-        } else {
-          console.error('invalid phone number', val[0]);
-          return null;
-        }
-      }
-      try {
-        const phoneNumber = parsePhoneNumberWithError(val[0], 'US');
-        if (!phoneNumber) return null;
-        return phoneNumber.formatInternational();
-      } catch (error) {
-        console.error('error parsing phone number', val[0]);
-        return null;
-      }
+      if (val.length === 0 || !val[0]) return null;
+      return parsePhoneNumber(val[0]);
     }),
 });

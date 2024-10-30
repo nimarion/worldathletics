@@ -1,7 +1,7 @@
 export function levenshteinDistance(s: string, t: string): number {
   if (!s.length) return t.length;
   if (!t.length) return s.length;
-  const arr = [];
+  const arr: number[][] = [];
   for (let i = 0; i <= t.length; i++) {
     arr[i] = [i];
     for (let j = 1; j <= s.length; j++) {

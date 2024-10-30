@@ -1,102 +1,104 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { Location } from './location.dto';
-import { Discipline } from 'src/disciplines/discipline.entity';
+import { Location } from '../location.dto';
+import { Discipline } from 'src/disciplines/discipline.dto';
+
+export type Sex = 'M' | 'W' | 'X';
 
 export class BaseAthlete {
   @ApiProperty()
-  id: number;
+  id!: number;
   @ApiProperty()
-  firstname: string;
+  firstname!: string;
   @ApiProperty()
-  lastname: string;
+  lastname!: string;
   @ApiProperty({ nullable: true, type: Date })
-  birthdate: Date | null;
+  birthdate!: Date | null;
   @ApiProperty()
-  country: string;
+  country!: string;
   @ApiProperty({
     description: 'null if sex could not be determined',
     nullable: true,
-    enum: ['MALE', 'FEMALE'],
+    enum: ['M', 'W', 'X', null],
   })
-  sex: 'MALE' | 'FEMALE' | null;
+  sex!: Sex | null;
 }
 
 export class BasePerformance extends Discipline {
   @ApiProperty()
-  date: Date;
+  date!: Date | null;
   @ApiProperty()
-  mark: string;
+  mark!: string;
   @ApiProperty({
     description:
       'Performance in milliseconds for track events and centimeters for field events',
     nullable: true,
   })
-  performanceValue: number | null;
+  performanceValue!: number | null;
   @ApiProperty()
-  location: Location;
+  location!: Location;
   @ApiProperty({ nullable: true, type: Number })
-  wind: number | null;
+  wind!: number | null;
 }
 
 export class Performance extends BasePerformance {
   @ApiProperty()
-  legal: boolean;
+  legal!: boolean;
   @ApiProperty()
-  resultScore: number;
+  resultScore!: number;
   @ApiProperty({ nullable: true, type: String })
-  competition: string | null;
+  competition!: string | null;
   @ApiProperty({ nullable: true, type: Number })
-  competitionId: number | null;
+  competitionId!: number | null;
   @ApiProperty({ nullable: true, type: Number })
-  eventId: number | null;
+  eventId!: number | null;
   @ApiProperty({ nullable: true, type: String })
-  category: string | null;
+  category!: string | null;
   @ApiProperty({ nullable: true, type: String })
-  race: string | null;
+  race!: string | null;
   @ApiProperty({ nullable: true, type: Number })
-  place: number | null;
+  place!: number | null;
   @ApiProperty({ type: String, isArray: true })
-  records: string[];
+  records!: string[];
 }
 
 export class CurrentWorldRanking {
   @ApiProperty()
-  place: number;
+  place!: number;
   @ApiProperty()
-  eventGroup: string;
+  eventGroup!: string;
 }
 
 export class HonourResult extends OmitType(BasePerformance, ['wind'] as const) {
   @ApiProperty()
-  place: number;
+  place!: number;
   @ApiProperty()
-  competition: string;
+  competition!: string;
   @ApiProperty({ nullable: true, type: Number })
-  competitionId: number | null;
+  competitionId!: number | null;
   @ApiProperty({ nullable: true, type: Number })
-  eventId: number | null;
+  eventId!: number | null;
 }
 
 export class Honour {
   @ApiProperty({ type: HonourResult, isArray: true })
-  results: HonourResult[];
+  results!: HonourResult[];
   @ApiProperty()
-  category: string;
+  category!: string;
 }
 
 export class Athlete extends BaseAthlete {
   @ApiProperty({ type: Performance, isArray: true })
-  personalbests: Performance[];
+  personalbests!: Performance[];
   @ApiProperty({ type: Performance, isArray: true })
-  seasonsbests: Performance[];
+  seasonsbests!: Performance[];
   @ApiProperty({ type: CurrentWorldRanking, isArray: true })
-  currentWorldRankings: CurrentWorldRanking[];
+  currentWorldRankings!: CurrentWorldRanking[];
   @ApiProperty({ type: Honour, isArray: true })
-  honours: Honour[];
+  honours!: Honour[];
   @ApiProperty({ type: Number, isArray: true })
-  activeSeasons: number[];
+  activeSeasons!: number[];
   @ApiProperty({ nullable: true, type: Number })
-  athleteRepresentativeId: number | null;
+  athleteRepresentativeId!: number | null;
 }
 
 export class AthleteSearchResult extends BaseAthlete {
@@ -104,5 +106,5 @@ export class AthleteSearchResult extends BaseAthlete {
     type: Number,
     description: 'Levenshtein distance between search query and athlete name',
   })
-  levenshteinDistance: number;
+  levenshteinDistance!: number;
 }

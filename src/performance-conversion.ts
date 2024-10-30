@@ -5,7 +5,7 @@ export function performanceToFloat({
 }: {
   performance: string;
   technical: boolean;
-}): number {
+}): number | null {
   // One Hour Race
   if (performance == parseInt(performance).toString()) {
     return null;

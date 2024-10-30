@@ -7,9 +7,12 @@ export class GraphqlService {
 
   constructor() {
     const graphqlHost = process.env.GRAPHQL_ENDPOINT;
+    if (!graphqlHost) {
+      throw new Error('GRAPHQL_ENDPOINT is not defined');
+    }
     const graphqlApiKey = process.env.GRAPHQL_API_KEY;
 
-    const headers = {
+    const headers: { [key: string]: string } = {
       'x-graphql-client-name': process.env.GRAPHQL_CLIENT_NAME
         ? process.env.GRAPHQL_CLIENT_NAME
         : 'worldathletics',

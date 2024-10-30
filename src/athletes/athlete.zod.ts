@@ -1,32 +1,32 @@
+import { formatSex } from 'src/utils';
 import {
   CompetitionNameSchema,
   DateSchema,
   LastnameSchema,
   MarkSchema,
   PlaceSchema,
-  StringNumberSchema,
 } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const BasicData = z.object({
   givenName: z.string(),
   familyName: LastnameSchema,
-  birthDate: DateSchema,
+  birthDate: z.nullable(DateSchema),
   countryCode: z.string(),
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });
 
 const Performance = z.object({
-  date: DateSchema,
+  date: z.nullable(DateSchema),
   discipline: z.string(),
   mark: MarkSchema,
   venue: z.string(),
   notLegal: z.boolean(),
   resultScore: z.number(),
-  wind: StringNumberSchema,
+  wind: z.coerce.number(),
   records: z.array(z.string()),
-  eventId: StringNumberSchema,
-  competitionId: StringNumberSchema,
+  eventId: z.coerce.number(),
+  competitionId: z.coerce.number(),
 });
 
 const WorldRanking = z.object({
@@ -35,14 +35,14 @@ const WorldRanking = z.object({
 });
 
 const Result = z.object({
-  date: DateSchema,
+  date: z.nullable(DateSchema),
   discipline: z.string(),
   mark: MarkSchema,
   venue: z.string(),
   competition: CompetitionNameSchema,
   place: PlaceSchema,
-  competitionId: StringNumberSchema,
-  eventId: StringNumberSchema,
+  competitionId: z.coerce.number(),
+  eventId: z.coerce.number(),
 });
 
 export const Athlete = z.object({
@@ -53,7 +53,16 @@ export const Athlete = z.object({
         return Number(val);
       }, z.number()),
     ),
-    results: z.array(Performance),
+    results: z.array(Performance).transform((val) => {
+      return val.filter((result) => {
+        if (!result.date) {
+          return false;
+        }
+        const diff = new Date().getTime() - result.date.getTime();
+        const diffInMonths = diff / (1000 * 3600 * 24 * 30);
+        return diffInMonths < 12;
+      });
+    }),
   }),
   personalBests: z.object({
     results: z.array(Performance),
@@ -76,12 +85,10 @@ export const Athlete = z.object({
 });
 
 export const AthleteSearchSchema = z.object({
-  aaAthleteId: StringNumberSchema,
+  aaAthleteId: z.coerce.number(),
   familyName: LastnameSchema,
   givenName: z.string(),
-  birthDate: DateSchema,
-  gender: z.string().transform((val) => {
-    return val === 'Men' ? 'MALE' : val === 'Women' ? 'FEMALE' : null;
-  }),
+  birthDate: z.nullable(DateSchema),
+  gender: z.string().transform(formatSex),
   country: z.string(),
 });

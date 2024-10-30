@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Country {
   @ApiProperty()
-  areaCode: string;
+  areaCode!: string;
   @ApiProperty()
-  areaName: string;
+  areaName!: string;
   @ApiProperty()
-  id: string;
+  id!: string;
   @ApiProperty()
-  countryName: string;
+  countryName!: string;
 }

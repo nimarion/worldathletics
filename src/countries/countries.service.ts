@@ -1,28 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { gql, GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import { Country } from './country.entity';
+import { Country } from './country.dto';
 import { GraphqlService } from 'src/graphql/graphql.service';
-
-const COUNTRIES_QUERY = gql`
-  query getCountries {
-    getCountries {
-      areaCode
-      areaName
-      id
-      isValid
-      countryName
-    }
-  }
-`;
-
-const CountrySchema = z.object({
-  areaCode: z.string(),
-  areaName: z.string(),
-  id: z.string(),
-  isValid: z.boolean(),
-  countryName: z.string(),
-});
+import { COUNTRIES_QUERY } from './countries.query';
+import { CountrySchema } from './countries.zod';
 
 @Injectable()
 export class CountriesService {

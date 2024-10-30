@@ -72,7 +72,7 @@ export class AthletesController {
       if (!athlete) {
         throw new NotFoundException();
       }
-      const allResults = [];
+      const allResults: Performance[] = [];
       const promises = athlete.activeSeasons.map(async (season) => {
         try {
           const results = await this.resultsService.getResultsFromAthlete(
@@ -80,7 +80,7 @@ export class AthletesController {
             season,
           );
           if (results) {
-            allResults.push(results);
+            allResults.push(...results);
           }
         } catch (error) {
           console.error(`Error fetching results for season ${season}:`, error);

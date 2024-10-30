@@ -5,47 +5,10 @@ import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
 import { isShortTrack, parseVenue } from 'src/utils';
-import { Record, RecordCategory } from './record.entity';
+import { Record, RecordCategory } from './record.dto';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { performanceToFloat } from 'src/performance-conversion';
-import {
-  DateSchema,
-  FullnameSchema,
-  MarkSchema,
-  StringNumberSchema,
-} from 'src/zod.schema';
-
-export const CompetitionOrganiserInfoSchema = z.object({
-  gender: z.enum(['women', 'men', 'mixed']),
-  results: z.array(
-    z.object({
-      country: z.string(),
-      discipline: z.string(),
-      date: DateSchema,
-      performance: MarkSchema,
-      venue: z.string(),
-      wind: StringNumberSchema,
-      pending: z.boolean(),
-      mixed: z.boolean(),
-      competitor: z.object({
-        name: FullnameSchema,
-        country: z.string().nullable(),
-        birthDate: DateSchema,
-        id: z.number().nullable(),
-        teamMembers: z
-          .array(
-            z.object({
-              name: FullnameSchema,
-              country: z.string(),
-              birthDate: DateSchema,
-              id: z.number().nullable(),
-            }),
-          )
-          .nullable(),
-      }),
-    }),
-  ),
-});
+import { RecordSchema } from './record.zod';
 
 @Injectable()
 export class RecordsService {
@@ -54,16 +17,14 @@ export class RecordsService {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
-  async find(categoryId: number): Promise<Record[]> | null {
+  async find(categoryId: number): Promise<Record[] | null> {
     const records: Record[] = [];
     const data = await this.graphQLClient.request(RECORD_QUERY, {
       categoryId,
     });
     const response = z
       .object({
-        getRecordsDetailByCategory: z
-          .array(CompetitionOrganiserInfoSchema)
-          .nullable(),
+        getRecordsDetailByCategory: z.array(RecordSchema).nullable(),
       })
       .parse(data);
 
@@ -82,7 +43,7 @@ export class RecordsService {
         const location = parseVenue(result.venue);
         const disciplineCode = mapDisciplineToCode(result.discipline);
         records.push({
-          gender: record.gender,
+          sex: record.gender,
           discipline: result.discipline,
           disciplineCode,
           date: result.date,
@@ -98,13 +59,15 @@ export class RecordsService {
           wind: result.wind,
           country: result.country,
           location,
-          athletes: athletes.map((competitor) => ({
-            sex: null,
-            ...competitor.name,
-            country: competitor.country,
-            birthdate: competitor.birthDate,
-            id: competitor.id,
-          })),
+          athletes: athletes.map((competitor) => {
+            return {
+              sex: null,
+              ...competitor.name!!,
+              country: competitor.country!!,
+              birthdate: competitor.birthDate,
+              id: competitor.id!!,
+            };
+          }),
         });
       });
     });

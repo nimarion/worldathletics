@@ -1,7 +1,7 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { RecordsService } from './records.service';
-import { Record, RecordCategory } from './record.entity';
+import { Record, RecordCategory } from './record.dto';
 
 @Controller('records')
 export class RecordsController {

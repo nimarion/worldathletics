@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import { Athlete, AthleteSearchResult } from './athlete.dto';
+import { Athlete, AthleteSearchResult, Performance, Sex } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
@@ -17,7 +17,7 @@ export class AthletesService {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
-  async searchAthlete(name: string): Promise<AthleteSearchResult[] | null> {
+  async searchAthlete(name: string): Promise<AthleteSearchResult[]> {
     const data = await this.graphQLClient.request(ATHLETE_SEARCH_QUERY, {
       name,
     });
@@ -26,23 +26,25 @@ export class AthletesService {
         searchCompetitors: z.array(AthleteSearchSchema),
       })
       .parse(data);
-    const searchResults = response.searchCompetitors.map((item) => {
-      return {
-        id: item.aaAthleteId,
-        country: item.country,
-        firstname: item.givenName,
-        lastname: item.familyName,
-        birthdate: item.birthDate,
-        levenshteinDistance: levenshteinDistance(
-          name.toLowerCase().trim(),
-          (item.givenName + ' ' + item.familyName).toLowerCase().trim(),
-        ),
-        sex: item.gender,
-      };
-    });
-    return searchResults.sort(
-      (a, b) => a.levenshteinDistance - b.levenshteinDistance,
-    );
+    return response.searchCompetitors
+      .map((item) => {
+        if (!item.aaAthleteId) {
+          throw new Error('Athlete ID is missing');
+        }
+        return {
+          id: item.aaAthleteId,
+          country: item.country,
+          firstname: item.givenName,
+          lastname: item.familyName,
+          birthdate: item.birthDate,
+          levenshteinDistance: levenshteinDistance(
+            name.toLowerCase().trim(),
+            (item.givenName + ' ' + item.familyName).toLowerCase().trim(),
+          ),
+          sex: item.gender,
+        };
+      })
+      .sort((a, b) => a.levenshteinDistance - b.levenshteinDistance);
   }
 
   async getAthlete(id: number): Promise<Athlete | null> {
@@ -71,20 +73,28 @@ export class AthletesService {
       honours,
       athleteRepresentative,
     } = response.getSingleCompetitor;
+    const {
+      givenName: firstname,
+      familyName: lastname,
+      countryCode: country,
+      birthDate: birthdate,
+    } = basicData;
 
     const worldRankingSex =
       worldRankings.best.length > 0
         ? worldRankings.best[0].eventGroup.toLowerCase().includes('women')
-          ? 'FEMALE'
-          : 'MALE'
+          ? 'W'
+          : 'M'
         : null;
     const sex = basicData.sexNameUrlSlug
       ? basicData.sexNameUrlSlug === 'women'
-        ? 'FEMALE'
-        : 'MALE'
+        ? 'W'
+        : 'M'
       : worldRankingSex;
 
-    function resultToPerformance(result: (typeof seasonsBests.results)[0]) {
+    function resultToPerformance(
+      result: (typeof seasonsBests.results)[0],
+    ): Performance {
       const location = parseVenue(result.venue);
       const disciplineCode = mapDisciplineToCode(result.discipline);
       return {
@@ -116,10 +126,10 @@ export class AthletesService {
 
     return {
       id,
-      firstname: basicData.givenName,
-      lastname: basicData.familyName,
-      birthdate: basicData.birthDate,
-      country: basicData.countryCode,
+      firstname,
+      lastname,
+      birthdate,
+      country,
       sex,
       athleteRepresentativeId: athleteRepresentative,
       activeSeasons: seasonsBests.activeSeasons,
@@ -129,13 +139,7 @@ export class AthletesService {
           place: ranking.place,
         };
       }),
-      seasonsbests: seasonsBests.results
-        .filter((result) => {
-          const diff = new Date().getTime() - result.date.getTime();
-          const diffInMonths = diff / (1000 * 3600 * 24 * 30);
-          return diffInMonths < 12;
-        })
-        .map(resultToPerformance),
+      seasonsbests: seasonsBests.results.map(resultToPerformance),
       personalbests: personalBests.results.map(resultToPerformance),
       honours: honours.map((honour) => {
         return {

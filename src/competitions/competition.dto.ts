@@ -1,26 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Location } from 'src/athletes/location.dto';
+import { Location } from 'src/location.dto';
 
 export class ContactPerson {
   @ApiProperty()
-  email: string;
+  email!: string;
   @ApiProperty()
-  name: string;
+  name!: string;
   @ApiProperty()
-  phone: string;
+  phone!: string | null;
   @ApiProperty()
-  role: string;
+  role!: string;
 }
 
 export class CompetitionOrganiserInfo {
   @ApiProperty({ nullable: true })
-  websiteUrl: string | null;
+  websiteUrl!: string | null;
   @ApiProperty({ nullable: true })
-  liveStreamUrl: string | null;
+  liveStreamUrl!: string | null;
   @ApiProperty({ nullable: true })
-  resultsUrl: string | null;
+  resultsUrl!: string | null;
   @ApiProperty({ type: [ContactPerson] })
-  contactPersons: ContactPerson[];
+  contactPersons!: ContactPerson[];
   @ApiProperty({
     type: [Map<string, string[]>],
   })
@@ -29,45 +29,45 @@ export class CompetitionOrganiserInfo {
 
 export class Competition {
   @ApiProperty()
-  id: number;
+  id!: number;
   @ApiProperty()
-  name: string;
+  name!: string;
   @ApiProperty()
-  location: Location;
+  location!: Location;
   @ApiProperty()
-  rankingCategory: string;
+  rankingCategory!: string;
   @ApiProperty()
-  disciplines: string[];
+  disciplines!: string[];
   @ApiProperty()
-  start: Date;
+  start!: Date;
   @ApiProperty()
-  end: Date;
+  end!: Date;
   @ApiProperty({ nullable: true })
-  competitionGroup: string | null;
+  competitionGroup!: string | null;
   @ApiProperty({ nullable: true })
-  competitionSubgroup: string | null;
+  competitionSubgroup!: string | null;
   @ApiProperty()
-  hasResults: boolean;
+  hasResults!: boolean;
   @ApiProperty()
-  hasStartlist: boolean;
+  hasStartlist!: boolean;
   @ApiProperty()
-  hasCompetitionInformation: boolean;
+  hasCompetitionInformation!: boolean;
 }
 
 export class CompetitionResults {
   @ApiProperty({ nullable: true })
-  name: string | null;
+  name!: string | null;
   @ApiProperty()
-  rankingCategory: string;
+  rankingCategory!: string;
   @ApiProperty()
-  events: CompetitionResultEvent[];
+  events!: CompetitionResultEvent[];
 }
 
 export class CompetitionResultEvent {
   @ApiProperty()
   event?: string;
   eventId?: number;
-  gender?: string;
+  sex?: string;
   isRelay?: boolean;
   perResultWind?: boolean;
   withWind?: boolean;

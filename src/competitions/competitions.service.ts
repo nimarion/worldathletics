@@ -12,21 +12,20 @@ import {
   CompetitionOrganiserInfo,
   CompetitionResults,
 } from './competition.dto';
-import parsePhoneNumber from 'libphonenumber-js';
 import {
   CompetitionOrganiserInfoSchema,
   CompetitionSchema,
 } from './competition.zod';
-import { parseVenue } from 'src/utils';
+import { parsePhoneNumber, parseVenue } from 'src/utils';
 import mapDisciplineToCode from 'src/discipline.utils';
 import {
   DateSchema,
   FullnameSchema,
   MarkSchema,
   PlaceSchema,
-  StringNumberSchema,
   UrlSlugIdSchema,
 } from 'src/zod.schema';
+import { Sex } from 'src/athletes/athlete.dto';
 
 @Injectable()
 export class CompetitionsService {
@@ -46,13 +45,15 @@ export class CompetitionsService {
         getCompetitionOrganiserInfo: CompetitionOrganiserInfoSchema,
       })
       .parse(data);
-    const events = new Map<string, string[]>();
+    const events = new Map<Sex, string[]>();
     response.getCompetitionOrganiserInfo.units.forEach((unit) => {
       const disciplines: string[] = [];
       unit.events.forEach((event) => {
         disciplines.push(event);
       });
-      events.set(unit.gender, disciplines);
+      if (unit.gender) {
+        events.set(unit.gender, disciplines);
+      }
     });
 
     return {
@@ -65,7 +66,7 @@ export class CompetitionsService {
           return {
             email: contact.email,
             name: contact.name,
-            phone: parsePhoneNumber(contact.phoneNumber).formatInternational(),
+            phone: parsePhoneNumber(contact.phoneNumber),
             role: contact.title,
           };
         },
@@ -83,11 +84,11 @@ export class CompetitionsService {
   async findCompetitions({
     competitionGroupId = null,
     disciplineId = null,
-    regionType = null,
+    regionType = undefined,
     regionId = null,
     rankingCategoryId = null,
     permitLevelId = null,
-    query = null,
+    query = undefined,
   }: {
     competitionGroupId?: number | null;
     disciplineId?: number | null;
@@ -152,7 +153,7 @@ export class CompetitionsService {
               events: z.array(
                 z.object({
                   event: z.string(),
-                  eventId: StringNumberSchema,
+                  eventId: z.coerce.number(),
                   gender: z.string(),
                   isRelay: z.boolean(),
                   perResultWind: z.boolean(),
@@ -177,7 +178,7 @@ export class CompetitionsService {
                               .nullable(),
                             name: FullnameSchema,
                             urlSlug: UrlSlugIdSchema,
-                            birthDate: DateSchema,
+                            birthDate: z.nullable(DateSchema),
                           }),
                           mark: MarkSchema,
                           nationality: z.string(),
@@ -188,13 +189,13 @@ export class CompetitionsService {
                               .split(',')
                               .map((record) => record.trim());
                           }),
-                          wind: StringNumberSchema,
+                          wind: z.coerce.number(),
                           //remark: z.any().nullable(),
                           details: z.any().nullable(),
                         }),
                       ),
                       startlist: z.any().nullable(),
-                      wind: StringNumberSchema,
+                      wind: z.coerce.number(),
                     }),
                   ),
                 }),

@@ -66,13 +66,13 @@ export class ResultsService {
             legal: !result.notLegal,
             location,
             race: result.race,
-            records: null,
+            records: [],
             competitionId: result.competitionId,
             eventId: result.eventId,
           });
         });
       },
     );
-    return results.filter((result) => result.place > 0);
+    return results.filter((result) => result.place && result.place > 0);
   }
 }

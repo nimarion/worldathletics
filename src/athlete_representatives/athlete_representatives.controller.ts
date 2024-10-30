@@ -1,6 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { AthleteRepresentativesService } from './athlete_representatives.service';
-import { AthleteRepresentative } from './dto/athlete_representative.dto';
+import { AthleteRepresentative } from './athlete_representative.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('ar')
@@ -25,6 +25,13 @@ export class AthleteRepresentativesController {
     type: AthleteRepresentative,
   })
   findOne(@Param('id') id: string): Promise<AthleteRepresentative> {
-    return this.athleteRepresentativesService.getAthleteRepresentative(+id);
+    return this.athleteRepresentativesService
+      .getAthleteRepresentative(+id)
+      .then((ar) => {
+        if (!ar) {
+          throw new NotFoundException();
+        }
+        return ar;
+      });
   }
 }
