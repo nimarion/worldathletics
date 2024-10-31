@@ -24,7 +24,7 @@ export class BaseAthlete {
 }
 
 export class BasePerformance extends Discipline {
-  @ApiProperty()
+  @ApiProperty({ nullable: true, type: Date })
   date!: Date | null;
   @ApiProperty()
   mark!: string;
@@ -32,6 +32,7 @@ export class BasePerformance extends Discipline {
     description:
       'Performance in milliseconds for track events and centimeters for field events',
     nullable: true,
+    type: Number,
   })
   performanceValue!: number | null;
   @ApiProperty()

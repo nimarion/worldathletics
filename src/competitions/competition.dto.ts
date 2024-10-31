@@ -6,18 +6,18 @@ export class ContactPerson {
   email!: string;
   @ApiProperty()
   name!: string;
-  @ApiProperty()
+  @ApiProperty({ nullable: true, type: String })
   phone!: string | null;
   @ApiProperty()
   role!: string;
 }
 
 export class CompetitionOrganiserInfo {
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, type: String })
   websiteUrl!: string | null;
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, type: String })
   liveStreamUrl!: string | null;
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, type: String })
   resultsUrl!: string | null;
   @ApiProperty({ type: [ContactPerson] })
   contactPersons!: ContactPerson[];
@@ -42,9 +42,9 @@ export class Competition {
   start!: Date;
   @ApiProperty()
   end!: Date;
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, type: String })
   competitionGroup!: string | null;
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, type: String })
   competitionSubgroup!: string | null;
   @ApiProperty()
   hasResults!: boolean;
