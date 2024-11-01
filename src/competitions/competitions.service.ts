@@ -189,13 +189,13 @@ export class CompetitionsService {
                               .split(',')
                               .map((record) => record.trim());
                           }),
-                          wind: z.coerce.number(),
+                          wind: z.coerce.number().nullable().catch(() => null),
                           //remark: z.any().nullable(),
                           details: z.any().nullable(),
                         }),
                       ),
                       startlist: z.any().nullable(),
-                      wind: z.coerce.number(),
+                      wind: z.coerce.number().nullable().catch(() => null),
                     }),
                   ),
                 }),

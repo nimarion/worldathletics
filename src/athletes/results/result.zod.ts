@@ -18,7 +18,7 @@ export const ResultsByEvent = z.object({
           country: z.string(),
           notLegal: z.boolean(),
           venue: z.string(),
-          wind: z.coerce.number(),
+          wind: z.coerce.number().nullable().catch(() => null),
           resultScore: z.number(),
           race: z.string(),
           place: PlaceSchema,
