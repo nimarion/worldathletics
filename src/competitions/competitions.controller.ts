@@ -49,6 +49,10 @@ export class CompetitionsController {
     required: false,
     type: Number,
   })
+  @ApiOkResponse({
+    type: CompetitionResults,
+    isArray: true,
+  })
   async findResults(
     @Param('id') id: number,
     @Query('eventId') eventId?: number,

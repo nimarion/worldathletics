@@ -11,7 +11,7 @@ export class DisciplinesController {
   @ApiOkResponse({
     type: Discipline,
     isArray: true,
-    description: 'Returns all disciplines',
+    description: 'Returns all disciplines, all marked as non-technical!',
   })
   findAll(): Promise<Discipline[]> {
     return this.disciplinesService.findAll();

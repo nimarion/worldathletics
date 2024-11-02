@@ -2,10 +2,7 @@ import * as disciplines from './disciplines.json';
 
 export default function mapDisciplineToCode(discipline: string): string {
   // Prefix is present in getCalendarEvents query
-  discipline = discipline
-    .replace("Women's ", '')
-    .replace("Men's ", '')
-    .replace('Mixed ', '');
+  discipline = cleanupDiscipline(discipline);
   // Not present in getMetaData > disciplineCodes
   if (discipline == '3x800 Metres Relay') {
     return '3X8';
@@ -19,6 +16,13 @@ export default function mapDisciplineToCode(discipline: string): string {
     return disciplineItem.disciplineCode;
   }
   return discipline;
+}
+
+export function cleanupDiscipline(discipline: string): string {
+  return discipline
+    .replace("Women's ", '')
+    .replace("Men's ", '')
+    .replace('Mixed ', '');
 }
 
 export function isTechnical({

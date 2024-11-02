@@ -23,7 +23,10 @@ const Performance = z.object({
   venue: z.string(),
   notLegal: z.boolean(),
   resultScore: z.number(),
-  wind: z.coerce.number().nullable().catch(() => null),
+  wind: z.coerce
+    .number()
+    .nullable()
+    .catch(() => null),
   records: z.array(z.string()),
   eventId: z.coerce.number(),
   competitionId: z.coerce.number(),

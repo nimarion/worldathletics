@@ -118,11 +118,12 @@ export function parsePhoneNumber(number: string): string | null {
 export function formatSex(input: string): Sex {
   switch (input.trim().toLowerCase()) {
     case 'men':
-    case 'Men':
+    case 'm':
       return 'M';
     case 'women':
-    case 'Women':
+    case 'w':
       return 'W';
+    case 'x':
     case 'mixed':
       return 'X';
   }

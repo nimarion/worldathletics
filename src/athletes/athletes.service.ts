@@ -97,6 +97,10 @@ export class AthletesService {
     ): Performance {
       const location = parseVenue(result.venue);
       const disciplineCode = mapDisciplineToCode(result.discipline);
+      const technical = isTechnical({
+        disciplineCode,
+        performance: result.mark,
+      });
       return {
         date: result.date,
         discipline: result.discipline,
@@ -105,11 +109,9 @@ export class AthletesService {
         mark: result.mark,
         performanceValue: performanceToFloat({
           performance: result.mark,
-          technical: isTechnical({
-            disciplineCode,
-            performance: result.mark,
-          }),
+          technical,
         }),
+        isTechnical: technical,
         location,
         legal: !result.notLegal,
         resultScore: result.resultScore,
@@ -147,6 +149,10 @@ export class AthletesService {
           results: honour.results.map((result) => {
             const disciplineCode = mapDisciplineToCode(result.discipline);
             const location = parseVenue(result.venue);
+            const technical = isTechnical({
+              disciplineCode,
+              performance: result.mark,
+            });
             return {
               date: result.date,
               discipline: result.discipline,
@@ -155,11 +161,9 @@ export class AthletesService {
               mark: result.mark,
               performanceValue: performanceToFloat({
                 performance: result.mark,
-                technical: isTechnical({
-                  disciplineCode,
-                  performance: result.mark,
-                }),
+                technical,
               }),
+              isTechnical: technical,
               location,
               competition: result.competition,
               place: result.place,

@@ -6,18 +6,27 @@ import {
   COMPETITION_ORGANISER,
   COMPETITON_RESULTS,
 } from './competition.query';
-import { z } from 'zod';
+import { date, z } from 'zod';
 import {
   Competition,
   CompetitionOrganiserInfo,
+  CompetitionResult,
   CompetitionResults,
 } from './competition.dto';
 import {
   CompetitionOrganiserInfoSchema,
   CompetitionSchema,
 } from './competition.zod';
-import { parsePhoneNumber, parseVenue } from 'src/utils';
-import mapDisciplineToCode from 'src/discipline.utils';
+import {
+  formatSex,
+  isShortTrack,
+  parsePhoneNumber,
+  parseVenue,
+} from 'src/utils';
+import mapDisciplineToCode, {
+  cleanupDiscipline,
+  isTechnical,
+} from 'src/discipline.utils';
 import {
   DateSchema,
   FullnameSchema,
@@ -26,6 +35,7 @@ import {
   UrlSlugIdSchema,
 } from 'src/zod.schema';
 import { Sex } from 'src/athletes/athlete.dto';
+import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class CompetitionsService {
@@ -152,7 +162,7 @@ export class CompetitionsService {
               eventTitle: z.string().nullable(),
               events: z.array(
                 z.object({
-                  event: z.string(),
+                  event: z.string().transform(cleanupDiscipline),
                   eventId: z.coerce.number(),
                   gender: z.string(),
                   isRelay: z.boolean(),
@@ -160,7 +170,7 @@ export class CompetitionsService {
                   withWind: z.boolean(),
                   races: z.array(
                     z.object({
-                      date: z.string().nullable(),
+                      date: z.nullable(DateSchema),
                       day: z.number().nullable(),
                       race: z.string(),
                       raceId: z.number(),
@@ -177,7 +187,7 @@ export class CompetitionsService {
                               )
                               .nullable(),
                             name: FullnameSchema,
-                            urlSlug: UrlSlugIdSchema,
+                            urlSlug: z.nullable(UrlSlugIdSchema),
                             birthDate: z.nullable(DateSchema),
                           }),
                           mark: MarkSchema,
@@ -189,13 +199,19 @@ export class CompetitionsService {
                               .split(',')
                               .map((record) => record.trim());
                           }),
-                          wind: z.coerce.number().nullable().catch(() => null),
+                          wind: z.coerce
+                            .number()
+                            .nullable()
+                            .catch(() => null),
                           //remark: z.any().nullable(),
                           details: z.any().nullable(),
                         }),
                       ),
                       startlist: z.any().nullable(),
-                      wind: z.coerce.number().nullable().catch(() => null),
+                      wind: z.coerce
+                        .number()
+                        .nullable()
+                        .catch(() => null),
                     }),
                   ),
                 }),
@@ -222,42 +238,68 @@ export class CompetitionsService {
       })
       .parse(data);
     return response.getCalendarCompetitionResults.eventTitles.map((event) => {
-      return {
+      const data: CompetitionResults = {
         name: event.eventTitle,
         rankingCategory: event.rankingCategory,
         events: event.events.map((event) => {
-          return {
-            ...event,
+          const technical = isTechnical({
             disciplineCode: mapDisciplineToCode(event.event),
+            performance: event.races[0].results[0].mark,
+          });
+          return {
+            eventId: event.eventId,
+            isRelay: event.isRelay,
+            sex: formatSex(event.gender),
+            disciplineCode: mapDisciplineToCode(event.event),
+            discipline: event.event,
+            shortTrack: isShortTrack(event.event),
+            isTechnical: technical,
             races: event.races.map((race) => {
-              return {
-                ...race,
-                results: race.results.map((result) => {
+              const results: CompetitionResult[] = race.results.map(
+                (result) => {
                   const athletes = result.competitor.teamMembers
                     ? result.competitor.teamMembers.map((teamMember) => {
                         return {
                           id: teamMember.id,
-                          ...teamMember.name,
+                          firstname: teamMember.name!!.firstname,
+                          lastname: teamMember.name!!.lastname,
+                          birthdate: null,
                         };
                       })
                     : [
                         {
                           id: result.competitor.urlSlug,
-                          ...result.competitor.name,
-                          birthDate: result.competitor.birthDate,
+                          firstname: result.competitor.name!!.firstname,
+                          lastname: result.competitor.name!!.lastname,
+                          birthdate: result.competitor.birthDate,
                         },
                       ];
                   return {
-                    ...result,
+                    place: result.place,
+                    mark: result.mark,
+                    wind: event.perResultWind ? result.wind : race.wind,
+                    performanceValue: performanceToFloat({
+                      performance: result.mark,
+                      technical,
+                    }),
                     country: result.nationality,
                     athletes,
                   };
-                }),
+                },
+              );
+              return {
+                date: race.date,
+                day: race.day,
+                race: race.race,
+                raceId: race.raceId,
+                raceNumber: race.raceNumber,
+                results,
               };
             }),
           };
         }),
       };
+      return data;
     });
   }
 }

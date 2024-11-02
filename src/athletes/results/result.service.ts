@@ -45,6 +45,10 @@ export class ResultsService {
         const disciplineCode = mapDisciplineToCode(discipline);
         event.results.forEach((result) => {
           const location = parseVenue(result.venue);
+          const technical = isTechnical({
+            disciplineCode,
+            performance: result.mark,
+          });
           results.push({
             category: result.category,
             competition: result.competition,
@@ -58,11 +62,9 @@ export class ResultsService {
             mark: result.mark,
             performanceValue: performanceToFloat({
               performance: result.mark,
-              technical: isTechnical({
-                disciplineCode,
-                performance: result.mark,
-              }),
+              technical,
             }),
+            isTechnical: technical,
             legal: !result.notLegal,
             location,
             race: result.race,

@@ -42,6 +42,10 @@ export class RecordsService {
           : [result.competitor];
         const location = parseVenue(result.venue);
         const disciplineCode = mapDisciplineToCode(result.discipline);
+        const technical = isTechnical({
+          disciplineCode,
+          performance: result.performance,
+        });
         records.push({
           sex: record.gender,
           discipline: result.discipline,
@@ -51,11 +55,9 @@ export class RecordsService {
           mark: result.performance,
           performanceValue: performanceToFloat({
             performance: result.performance,
-            technical: isTechnical({
-              disciplineCode,
-              performance: result.performance,
-            }),
+            technical,
           }),
+          isTechnical: technical,
           wind: result.wind,
           country: result.country,
           location,
