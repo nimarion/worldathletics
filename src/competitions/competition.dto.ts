@@ -103,23 +103,57 @@ export class CompetitionResultsRace {
 }
 
 export class CompetitionResultEvent extends Discipline {
+  @ApiProperty({ nullable: true, type: String })
+  eventName!: string | null;
   @ApiProperty()
-  eventId?: number;
+  eventId!: number;
+  @ApiProperty()
+  category!: string;
   @ApiProperty({
     enum: ['M', 'W', 'X'],
   })
-  sex?: Sex;
+  sex!: Sex;
   @ApiProperty()
-  isRelay?: boolean;
+  isRelay!: boolean;
   @ApiProperty({ isArray: true, type: CompetitionResultsRace })
-  races?: CompetitionResultsRace[];
+  races!: CompetitionResultsRace[];
+}
+
+export class CompetitionResultOptionDay {
+  @ApiProperty()
+  date!: Date;
+  @ApiProperty()
+  day!: number
+}
+
+export class CompetitionResultOptionEvent {
+  @ApiProperty()
+  id!: number;
+  @ApiProperty({
+    enum: ['M', 'W', 'X'],
+  })
+  sex!: Sex;
+  @ApiProperty()
+  combined!: boolean;
+  @ApiProperty()
+  discipline!: string;
+  @ApiProperty()
+  disciplineCode!: string;
+  @ApiProperty()
+  shortTrack!: boolean;
+}
+
+export class CompetitionResultOptions {
+  @ApiProperty({ isArray: true, type: CompetitionResultOptionDay })
+  days! : CompetitionResultOptionDay[];
+  @ApiProperty({ isArray: true, type: CompetitionResultOptionEvent })
+  events! : CompetitionResultOptionEvent[];
 }
 
 export class CompetitionResults {
-  @ApiProperty({ nullable: true, type: String })
-  name!: string | null;
-  @ApiProperty()
-  rankingCategory!: string;
   @ApiProperty({ isArray: true, type: CompetitionResultEvent })
   events!: CompetitionResultEvent[];
+  @ApiProperty()
+  options!: CompetitionResultOptions;
 }
+

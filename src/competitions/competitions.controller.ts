@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   NotFoundException,
@@ -56,10 +57,15 @@ export class CompetitionsController {
   async findResults(
     @Param('id') id: number,
     @Query('eventId') eventId?: number,
-  ): Promise<CompetitionResults[]> {
+    @Query('day') day?: number,
+  ): Promise<CompetitionResults> {
+    if(eventId && day){
+      throw new BadRequestException('Cannot provide both eventId and day');
+    }
     return await this.competitionsService.findCompetitionResults({
       competitionId: id,
       eventId,
+      day
     });
   }
 }

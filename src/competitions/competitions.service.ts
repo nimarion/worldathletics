@@ -11,6 +11,7 @@ import {
   Competition,
   CompetitionOrganiserInfo,
   CompetitionResult,
+  CompetitionResultEvent,
   CompetitionResults,
 } from './competition.dto';
 import {
@@ -145,13 +146,16 @@ export class CompetitionsService {
   async findCompetitionResults({
     competitionId,
     eventId = undefined,
+    day = undefined,
   }: {
     competitionId: number;
     eventId?: number;
-  }): Promise<CompetitionResults[]> {
+    day?: number
+  }): Promise<CompetitionResults> {
     const data = await this.graphQLClient.request(COMPETITON_RESULTS, {
       competitionId,
       eventId,
+      day
     });
     const response = z
       .object({
@@ -227,26 +231,29 @@ export class CompetitionsService {
             ),
             events: z.array(
               z.object({
-                gender: z.string(),
+                gender: z.string().transform(formatSex),
                 id: z.number(),
-                name: z.string(),
-                combined: z.boolean().nullable().default(false),
+                name: z.string().transform(cleanupDiscipline),
+                combined: z.boolean().nullable().transform((val) => {
+                  return val === null ? false : val;
+                }),
               }),
             ),
           }),
         }),
       })
       .parse(data);
-    return response.getCalendarCompetitionResults.eventTitles.map((event) => {
-      const data: CompetitionResults = {
-        name: event.eventTitle,
-        rankingCategory: event.rankingCategory,
-        events: event.events.map((event) => {
+    const competitionResults: CompetitionResultEvent[] = response.getCalendarCompetitionResults.eventTitles.flatMap((event) => {
+      const category = event.rankingCategory;
+      const eventName = event.eventTitle;
+      const data: CompetitionResultEvent[] = event.events.map((event) => {
           const technical = isTechnical({
             disciplineCode: mapDisciplineToCode(event.event),
             performance: event.races[0].results[0].mark,
           });
           return {
+            eventName,
+            category,
             eventId: event.eventId,
             isRelay: event.isRelay,
             sex: formatSex(event.gender),
@@ -297,9 +304,27 @@ export class CompetitionsService {
               };
             }),
           };
-        }),
-      };
+        });
       return data;
     });
+    return {
+      events: competitionResults,
+      options: {
+        days: response.getCalendarCompetitionResults.options.days,
+        events: response.getCalendarCompetitionResults.options.events.map(
+          (event) => {
+            return {
+              id: event.id,
+              name: event.name,
+              disciplineCode: mapDisciplineToCode(event.name),
+              combined: event.combined,
+              discipline: event.name,
+              sex: event.gender,
+              shortTrack: isShortTrack(event.name),
+            }
+          }
+        )
+      }
+    }
   }
 }
