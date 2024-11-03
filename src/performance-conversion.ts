@@ -6,6 +6,14 @@ export function performanceToFloat({
   performance: string;
   technical: boolean;
 }): number | null {
+  // Empty performance (DNS, DNF, etc.)
+  if(performance === ""){
+    return null;
+  }
+  // Combined Events
+  if(!isNaN(Number(performance)) && Number(performance) % 1 === 0) {
+    return Number(performance);
+  }
   // One Hour Race
   if (performance == parseInt(performance).toString()) {
     return null;
