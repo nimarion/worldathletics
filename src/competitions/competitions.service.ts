@@ -160,6 +160,13 @@ export class CompetitionsService {
     const response = z
       .object({
         getCalendarCompetitionResults: z.object({
+          competition: z.object({
+            venue: z.string(),
+            name: z.string(),
+          }),
+          parameters: z.object({
+            day: z.number().nullable(),
+          }),
           eventTitles: z.array(
             z.object({
               rankingCategory: z.string(),
@@ -243,6 +250,9 @@ export class CompetitionsService {
         }),
       })
       .parse(data);
+    
+    const competitionDate = response.getCalendarCompetitionResults.options.days.find((d) => d.day === response.getCalendarCompetitionResults.parameters.day)?.date ||  null;
+
     const competitionResults: CompetitionResultEvent[] = response.getCalendarCompetitionResults.eventTitles.flatMap((event) => {
       const category = event.rankingCategory;
       const eventName = event.eventTitle;
@@ -282,6 +292,12 @@ export class CompetitionsService {
                         },
                       ];
                   return {
+                    location: parseVenue(response.getCalendarCompetitionResults.competition.venue),
+                    disciplineCode: mapDisciplineToCode(event.event),
+                    discipline: event.event,
+                    date: race.date || competitionDate || null,
+                    isTechnical: technical,
+                    shortTrack: isShortTrack(event.event),
                     place: result.place,
                     mark: result.mark,
                     wind: event.perResultWind ? result.wind : race.wind,
@@ -295,8 +311,8 @@ export class CompetitionsService {
                 },
               );
               return {
-                date: race.date,
-                day: race.day,
+                date: race.date || competitionDate || null,
+                day: race.day || day || null,
                 race: race.race,
                 raceId: race.raceId,
                 raceNumber: race.raceNumber,

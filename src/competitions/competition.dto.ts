@@ -67,24 +67,13 @@ export class CompetitionResultAthlete {
   birthdate!: Date | null;
 }
 
-export class CompetitionResult {
+export class CompetitionResult extends BasePerformance {
   @ApiProperty({ isArray: true, minimum: 1, type: CompetitionResultAthlete })
   athletes!: CompetitionResultAthlete[];
   @ApiProperty()
   country!: string;
   @ApiProperty()
   place!: number;
-  @ApiProperty()
-  mark!: string;
-  @ApiProperty({
-    description:
-      'Performance in milliseconds for track events and centimeters for field events',
-    nullable: true,
-    type: Number,
-  })
-  performanceValue!: number | null;
-  @ApiProperty({ nullable: true, type: Number })
-  wind!: number | null;
 }
 
 export class CompetitionResultsRace {

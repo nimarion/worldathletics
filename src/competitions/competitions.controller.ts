@@ -4,6 +4,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Query,
 } from '@nestjs/common';
 import { CompetitionsService } from './competitions.service';
@@ -56,8 +57,8 @@ export class CompetitionsController {
   })
   async findResults(
     @Param('id') id: number,
-    @Query('eventId') eventId?: number,
-    @Query('day') day?: number,
+    @Query('eventId', new ParseIntPipe({optional: true})) eventId?: number,
+    @Query('day', new ParseIntPipe({optional: true})) day?: number,
   ): Promise<CompetitionResults> {
     if(eventId && day){
       throw new BadRequestException('Cannot provide both eventId and day');

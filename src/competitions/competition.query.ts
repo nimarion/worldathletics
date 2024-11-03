@@ -189,6 +189,17 @@ export const COMPETITON_RESULTS = gql`
       day: $day
       eventId: $eventId
     ) {
+      competition {
+        dateRange
+        endDate
+        name
+        rankingCategory
+        startDate
+        venue
+      } 
+      parameters {
+        day
+      }
       eventTitles {
         rankingCategory
         eventTitle

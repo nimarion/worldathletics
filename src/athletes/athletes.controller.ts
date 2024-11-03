@@ -65,7 +65,7 @@ export class AthletesController {
   })
   async getResultsbyAthleteId(
     @Param('id', ParseIntPipe) id: number,
-    @Query('year') year?: number,
+    @Query('year', new ParseIntPipe({optional: true})) year?: number,
   ): Promise<Performance[]> {
     if (!year) {
       const athlete = await this.athletesService.getAthlete(id);
