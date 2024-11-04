@@ -19,7 +19,6 @@ import {
   CompetitionSchema,
 } from './competition.zod';
 import {
-  isShortTrack,
   parsePhoneNumber,
 } from 'src/utils';
 import mapDisciplineToCode, {
@@ -266,7 +265,6 @@ export class CompetitionsService {
             sex: event.gender,
             disciplineCode: mapDisciplineToCode(event.event),
             discipline: event.event,
-            shortTrack: isShortTrack(event.event),
             isTechnical: technical,
             races: event.races.map((race) => {
               const date =  race.date || competitionDate || null;
@@ -300,7 +298,6 @@ export class CompetitionsService {
                     discipline: event.event,
                     date: race.date || competitionDate || null,
                     isTechnical: technical,
-                    shortTrack: isShortTrack(event.event),
                     place: result.place,
                     mark: result.mark,
                     wind: event.perResultWind ? result.wind : race.wind,
@@ -339,7 +336,6 @@ export class CompetitionsService {
               combined: event.combined,
               discipline: event.name,
               sex: event.gender,
-              shortTrack: isShortTrack(event.name),
             }
           }
         )

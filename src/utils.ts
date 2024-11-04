@@ -43,10 +43,6 @@ export function cleanupCompetitionName(competitionName: string) {
   return competitionName.replace(' (i)', '').split(',')[0];
 }
 
-export function isShortTrack(discipline: string): boolean {
-  return discipline.endsWith('Short Track');
-}
-
 export function parseVenue(venue: string): Location {
   venue = venue.trim();
   const indoor = isIndoor(venue);

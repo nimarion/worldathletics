@@ -4,7 +4,6 @@ import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
-import { isShortTrack } from 'src/utils';
 import { Record, RecordCategory } from './record.dto';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -50,7 +49,6 @@ export class RecordsService {
           discipline: result.discipline,
           disciplineCode,
           date: result.date,
-          shortTrack: isShortTrack(result.discipline),
           mark: result.performance,
           performanceValue: performanceToFloat({
             performance: result.performance,

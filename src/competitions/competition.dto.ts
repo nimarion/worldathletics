@@ -115,8 +115,6 @@ export class CompetitionResultOptionEvent {
   discipline!: string;
   @ApiProperty()
   disciplineCode!: string;
-  @ApiProperty()
-  shortTrack!: boolean;
 }
 
 export class CompetitionResultOptions {

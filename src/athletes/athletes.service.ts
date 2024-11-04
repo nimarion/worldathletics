@@ -5,7 +5,6 @@ import { Athlete, AthleteSearchResult, Performance, Sex } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
-import { isShortTrack } from 'src/utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { levenshteinDistance } from 'src/levenshtein-distance';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -104,7 +103,6 @@ export class AthletesService {
         date: result.date,
         discipline: result.discipline,
         disciplineCode,
-        shortTrack: isShortTrack(result.discipline),
         mark: result.mark,
         performanceValue: performanceToFloat({
           performance: result.mark,
@@ -155,7 +153,6 @@ export class AthletesService {
               date: result.date,
               discipline: result.discipline,
               disciplineCode,
-              shortTrack: isShortTrack(result.discipline),
               mark: result.mark,
               performanceValue: performanceToFloat({
                 performance: result.mark,

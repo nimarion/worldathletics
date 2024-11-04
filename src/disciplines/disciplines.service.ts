@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { Discipline } from './discipline.dto';
 
 import { GraphqlService } from 'src/graphql/graphql.service';
-import { isShortTrack } from 'src/utils';
 import { DISCIPLINES_QUERY } from 'src/disciplines/disciplines.query';
 import { DisciplineSchema } from './disciplines.zod';
 
@@ -24,12 +23,22 @@ export class DisciplinesService {
         }),
       })
       .parse(data);
-    return reponse.getMetaData.disciplineCodes.map((discipline) => {
+    const disciplines =  reponse.getMetaData.disciplineCodes.map((discipline) => {
       return {
         discipline: discipline.name,
         disciplineCode: discipline.code,
-        shortTrack: isShortTrack(discipline.name),
       };
+    });
+    return disciplines.filter((discipline) => {
+      if(!discipline.disciplineCode.endsWith('sh')){
+        return true;
+      }
+      const existsOther =  disciplines.some((d) => d.discipline === discipline.discipline && d.disciplineCode !== discipline.disciplineCode);
+      if(existsOther){
+        return false;
+      }
+      discipline.disciplineCode = discipline.disciplineCode.slice(0, -2);
+      return true;
     });
   }
 }

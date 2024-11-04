@@ -22,7 +22,8 @@ export function cleanupDiscipline(discipline: string): string {
   return discipline
     .replace("Women's ", '')
     .replace("Men's ", '')
-    .replace('Mixed ', '');
+    .replace('Mixed ', '')
+    .replace('Short Track', '').trim();
 }
 
 export function isTechnical({

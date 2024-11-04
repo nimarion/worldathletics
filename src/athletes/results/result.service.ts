@@ -7,7 +7,6 @@ import { Performance } from '../athlete.dto';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { performanceToFloat } from 'src/performance-conversion';
-import { isShortTrack } from 'src/utils';
 
 @Injectable()
 export class ResultsService {
@@ -54,7 +53,6 @@ export class ResultsService {
             date: result.date,
             discipline,
             disciplineCode,
-            shortTrack: isShortTrack(discipline),
             place: result.place,
             resultScore: result.resultScore,
             wind: result.wind,
