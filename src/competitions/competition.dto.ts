@@ -102,7 +102,7 @@ export class CompetitionResultOptionDay {
   day!: number
 }
 
-export class CompetitionResultOptionEvent {
+export class CompetitionResultOptionEvent extends Discipline{
   @ApiProperty()
   id!: number;
   @ApiProperty({
@@ -111,10 +111,6 @@ export class CompetitionResultOptionEvent {
   sex!: Sex;
   @ApiProperty()
   combined!: boolean;
-  @ApiProperty()
-  discipline!: string;
-  @ApiProperty()
-  disciplineCode!: string;
 }
 
 export class CompetitionResultOptions {
