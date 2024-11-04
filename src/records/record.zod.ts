@@ -1,29 +1,28 @@
-import { formatSex } from 'src/utils';
-import { DateSchema, FullnameSchema, MarkSchema } from 'src/zod.schema';
+import { CountryCodeSchema, DateSchema, DisciplineNameSchema, FullnameSchema, GenderSchema, MarkSchema, VenueSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const RecordSchema = z.object({
-  gender: z.string().transform(formatSex),
+  gender: GenderSchema,
   results: z.array(
     z.object({
-      country: z.string(),
-      discipline: z.string(),
+      country: CountryCodeSchema,
+      discipline: DisciplineNameSchema,
       date: DateSchema,
       performance: MarkSchema,
-      venue: z.string(),
+      venue: VenueSchema,
       wind: z.coerce.number(),
       pending: z.boolean(),
       mixed: z.boolean(),
       competitor: z.object({
         name: FullnameSchema,
-        country: z.string().nullable(),
+        country: z.nullable(CountryCodeSchema),
         birthDate: z.nullable(DateSchema),
         id: z.number().nullable(),
         teamMembers: z
           .array(
             z.object({
               name: FullnameSchema,
-              country: z.string(),
+              country: CountryCodeSchema,
               birthDate: z.nullable(DateSchema),
               id: z.number(),
             }),

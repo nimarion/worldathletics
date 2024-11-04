@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Athlete, BasePerformance, Sex } from 'src/athletes/athlete.dto';
+import { BaseAthlete, BasePerformance, Sex } from 'src/athletes/athlete.dto';
 import { Discipline } from 'src/disciplines/discipline.dto';
 import { Location } from 'src/location.dto';
 
@@ -56,20 +56,9 @@ export class Competition {
   hasCompetitionInformation!: boolean;
 }
 
-export class CompetitionResultAthlete {
-  @ApiProperty({ nullable: true, type: Number })
-  id!: number | null;
-  @ApiProperty()
-  firstname!: string;
-  @ApiProperty()
-  lastname!: string;
-  @ApiProperty({ nullable: true, type: Date })
-  birthdate!: Date | null;
-}
-
 export class CompetitionResult extends BasePerformance {
-  @ApiProperty({ isArray: true, minimum: 1, type: CompetitionResultAthlete })
-  athletes!: CompetitionResultAthlete[];
+  @ApiProperty({ isArray: true, minimum: 1, type: BaseAthlete })
+  athletes!: BaseAthlete[];
   @ApiProperty()
   country!: string;
   @ApiProperty()
@@ -102,8 +91,6 @@ export class CompetitionResultEvent extends Discipline {
     enum: ['M', 'W', 'X'],
   })
   sex!: Sex;
-  @ApiProperty()
-  isRelay!: boolean;
   @ApiProperty({ isArray: true, type: CompetitionResultsRace })
   races!: CompetitionResultsRace[];
 }

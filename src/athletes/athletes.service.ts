@@ -5,7 +5,7 @@ import { Athlete, AthleteSearchResult, Performance, Sex } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
-import { isShortTrack, parseVenue } from 'src/utils';
+import { isShortTrack } from 'src/utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { levenshteinDistance } from 'src/levenshtein-distance';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -95,7 +95,6 @@ export class AthletesService {
     function resultToPerformance(
       result: (typeof seasonsBests.results)[0],
     ): Performance {
-      const location = parseVenue(result.venue);
       const disciplineCode = mapDisciplineToCode(result.discipline);
       const technical = isTechnical({
         disciplineCode,
@@ -112,7 +111,7 @@ export class AthletesService {
           technical,
         }),
         isTechnical: technical,
-        location,
+        location: result.venue,
         legal: !result.notLegal,
         resultScore: result.resultScore,
         wind: result.wind,
@@ -148,7 +147,6 @@ export class AthletesService {
           category: honour.categoryName,
           results: honour.results.map((result) => {
             const disciplineCode = mapDisciplineToCode(result.discipline);
-            const location = parseVenue(result.venue);
             const technical = isTechnical({
               disciplineCode,
               performance: result.mark,
@@ -164,7 +162,7 @@ export class AthletesService {
                 technical,
               }),
               isTechnical: technical,
-              location,
+              location: result.venue,
               competition: result.competition,
               place: result.place,
               competitionId: result.competitionId,

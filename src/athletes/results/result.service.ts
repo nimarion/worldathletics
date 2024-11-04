@@ -7,7 +7,7 @@ import { Performance } from '../athlete.dto';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { performanceToFloat } from 'src/performance-conversion';
-import { isShortTrack, parseVenue } from 'src/utils';
+import { isShortTrack } from 'src/utils';
 
 @Injectable()
 export class ResultsService {
@@ -44,7 +44,6 @@ export class ResultsService {
         const discipline = event.discipline;
         const disciplineCode = mapDisciplineToCode(discipline);
         event.results.forEach((result) => {
-          const location = parseVenue(result.venue);
           const technical = isTechnical({
             disciplineCode,
             performance: result.mark,
@@ -66,7 +65,7 @@ export class ResultsService {
             }),
             isTechnical: technical,
             legal: !result.notLegal,
-            location,
+            location: result.venue,
             race: result.race,
             records: [],
             competitionId: result.competitionId,

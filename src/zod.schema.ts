@@ -4,23 +4,41 @@ import {
   cleanupMark,
   extractName,
   formatLastname,
+  formatSex,
+  parseVenue,
 } from './utils';
+import { findCountryByCode, mapCountryToCode } from './country.utils';
+import { cleanupDiscipline } from './discipline.utils';
 
+export const FirstnameSchema = z.string();
 export const LastnameSchema = z.string().transform(formatLastname);
 export const FullnameSchema = z.string().transform(extractName);
 export const CompetitionNameSchema = z
   .string()
   .transform(cleanupCompetitionName);
 export const MarkSchema = z.string().transform(cleanupMark);
+export const GenderSchema = z.string().transform(formatSex);
+export const DisciplineNameSchema = z.string().transform(cleanupDiscipline);
+export const CountryCodeSchema = z.string().transform((val) => {
+  const country= findCountryByCode(val);
+  if(country){
+    return country.id;
+  }
+  console.error(`Country ${val} not found`);
+  return val;
+})
+export const VenueSchema = z.string().transform(parseVenue);
 
 // spain/alvaro-martin-14410246
 export const UrlSlugIdSchema = z.string().transform((val) => {
-  const idMatch = val.match(/-(\d+)$/);
-  const id = idMatch ? idMatch[1] : null;
-  if (!id) {
+  const idMatch = val.match(/^([a-z-]+)\/[a-z-]+-(\d+)$/);
+  if(!idMatch) {
     throw new Error(`Invalid URL slug: ${val}`);
   }
-  return Number(id);
+  return {
+    id: Number(idMatch[2]),
+    country: mapCountryToCode(idMatch[1]),
+  };
 });
 
 // Converts string to date and removes timezone offset

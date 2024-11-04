@@ -29,7 +29,6 @@ export class DisciplinesService {
         discipline: discipline.name,
         disciplineCode: discipline.code,
         shortTrack: isShortTrack(discipline.name),
-        isTechnical: false,
       };
     });
   }

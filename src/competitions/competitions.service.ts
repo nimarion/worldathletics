@@ -6,7 +6,7 @@ import {
   COMPETITION_ORGANISER,
   COMPETITON_RESULTS,
 } from './competition.query';
-import { date, z } from 'zod';
+import { z } from 'zod';
 import {
   Competition,
   CompetitionOrganiserInfo,
@@ -19,21 +19,21 @@ import {
   CompetitionSchema,
 } from './competition.zod';
 import {
-  formatSex,
   isShortTrack,
   parsePhoneNumber,
-  parseVenue,
 } from 'src/utils';
 import mapDisciplineToCode, {
-  cleanupDiscipline,
   isTechnical,
 } from 'src/discipline.utils';
 import {
   DateSchema,
+  DisciplineNameSchema,
   FullnameSchema,
+  GenderSchema,
   MarkSchema,
   PlaceSchema,
   UrlSlugIdSchema,
+  VenueSchema,
 } from 'src/zod.schema';
 import { Sex } from 'src/athletes/athlete.dto';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -129,7 +129,7 @@ export class CompetitionsService {
       return {
         id: result.id,
         name: result.name,
-        location: parseVenue(result.venue),
+        location: result.venue,
         rankingCategory: result.rankingCategory,
         disciplines: result.disciplines,
         start: result.startDate,
@@ -161,7 +161,7 @@ export class CompetitionsService {
       .object({
         getCalendarCompetitionResults: z.object({
           competition: z.object({
-            venue: z.string(),
+            venue: VenueSchema,
             name: z.string(),
           }),
           parameters: z.object({
@@ -173,10 +173,9 @@ export class CompetitionsService {
               eventTitle: z.string().nullable(),
               events: z.array(
                 z.object({
-                  event: z.string().transform(cleanupDiscipline),
+                  event: DisciplineNameSchema,
                   eventId: z.coerce.number(),
-                  gender: z.string(),
-                  isRelay: z.boolean(),
+                  gender: GenderSchema,
                   perResultWind: z.boolean(),
                   withWind: z.boolean(),
                   races: z.array(
@@ -192,8 +191,9 @@ export class CompetitionsService {
                             teamMembers: z
                               .array(
                                 z.object({
-                                  id: z.number().nullable(),
+                                  id: z.number(),
                                   name: FullnameSchema,
+                                  urlSlug: UrlSlugIdSchema,
                                 }),
                               )
                               .nullable(),
@@ -214,11 +214,8 @@ export class CompetitionsService {
                             .number()
                             .nullable()
                             .catch(() => null),
-                          //remark: z.any().nullable(),
-                          details: z.any().nullable(),
                         }),
                       ),
-                      startlist: z.any().nullable(),
                       wind: z.coerce
                         .number()
                         .nullable()
@@ -238,9 +235,9 @@ export class CompetitionsService {
             ),
             events: z.array(
               z.object({
-                gender: z.string().transform(formatSex),
+                gender: GenderSchema,
                 id: z.number(),
-                name: z.string().transform(cleanupDiscipline),
+                name: DisciplineNameSchema,
                 combined: z.boolean().nullable().transform((val) => {
                   return val === null ? false : val;
                 }),
@@ -252,6 +249,7 @@ export class CompetitionsService {
       .parse(data);
     
     const competitionDate = response.getCalendarCompetitionResults.options.days.find((d) => d.day === response.getCalendarCompetitionResults.parameters.day)?.date ||  null;
+    const competitionDay = response.getCalendarCompetitionResults.parameters.day || undefined;
 
     const competitionResults: CompetitionResultEvent[] = response.getCalendarCompetitionResults.eventTitles.flatMap((event) => {
       const category = event.rankingCategory;
@@ -265,13 +263,14 @@ export class CompetitionsService {
             eventName,
             category,
             eventId: event.eventId,
-            isRelay: event.isRelay,
-            sex: formatSex(event.gender),
+            sex: event.gender,
             disciplineCode: mapDisciplineToCode(event.event),
             discipline: event.event,
             shortTrack: isShortTrack(event.event),
             isTechnical: technical,
             races: event.races.map((race) => {
+              const date =  race.date || competitionDate || null;
+              const day = race.day || competitionDay || null;
               const results: CompetitionResult[] = race.results.map(
                 (result) => {
                   const athletes = result.competitor.teamMembers
@@ -281,18 +280,22 @@ export class CompetitionsService {
                           firstname: teamMember.name!!.firstname,
                           lastname: teamMember.name!!.lastname,
                           birthdate: null,
+                          country: teamMember.urlSlug.country,
+                          sex: event.gender != "X" ? event.gender : null,
                         };
                       })
                     : [
                         {
-                          id: result.competitor.urlSlug,
+                          id: result.competitor.urlSlug!!.id,
                           firstname: result.competitor.name!!.firstname,
                           lastname: result.competitor.name!!.lastname,
                           birthdate: result.competitor.birthDate,
+                          country: result.nationality || result.competitor.urlSlug!!.country,
+                          sex: event.gender != "X" ? event.gender : null,
                         },
                       ];
                   return {
-                    location: parseVenue(response.getCalendarCompetitionResults.competition.venue),
+                    location: response.getCalendarCompetitionResults.competition.venue,
                     disciplineCode: mapDisciplineToCode(event.event),
                     discipline: event.event,
                     date: race.date || competitionDate || null,
@@ -311,8 +314,8 @@ export class CompetitionsService {
                 },
               );
               return {
-                date: race.date || competitionDate || null,
-                day: race.day || day || null,
+                date,
+                day,
                 race: race.race,
                 raceId: race.raceId,
                 raceNumber: race.raceNumber,

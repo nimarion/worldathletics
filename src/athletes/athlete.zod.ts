@@ -1,26 +1,30 @@
-import { formatSex } from 'src/utils';
 import {
   CompetitionNameSchema,
+  CountryCodeSchema,
   DateSchema,
+  DisciplineNameSchema,
+  GenderSchema,
   LastnameSchema,
   MarkSchema,
   PlaceSchema,
+  FirstnameSchema,
+  VenueSchema
 } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const BasicData = z.object({
-  givenName: z.string(),
+  givenName: FirstnameSchema,
   familyName: LastnameSchema,
   birthDate: z.nullable(DateSchema),
-  countryCode: z.string(),
+  countryCode: CountryCodeSchema,
   sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
 });
 
 const Performance = z.object({
   date: z.nullable(DateSchema),
-  discipline: z.string(),
+  discipline: DisciplineNameSchema,
   mark: MarkSchema,
-  venue: z.string(),
+  venue: VenueSchema,
   notLegal: z.boolean(),
   resultScore: z.number(),
   wind: z.coerce
@@ -39,9 +43,9 @@ const WorldRanking = z.object({
 
 const Result = z.object({
   date: z.nullable(DateSchema),
-  discipline: z.string(),
+  discipline: DisciplineNameSchema,
   mark: MarkSchema,
-  venue: z.string(),
+  venue: VenueSchema,
   competition: CompetitionNameSchema,
   place: PlaceSchema,
   competitionId: z.coerce.number(),
@@ -52,9 +56,7 @@ export const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
     activeSeasons: z.array(
-      z.preprocess((val) => {
-        return Number(val);
-      }, z.number()),
+      z.coerce.number()
     ),
     results: z.array(Performance).transform((val) => {
       return val.filter((result) => {
@@ -90,8 +92,8 @@ export const Athlete = z.object({
 export const AthleteSearchSchema = z.object({
   aaAthleteId: z.coerce.number(),
   familyName: LastnameSchema,
-  givenName: z.string(),
+  givenName: FirstnameSchema,
   birthDate: z.nullable(DateSchema),
-  gender: z.string().transform(formatSex),
-  country: z.string(),
+  gender: GenderSchema,
+  country: CountryCodeSchema,
 });

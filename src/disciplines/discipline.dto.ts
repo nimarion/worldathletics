@@ -7,6 +7,6 @@ export class Discipline {
   disciplineCode!: string;
   @ApiProperty()
   shortTrack!: boolean;
-  @ApiProperty()
-  isTechnical!: boolean;
+  @ApiProperty({ required: false })
+  isTechnical?: boolean;
 }

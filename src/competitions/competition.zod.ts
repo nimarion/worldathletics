@@ -1,5 +1,4 @@
-import { formatSex } from 'src/utils';
-import { DateSchema } from 'src/zod.schema';
+import { DateSchema, GenderSchema, VenueSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
@@ -15,7 +14,7 @@ export const CompetitionOrganiserInfoSchema = z.object({
   units: z.array(
     z.object({
       events: z.array(z.string()),
-      gender: z.string().transform(formatSex),
+      gender: GenderSchema,
     }),
   ),
   contactPersons: z.array(
@@ -32,7 +31,7 @@ export const CompetitionSchema = z.object({
   id: z.number(),
   hasResults: z.boolean(),
   name: z.string(),
-  venue: z.string(),
+  venue: VenueSchema,
   area: z.string(),
   rankingCategory: z.string(),
   disciplines: z

@@ -1,5 +1,5 @@
 import { parsePhoneNumber } from 'src/utils';
-import { LastnameSchema } from 'src/zod.schema';
+import { CountryCodeSchema, FirstnameSchema, LastnameSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 function sanitizeEmail(email: string): string {
@@ -25,8 +25,8 @@ function sanitizeEmail(email: string): string {
 
 export const AthleteRepresentative = z.object({
   athleteRepresentativeId: z.number(),
-  countryCode: z.string().nullable(),
-  firstName: z.string(),
+  countryCode: z.nullable(CountryCodeSchema),
+  firstName: FirstnameSchema,
   lastName: LastnameSchema,
   email: z
     .array(z.string().nullable())

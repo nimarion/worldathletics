@@ -1,0 +1,1508 @@
+[
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "AFG",
+        "countryName": "Afghanistan"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "AFR",
+        "countryName": "Africa"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ALB",
+        "countryName": "Albania"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ALG",
+        "countryName": "Algeria"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "ASA",
+        "countryName": "American Samoa"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "AND",
+        "countryName": "Andorra"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ANG",
+        "countryName": "Angola"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "AIA",
+        "countryName": "Anguilla"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "ANT",
+        "countryName": "Antigua & Barbuda"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "ARG",
+        "countryName": "Argentina"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ARM",
+        "countryName": "Armenia"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "ARU",
+        "countryName": "Aruba"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "ASI",
+        "countryName": "Asia"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "AUS",
+        "countryName": "Australia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "AUT",
+        "countryName": "Austria"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "AZE",
+        "countryName": "Azerbaijan"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "BAH",
+        "countryName": "Bahamas"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "BRN",
+        "countryName": "Bahrain"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "BAN",
+        "countryName": "Bangladesh"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "BAR",
+        "countryName": "Barbados"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "BLR",
+        "countryName": "Belarus"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "BEL",
+        "countryName": "Belgium"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "BIZ",
+        "countryName": "Belize"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "BEN",
+        "countryName": "Benin"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "BER",
+        "countryName": "Bermuda"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "BHU",
+        "countryName": "Bhutan"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "BOL",
+        "countryName": "Bolivia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "BIH",
+        "countryName": "Bosnia-Herzegovina"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "BOT",
+        "countryName": "Botswana"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "BRA",
+        "countryName": "Brazil"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "IVB",
+        "countryName": "British Virgin Islands"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "BRU",
+        "countryName": "Brunei"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "BUL",
+        "countryName": "Bulgaria"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "BUR",
+        "countryName": "Burkina Faso"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "BIR",
+        "countryName": "Burma"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "BDI",
+        "countryName": "Burundi"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CPV",
+        "countryName": "Cabo Verde"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "CAM",
+        "countryName": "Cambodia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CMR",
+        "countryName": "Cameroon"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "CAN",
+        "countryName": "Canada"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "CAY",
+        "countryName": "Cayman Islands"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CAF",
+        "countryName": "Central African Republic"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "CEP",
+        "countryName": "Central Pacific"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CHA",
+        "countryName": "Chad"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "CHI",
+        "countryName": "Chile"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "TPE",
+        "countryName": "Chinese Taipei"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "COL",
+        "countryName": "Colombia"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "DMA",
+        "countryName": "Commonwealth Of Dominica"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "COM",
+        "countryName": "Comoros"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CGO",
+        "countryName": "Congo"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "COK",
+        "countryName": "Cook Islands"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "CRC",
+        "countryName": "Costa Rica"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "CIV",
+        "countryName": "Cote D'ivoire"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "CRO",
+        "countryName": "Croatia"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "CUB",
+        "countryName": "Cuba"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "CYP",
+        "countryName": "Cyprus"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "CZE",
+        "countryName": "Czechia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "TCH",
+        "countryName": "Czechoslovakia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "STP",
+        "countryName": "Dem. Rep. Of Sao Tome And Principe"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "COD",
+        "countryName": "Democ. Republic Of Congo"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "DEN",
+        "countryName": "Denmark"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "DJI",
+        "countryName": "Djibouti"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "DOM",
+        "countryName": "Dominican Republic"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "PRK",
+        "countryName": "Dpr Of Korea"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "ECU",
+        "countryName": "Ecuador"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "EGY",
+        "countryName": "Egypt"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "ESA",
+        "countryName": "El Salvador"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ENG",
+        "countryName": "England"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GEQ",
+        "countryName": "Equatorial Guinea"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ERI",
+        "countryName": "Eritrea"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "EST",
+        "countryName": "Estonia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SWZ",
+        "countryName": "Eswatini"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ETH",
+        "countryName": "Ethiopia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "EUR",
+        "countryName": "Europe"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "FAL",
+        "countryName": "Falkland"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "FRG",
+        "countryName": "Fed Rep German"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "FIJ",
+        "countryName": "Fiji"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "FIN",
+        "countryName": "Finland"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "FRA",
+        "countryName": "France"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "PYF",
+        "countryName": "French Polynesia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GAB",
+        "countryName": "Gabon"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GEO",
+        "countryName": "Georgia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GDR",
+        "countryName": "German Dem Rep"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GER",
+        "countryName": "Germany"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GHA",
+        "countryName": "Ghana"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GIB",
+        "countryName": "Gibraltar"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GBR",
+        "countryName": "Great Britain & N.I."
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "GRE",
+        "countryName": "Greece"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "GRN",
+        "countryName": "Grenada"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "GDL",
+        "countryName": "Guadalupa"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "GUM",
+        "countryName": "Guam"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "GUA",
+        "countryName": "Guatemala"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GUI",
+        "countryName": "Guinea"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GBS",
+        "countryName": "Guinea-Bissau"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "GUY",
+        "countryName": "Guyana"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GUF",
+        "countryName": "Guyane"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "HAI",
+        "countryName": "Haiti"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "HON",
+        "countryName": "Honduras"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "HKG",
+        "countryName": "Hong Kong, China"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "HUN",
+        "countryName": "Hungary"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ISL",
+        "countryName": "Iceland"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "IND",
+        "countryName": "India"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "IWP",
+        "countryName": "Indip. World Partic."
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "IEP",
+        "countryName": "Individual Ech Participa"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "INA",
+        "countryName": "Indonesia"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "IRQ",
+        "countryName": "Iraq"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "IRL",
+        "countryName": "Ireland"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "IRI",
+        "countryName": "Islamic Republic Of Iran"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ISR",
+        "countryName": "Israel"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ITA",
+        "countryName": "Italy"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "JAM",
+        "countryName": "Jamaica"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "JPN",
+        "countryName": "Japan"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "JOR",
+        "countryName": "Jordan"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KHM",
+        "countryName": "Kampuchea"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KAZ",
+        "countryName": "Kazakhstan"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "KEN",
+        "countryName": "Kenya"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KGZ",
+        "countryName": "Kirghizistan"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "KIR",
+        "countryName": "Kiribati Rep Of"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KOR",
+        "countryName": "Korea"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "KOS",
+        "countryName": "Kosovo"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KUW",
+        "countryName": "Kuwait"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "LAO",
+        "countryName": "Laos"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "LAT",
+        "countryName": "Latvia"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "LBN",
+        "countryName": "Lebanon"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "LES",
+        "countryName": "Lesotho"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "LBR",
+        "countryName": "Liberia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "LBA",
+        "countryName": "Libya"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "LIE",
+        "countryName": "Liechtenstein"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "LTU",
+        "countryName": "Lithuania"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "LUX",
+        "countryName": "Luxembourg"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "MAC",
+        "countryName": "Macao, China"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MAD",
+        "countryName": "Madagascar"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MAW",
+        "countryName": "Malawi"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "MAS",
+        "countryName": "Malaysia"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "MDV",
+        "countryName": "Maldives"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MLI",
+        "countryName": "Mali"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MLT",
+        "countryName": "Malta"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "MHL",
+        "countryName": "Marshall Islands"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "MRT",
+        "countryName": "Martinica"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MTN",
+        "countryName": "Mauritania"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MRI",
+        "countryName": "Mauritius"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MAY",
+        "countryName": "Mayotte"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "MEX",
+        "countryName": "Mexico"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "FSM",
+        "countryName": "Micronesia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MDA",
+        "countryName": "Moldova"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MON",
+        "countryName": "Monaco"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "MGL",
+        "countryName": "Mongolia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MNE",
+        "countryName": "Montenegro"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MCG",
+        "countryName": "Montenegro"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "MNT",
+        "countryName": "Montserrat"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MAR",
+        "countryName": "Morocco"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "MOZ",
+        "countryName": "Mozambique"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "MYA",
+        "countryName": "Myanmar"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "NAM",
+        "countryName": "Namibia"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "NEP",
+        "countryName": "Nepal"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "NED",
+        "countryName": "Netherlands"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "AHO",
+        "countryName": "Netherlands Antilles"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "CAL",
+        "countryName": "New Caledonia"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "NZL",
+        "countryName": "New Zealand"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "NCA",
+        "countryName": "Nicaragua"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "NIG",
+        "countryName": "Niger"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "NGR",
+        "countryName": "Nigeria"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "NFI",
+        "countryName": "Norfolk Island"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "MKD",
+        "countryName": "Republic Of North Macedonia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "NIR",
+        "countryName": "Northern Ireland"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "NMI",
+        "countryName": "Northern Mariana Islands"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "NOR",
+        "countryName": "Norway"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "OCE",
+        "countryName": "Oceania"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "OMA",
+        "countryName": "Oman"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "PAK",
+        "countryName": "Pakistan"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "PLE",
+        "countryName": "Palestine"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "PSE",
+        "countryName": "Palestine"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "PAN",
+        "countryName": "Panama"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "PNG",
+        "countryName": "Papua New Guinea"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "PAR",
+        "countryName": "Paraguay"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "PER",
+        "countryName": "Peru"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "PHI",
+        "countryName": "Philippines"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "POL",
+        "countryName": "Poland"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "POF",
+        "countryName": "Polinesia Fr."
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "POR",
+        "countryName": "Portugal"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "CHN",
+        "countryName": "Pr Of China"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "PUR",
+        "countryName": "Puerto Rico"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "QAT",
+        "countryName": "Qatar"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "NRU",
+        "countryName": "Rep Of Nauru - Pacific"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "PLW",
+        "countryName": "Rep Of Palau - Pacific"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "YEM",
+        "countryName": "Republic Of Yemen"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "REU",
+        "countryName": "Reunion"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ROU",
+        "countryName": "Romania"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "RUS",
+        "countryName": "Russia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "RWA",
+        "countryName": "Rwanda"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "SKN",
+        "countryName": "Saint Kitts And Nevis"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "LCA",
+        "countryName": "Saint Lucia"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "VIN",
+        "countryName": "Saint Vincent"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "SAM",
+        "countryName": "Samoa"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SMR",
+        "countryName": "San Marino"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "KSA",
+        "countryName": "Saudi Arabia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SCO",
+        "countryName": "Scotland"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SEN",
+        "countryName": "Senegal"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SRB",
+        "countryName": "Serbia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SCG",
+        "countryName": "Serbia And Montenegro-"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SER",
+        "countryName": "Serbia-"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SEY",
+        "countryName": "Seychelles"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SLE",
+        "countryName": "Sierra Leone"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "SGP",
+        "countryName": "Singapore"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SVK",
+        "countryName": "Slovak Republic"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SLO",
+        "countryName": "Slovenia"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "SOL",
+        "countryName": "Solomon Islands"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SOM",
+        "countryName": "Somalia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "RSA",
+        "countryName": "South Africa"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SSD",
+        "countryName": "South Sudan"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "ESP",
+        "countryName": "Spain"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "SRI",
+        "countryName": "Sri Lanka"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "SPM",
+        "countryName": "St Pierre And M."
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "SUD",
+        "countryName": "Sudan"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "SUR",
+        "countryName": "Surinam"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SWE",
+        "countryName": "Sweden"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "SUI",
+        "countryName": "Switzerland"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "SYR",
+        "countryName": "Syria"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "TAI",
+        "countryName": "Taiwan"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "TJK",
+        "countryName": "Tajikistan"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "TAN",
+        "countryName": "Tanzania"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "THA",
+        "countryName": "Thailand"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "GAM",
+        "countryName": "The Gambia"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "TLS",
+        "countryName": "Timor Leste"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "TOG",
+        "countryName": "Togo"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "TGA",
+        "countryName": "Tonga"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "TTO",
+        "countryName": "Trinidad And Tobago"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "TRC",
+        "countryName": "Tristan Da Cunha"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "TUN",
+        "countryName": "Tunisia"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "TUR",
+        "countryName": "Türkiye"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "TKM",
+        "countryName": "Turkmenistan"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "TKS",
+        "countryName": "Turks And Caicos Islands"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "TUV",
+        "countryName": "Tuvalu"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "URS",
+        "countryName": "U.S.S.R."
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "UGA",
+        "countryName": "Uganda"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "UKR",
+        "countryName": "Ukraine"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "EUN",
+        "countryName": "Unified Team"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "UAE",
+        "countryName": "United Arab Emirates"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "USA",
+        "countryName": "United States"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "URU",
+        "countryName": "Uruguay"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "UZB",
+        "countryName": "Uzbekistan"
+    },
+    {
+        "areaCode": "OCE",
+        "areaName": "Oceania",
+        "id": "VAN",
+        "countryName": "Vanuatu"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "VAT",
+        "countryName": "Vatican"
+    },
+    {
+        "areaCode": "SAM",
+        "areaName": "South America",
+        "id": "VEN",
+        "countryName": "Venezuela"
+    },
+    {
+        "areaCode": "ASI",
+        "areaName": "Asia",
+        "id": "VIE",
+        "countryName": "Vietnam"
+    },
+    {
+        "areaCode": "NAM",
+        "areaName": "North,Central America&C.",
+        "id": "ISV",
+        "countryName": "Virgin Islands"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "WAL",
+        "countryName": "Wales"
+    },
+    {
+        "areaCode": "EUR",
+        "areaName": "Europe",
+        "id": "YUG",
+        "countryName": "Yugoslavia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ZAI",
+        "countryName": "Zaire"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ZAM",
+        "countryName": "Zambia"
+    },
+    {
+        "areaCode": "AFR",
+        "areaName": "Africa",
+        "id": "ZIM",
+        "countryName": "Zimbabwe"
+    }
+]

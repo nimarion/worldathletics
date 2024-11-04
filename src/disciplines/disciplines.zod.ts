@@ -1,6 +1,7 @@
+import { DisciplineNameSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const DisciplineSchema = z.object({
-  name: z.string(),
+  name: DisciplineNameSchema,
   code: z.string(),
 });

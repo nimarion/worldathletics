@@ -4,7 +4,7 @@ import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
 import { z } from 'zod';
-import { isShortTrack, parseVenue } from 'src/utils';
+import { isShortTrack } from 'src/utils';
 import { Record, RecordCategory } from './record.dto';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { performanceToFloat } from 'src/performance-conversion';
@@ -40,7 +40,6 @@ export class RecordsService {
         const athletes = result.competitor.teamMembers
           ? result.competitor.teamMembers
           : [result.competitor];
-        const location = parseVenue(result.venue);
         const disciplineCode = mapDisciplineToCode(result.discipline);
         const technical = isTechnical({
           disciplineCode,
@@ -60,7 +59,7 @@ export class RecordsService {
           isTechnical: technical,
           wind: result.wind,
           country: result.country,
-          location,
+          location: result.venue,
           athletes: athletes.map((competitor) => {
             return {
               sex: null,
