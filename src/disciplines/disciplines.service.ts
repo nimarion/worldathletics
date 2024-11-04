@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import { Discipline } from './discipline.dto';
+import { BaseDiscipline } from './discipline.dto';
 
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { DISCIPLINES_QUERY } from 'src/disciplines/disciplines.query';
@@ -14,7 +14,7 @@ export class DisciplinesService {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
-  async findAll(): Promise<Discipline[]> {
+  async findAll(): Promise<BaseDiscipline[]> {
     const data = await this.graphQLClient.request(DISCIPLINES_QUERY);
     const reponse = z
       .object({

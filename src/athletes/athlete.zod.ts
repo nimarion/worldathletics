@@ -17,7 +17,7 @@ export const BasicData = z.object({
   familyName: LastnameSchema,
   birthDate: z.nullable(DateSchema),
   countryCode: CountryCodeSchema,
-  sexNameUrlSlug: z.nullable(z.enum(['women', 'men'])),
+  sexNameUrlSlug: z.nullable(GenderSchema),
 });
 
 const Performance = z.object({

@@ -1,4 +1,4 @@
-import { DateSchema, GenderSchema, VenueSchema } from 'src/zod.schema';
+import { DateSchema, DisciplineNameSchema, FullnameSchema, GenderSchema, MarkSchema, PlaceSchema, UrlSlugIdSchema, VenueSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
@@ -46,4 +46,91 @@ export const CompetitionSchema = z.object({
   hasStartlist: z.boolean(),
   competitionGroup: z.string().nullable(),
   competitionSubgroup: z.string().nullable(),
+});
+
+export const CompetitionResultsSchema =  z.object({
+  competition: z.object({
+    venue: VenueSchema,
+    name: z.string(),
+  }),
+  parameters: z.object({
+    day: z.number().nullable(),
+  }),
+  eventTitles: z.array(
+    z.object({
+      rankingCategory: z.string(),
+      eventTitle: z.string().nullable(),
+      events: z.array(
+        z.object({
+          event: DisciplineNameSchema,
+          eventId: z.coerce.number(),
+          gender: GenderSchema,
+          perResultWind: z.boolean(),
+          withWind: z.boolean(),
+          races: z.array(
+            z.object({
+              date: z.nullable(DateSchema),
+              day: z.number().nullable(),
+              race: z.string(),
+              raceId: z.number(),
+              raceNumber: z.number(),
+              results: z.array(
+                z.object({
+                  competitor: z.object({
+                    teamMembers: z
+                      .array(
+                        z.object({
+                          id: z.number(),
+                          name: FullnameSchema,
+                          urlSlug: UrlSlugIdSchema,
+                        }),
+                      )
+                      .nullable(),
+                    name: FullnameSchema,
+                    urlSlug: z.nullable(UrlSlugIdSchema),
+                    birthDate: z.nullable(DateSchema),
+                  }),
+                  mark: MarkSchema,
+                  nationality: z.string(),
+                  place: PlaceSchema,
+                  records: z.string().transform((val) => {
+                    if (val === '') return [];
+                    return val
+                      .split(',')
+                      .map((record) => record.trim());
+                  }),
+                  wind: z.coerce
+                    .number()
+                    .nullable()
+                    .catch(() => null),
+                }),
+              ),
+              wind: z.coerce
+                .number()
+                .nullable()
+                .catch(() => null),
+            }),
+          ),
+        }),
+      ),
+    }),
+  ),
+  options: z.object({
+    days: z.array(
+      z.object({
+        date: DateSchema,
+        day: z.number(),
+      }),
+    ),
+    events: z.array(
+      z.object({
+        gender: GenderSchema,
+        id: z.number(),
+        name: DisciplineNameSchema,
+        combined: z.boolean().nullable().transform((val) => {
+          return val === null ? false : val;
+        }),
+      }),
+    ),
+  }),
 });

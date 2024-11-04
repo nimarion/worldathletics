@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { Discipline } from './discipline.dto';
+import { BaseDiscipline } from './discipline.dto';
 import { DisciplinesService } from './disciplines.service';
 
 @Controller('disciplines')
@@ -9,11 +9,11 @@ export class DisciplinesController {
 
   @Get()
   @ApiOkResponse({
-    type: Discipline,
+    type: BaseDiscipline,
     isArray: true,
     description: 'Returns all disciplines, all marked as non-technical!',
   })
-  findAll(): Promise<Discipline[]> {
+  findAll(): Promise<BaseDiscipline[]> {
     return this.disciplinesService.findAll();
   }
 }

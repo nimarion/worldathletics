@@ -32,6 +32,7 @@ export function extractName(name: string) {
       lastname: formatLastname(match[2].trim()),
     };
   }
+  console.error('Could not extract name from', name);
   return null;
 }
 

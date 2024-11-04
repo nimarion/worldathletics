@@ -86,9 +86,7 @@ export class AthletesService {
           : 'M'
         : null;
     const sex = basicData.sexNameUrlSlug
-      ? basicData.sexNameUrlSlug === 'women'
-        ? 'W'
-        : 'M'
+      ? basicData.sexNameUrlSlug
       : worldRankingSex;
 
     function resultToPerformance(

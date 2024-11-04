@@ -5,6 +5,7 @@ import {
   extractName,
   formatLastname,
   formatSex,
+  parsePhoneNumber,
   parseVenue,
 } from './utils';
 import { findCountryByCode, mapCountryToCode } from './country.utils';
@@ -28,6 +29,7 @@ export const CountryCodeSchema = z.string().transform((val) => {
   return val;
 })
 export const VenueSchema = z.string().transform(parseVenue);
+export const PhoneSchema = z.string().transform(parsePhoneNumber);
 
 // spain/alvaro-martin-14410246
 export const UrlSlugIdSchema = z.string().transform((val) => {

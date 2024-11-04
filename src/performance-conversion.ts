@@ -10,15 +10,10 @@ export function performanceToFloat({
   if(performance === ""){
     return null;
   }
-  // Combined Events
-  if(!isNaN(Number(performance)) && Number(performance) % 1 === 0) {
+  // Combined Events or One Hour Race
+  if(technical && !isNaN(Number(performance)) && Number(performance) % 1 === 0) {
     return Number(performance);
   }
-  // One Hour Race
-  if (performance == parseInt(performance).toString()) {
-    return null;
-  }
-
   performance = performance.trim().replace(',', '.');
 
   if (technical) {

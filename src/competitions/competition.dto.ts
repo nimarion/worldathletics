@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseAthlete, BasePerformance, Sex } from 'src/athletes/athlete.dto';
-import { Discipline } from 'src/disciplines/discipline.dto';
+import { BaseDiscipline, Discipline } from 'src/disciplines/discipline.dto';
 import { Location } from 'src/location.dto';
 
 export class ContactPerson {
@@ -102,7 +102,7 @@ export class CompetitionResultOptionDay {
   day!: number
 }
 
-export class CompetitionResultOptionEvent extends Discipline{
+export class CompetitionResultOptionEvent extends BaseDiscipline{
   @ApiProperty()
   id!: number;
   @ApiProperty({
