@@ -1,1082 +1,602 @@
 [
   {
     "discipline": "50 Metres",
-    "disciplineCode": "50",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50"
   },
   {
     "discipline": "55 Metres",
-    "disciplineCode": "55",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "55"
   },
   {
     "discipline": "60 Metres",
-    "disciplineCode": "60",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "60"
   },
   {
     "discipline": "100 Yards",
-    "disciplineCode": "100y",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100y"
   },
   {
     "discipline": "100 Metres",
-    "disciplineCode": "100",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100"
   },
   {
     "discipline": "150 Metres",
-    "disciplineCode": "150",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "150"
   },
   {
     "discipline": "200 Metres",
-    "disciplineCode": "200",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "200 Metres Short Track",
-    "disciplineCode": "200sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "200"
   },
   {
     "discipline": "300 Metres",
-    "disciplineCode": "300",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "300 Metres Short Track",
-    "disciplineCode": "300sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "300"
   },
   {
     "discipline": "400 Metres",
-    "disciplineCode": "400",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "400 Metres Short Track",
-    "disciplineCode": "400sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "400"
   },
   {
     "discipline": "500 Metres",
-    "disciplineCode": "500",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "500 Metres Short Track",
-    "disciplineCode": "500sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "500"
   },
   {
     "discipline": "600 Metres",
-    "disciplineCode": "600",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "600 Metres Short Track",
-    "disciplineCode": "600sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "600"
   },
   {
     "discipline": "800 Metres",
-    "disciplineCode": "800",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "800 Metres Short Track",
-    "disciplineCode": "800sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "800"
   },
   {
     "discipline": "1000 Metres",
-    "disciplineCode": "1000",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "1000 Metres Short Track",
-    "disciplineCode": "1000sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "1000"
   },
   {
     "discipline": "1500 Metres",
-    "disciplineCode": "1500",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "1500 Metres Short Track",
-    "disciplineCode": "1500sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "1500"
   },
   {
     "discipline": "Mile",
-    "disciplineCode": "MILE",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Mile Short Track",
-    "disciplineCode": "MILEsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "MILE"
   },
   {
     "discipline": "2000 Metres",
-    "disciplineCode": "2000",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "2000 Metres Short Track",
-    "disciplineCode": "2000sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "2000"
   },
   {
     "discipline": "3000 Metres",
-    "disciplineCode": "3000",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "3000 Metres Short Track",
-    "disciplineCode": "3000sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "3000"
   },
   {
     "discipline": "2 Miles",
-    "disciplineCode": "2MLS",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "2 Miles Short Track",
-    "disciplineCode": "2MLSsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "2MLS"
   },
   {
     "discipline": "5000 Metres",
-    "disciplineCode": "5000",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "5000 Metres Short Track",
-    "disciplineCode": "5000sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "5000"
   },
   {
     "discipline": "5 Kilometres Road",
-    "disciplineCode": "5RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "5RR"
   },
   {
     "discipline": "10,000 Metres",
-    "disciplineCode": "10K",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "10,000 Metres Short Track",
-    "disciplineCode": "10Ksh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "10K"
   },
   {
     "discipline": "10 Kilometres Road",
-    "disciplineCode": "10RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "10RR"
   },
   {
     "discipline": "12 Kilometres Road",
-    "disciplineCode": "12RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "12RR"
   },
   {
     "discipline": "15,000 Metres",
-    "disciplineCode": "15K",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "15K"
   },
   {
     "discipline": "15 Kilometres Road",
-    "disciplineCode": "15RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "15RR"
   },
   {
     "discipline": "20,000 Metres",
-    "disciplineCode": "20K",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "20K"
   },
   {
     "discipline": "20 Kilometres Road",
-    "disciplineCode": "20RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "20RR"
   },
   {
     "discipline": "One Hour",
-    "disciplineCode": "HOUR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HOUR"
   },
   {
     "discipline": "Half Marathon",
-    "disciplineCode": "HMAR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HMAR"
   },
   {
     "discipline": "25,000 Metres",
-    "disciplineCode": "25K",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "25K"
   },
   {
     "discipline": "25 Kilometres Road",
-    "disciplineCode": "25RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "25RR"
   },
   {
     "discipline": "30,000 Metres",
-    "disciplineCode": "30K",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "30K"
   },
   {
     "discipline": "30 Kilometres Road",
-    "disciplineCode": "30RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "30RR"
   },
   {
     "discipline": "50 Kilometres Road",
-    "disciplineCode": "50RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50RR"
   },
   {
     "discipline": "Marathon",
-    "disciplineCode": "MAR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "MAR"
   },
   {
     "discipline": "100 Kilometres Road",
-    "disciplineCode": "100K",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100K"
   },
   {
     "discipline": "2000 Metres Steeplechase",
-    "disciplineCode": "2KSC",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "2000 Metres Steeplechase Short Track",
-    "disciplineCode": "2KSCsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "2KSC"
   },
   {
     "discipline": "2000 Metres Steeplechase (0.84)",
-    "disciplineCode": "2KSC84",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "2KSC84"
   },
   {
     "discipline": "3000 Metres Steeplechase",
-    "disciplineCode": "3KSC",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "3000 Metres Steeplechase Short Track",
-    "disciplineCode": "3KSCsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "3KSC"
   },
   {
     "discipline": "50 Metres Hurdles",
-    "disciplineCode": "50H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50H"
   },
   {
     "discipline": "50 Metres Hurdles (91.4cm)",
-    "disciplineCode": "50HB",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50HB"
   },
   {
     "discipline": "50 Metres Hurdles (76.2cm)",
-    "disciplineCode": "50HG",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50HG"
   },
   {
     "discipline": "55 Metres Hurdles",
-    "disciplineCode": "55H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "55H"
   },
   {
     "discipline": "60 Metres Hurdles",
-    "disciplineCode": "60H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "60H"
   },
   {
     "discipline": "60 Metres Hurdles (99.0cm)",
-    "disciplineCode": "60HJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "60HJ"
   },
   {
     "discipline": "60 Metres Hurdles (91.4cm)",
-    "disciplineCode": "60HY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "60HY"
   },
   {
     "discipline": "60 Metres Hurdles (76.2cm)",
-    "disciplineCode": "60HYG",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "60HYG"
   },
   {
     "discipline": "80 Metres Hurdles",
-    "disciplineCode": "80H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "80H"
   },
   {
     "discipline": "100 Metres Hurdles",
-    "disciplineCode": "100H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100H"
   },
   {
     "discipline": "100 Metres Hurdles (76.2cm)",
-    "disciplineCode": "100HY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100HY"
   },
   {
     "discipline": "110 Metres Hurdles (99.0cm)",
-    "disciplineCode": "110HJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "110HJ"
   },
   {
     "discipline": "110 Metres Hurdles (91.4cm)",
-    "disciplineCode": "110HY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "110HY"
   },
   {
     "discipline": "110 Metres Hurdles",
-    "disciplineCode": "110H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "110H"
   },
   {
     "discipline": "200 Metres Hurdles",
-    "disciplineCode": "200H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "200H"
   },
   {
     "discipline": "300 Metres Hurdles",
-    "disciplineCode": "300H",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "300 Metres Hurdles Short Track",
-    "disciplineCode": "300Hsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "300H"
   },
   {
     "discipline": "300 Metres Hurdles (84.0cm)",
-    "disciplineCode": "300HY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "300HY"
   },
   {
     "discipline": "400m hurdles (84.0cm)",
-    "disciplineCode": "400HY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "400HY"
   },
   {
     "discipline": "400 Metres Hurdles",
-    "disciplineCode": "400H",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "400 Metres Hurdles Short Track",
-    "disciplineCode": "400Hsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "400H"
   },
   {
     "discipline": "High Jump",
-    "disciplineCode": "HJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HJ"
   },
   {
     "discipline": "Pole Vault",
-    "disciplineCode": "PV",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "PV"
   },
   {
     "discipline": "Long Jump",
-    "disciplineCode": "LJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "LJ"
   },
   {
     "discipline": "Triple Jump",
-    "disciplineCode": "TJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "TJ"
   },
   {
     "discipline": "Shot Put",
-    "disciplineCode": "SP",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SP"
   },
   {
     "discipline": "Shot Put (6kg)",
-    "disciplineCode": "SPJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SPJ"
   },
   {
     "discipline": "Shot Put (5kg)",
-    "disciplineCode": "SPY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SPY"
   },
   {
     "discipline": "Shot Put (3kg)",
-    "disciplineCode": "SPYG",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SPYG"
   },
   {
     "discipline": "Shot Put (4kg)",
-    "disciplineCode": "SPYG4",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SPYG4"
   },
   {
     "discipline": "Discus Throw",
-    "disciplineCode": "DT",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DT"
   },
   {
     "discipline": "Discus Throw (1.750kg)",
-    "disciplineCode": "DTJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DTJ"
   },
   {
     "discipline": "Discus Throw (1.500kg)",
-    "disciplineCode": "DTY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DTY"
   },
   {
     "discipline": "Hammer Throw",
-    "disciplineCode": "HT",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HT"
   },
   {
     "discipline": "Hammer Throw (6kg)",
-    "disciplineCode": "HTJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HTJ"
   },
   {
     "discipline": "Hammer Throw (5kg)",
-    "disciplineCode": "HTY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HTY"
   },
   {
     "discipline": "Hammer Throw (3kg)",
-    "disciplineCode": "HTYG",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HTYG"
   },
   {
     "discipline": "Javelin Throw",
-    "disciplineCode": "JT",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "JT"
   },
   {
     "discipline": "Javelin Throw (700g)",
-    "disciplineCode": "JTY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "JTY"
   },
   {
     "discipline": "Javelin Throw (500g)",
-    "disciplineCode": "JTYG",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "JTYG"
   },
   {
     "discipline": "Pentathlon",
-    "disciplineCode": "PEN",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "PEN"
   },
   {
-    "discipline": "Pentathlon Short Track",
-    "disciplineCode": "PENsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "discipline": "Pentathlon Girls",
+    "disciplineCode": "PENG"
   },
   {
-    "discipline": "Pentathlon Girls Short Track",
-    "disciplineCode": "PENGsh",
-    "shortTrack": true,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Heptathlon U20 Short Track",
-    "disciplineCode": "HEPJsh",
-    "shortTrack": true,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Heptathlon Short Track",
-    "disciplineCode": "HEPsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "discipline": "Heptathlon U20",
+    "disciplineCode": "HEPJ"
   },
   {
     "discipline": "Heptathlon",
-    "disciplineCode": "HEP",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HEP"
   },
   {
     "discipline": "Heptathlon-100mH 76.2cm",
-    "disciplineCode": "HEPY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "HEPY"
   },
   {
     "discipline": "Heptathlon U18",
-    "disciplineCode": "HEPG",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Heptathlon U18 Short Track",
-    "disciplineCode": "HEPBsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "HEPG"
   },
   {
     "discipline": "Octathlon U16",
-    "disciplineCode": "OCT",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "OCT"
   },
   {
     "discipline": "Octathlon Boys",
-    "disciplineCode": "OCTY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "OCTY"
   },
   {
     "discipline": "Decathlon",
-    "disciplineCode": "DEC",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DEC"
   },
   {
     "discipline": "Decathlon (62-84)",
-    "disciplineCode": "DEC6284",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DEC6284"
   },
   {
     "discipline": "Decathlon U20",
-    "disciplineCode": "DECJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DECJ"
   },
   {
     "discipline": "Decathlon (1.06) U20",
-    "disciplineCode": "DECJO",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DECJO"
   },
   {
     "discipline": "Decathlon Boys",
-    "disciplineCode": "DECY",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "DECY"
   },
   {
     "discipline": "Mile Race Walk",
-    "disciplineCode": "MILEW",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Mile Race Walk Short Track",
-    "disciplineCode": "MILEWsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "MILEW"
   },
   {
     "discipline": "3000 Metres Race Walk",
-    "disciplineCode": "3KW",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "3000 Metres Race Walk Short Track",
-    "disciplineCode": "3KWsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "3KW"
   },
   {
     "discipline": "5000 Metres Race Walk",
-    "disciplineCode": "5KW",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "5000 Metres Race Walk Short Track",
-    "disciplineCode": "5KWsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "5KW"
   },
   {
     "discipline": "5 Kilometres Race Walk",
-    "disciplineCode": "5KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "5KR"
   },
   {
     "discipline": "10,000 Metres Race Walk",
-    "disciplineCode": "10KW",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "10,000 Metres Race Walk Short Track",
-    "disciplineCode": "10KWsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "10KW"
   },
   {
     "discipline": "10 Kilometres Race Walk",
-    "disciplineCode": "10KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "10KR"
   },
   {
     "discipline": "15 Kilometers Race Walk",
-    "disciplineCode": "15KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "15KR"
   },
   {
     "discipline": "20,000 Metres Race Walk",
-    "disciplineCode": "20KW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "20KW"
   },
   {
     "discipline": "20 Kilometres Race Walk",
-    "disciplineCode": "20KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "20KR"
   },
   {
     "discipline": "2 Hours Race Walk",
-    "disciplineCode": "2HW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "2HW"
   },
   {
     "discipline": "30,000 Metres Race Walk",
-    "disciplineCode": "30KW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "30KW"
   },
   {
     "discipline": "30 Kilometres Race Walk",
-    "disciplineCode": "30KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "30KR"
   },
   {
     "discipline": "35 Kilometres Race Walk",
-    "disciplineCode": "35KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "35KR"
   },
   {
     "discipline": "50,000 Metres Race Walk",
-    "disciplineCode": "50KW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50KW"
   },
   {
     "discipline": "50 Kilometres Race Walk",
-    "disciplineCode": "50KR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "50KR"
   },
   {
     "discipline": "4x100 Metres Relay",
-    "disciplineCode": "4X1",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "4X1"
   },
   {
     "discipline": "4x200 Metres Relay",
-    "disciplineCode": "4X2",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "4x200 Metres Relay Short Track",
-    "disciplineCode": "4X2sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "4X2"
   },
   {
     "discipline": "4x400 Metres Relay",
-    "disciplineCode": "4X4",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "4X4"
   },
   {
     "discipline": "4x400 Metres Relay Mixed",
-    "disciplineCode": "4X4",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "4x400 Metres Relay Short Track",
-    "disciplineCode": "4X4sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "4X4"
   },
   {
     "discipline": "4x800 Metres Relay",
-    "disciplineCode": "4X8",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "4x800 Metres Relay Short Track",
-    "disciplineCode": "4X8sh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "4X8"
   },
   {
     "discipline": "4xMile Relay",
-    "disciplineCode": "4XMILE",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "4xMile Relay Short Track",
-    "disciplineCode": "4XMILsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "4XMILE"
   },
   {
     "discipline": "4x1500 Metres Relay",
-    "disciplineCode": "4X15",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "4X15"
   },
   {
     "discipline": "Sprint Medley 1000m",
-    "disciplineCode": "MEAD",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "MEAD"
   },
   {
     "discipline": "8x100 Metres Relay",
-    "disciplineCode": "8X1",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "8X1"
   },
   {
     "discipline": "Road Relay",
-    "disciplineCode": "EKID",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "EKID"
   },
   {
     "discipline": "Distance Medley",
-    "disciplineCode": "DISMEAD",
-    "shortTrack": false,
-    "isTechnical": false
-  },
-  {
-    "discipline": "Distance Medley Short Track",
-    "disciplineCode": "DISMEsh",
-    "shortTrack": true,
-    "isTechnical": false
+    "disciplineCode": "DISMEAD"
   },
   {
     "discipline": "Cross Country Relay",
-    "disciplineCode": "MIXREL",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "MIXREL"
   },
   {
     "discipline": "2x2x400m Relay",
-    "disciplineCode": "2X2X4",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "2X2X4"
   },
   {
     "discipline": "Shuttle Hurdles",
-    "disciplineCode": "SHUTHUR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "SHUTHUR"
   },
   {
     "discipline": "3x100 Metres Relay",
-    "disciplineCode": "3X1",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "3X1"
   },
   {
     "discipline": "Hour Race Walk",
-    "disciplineCode": "1HW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "1HW"
   },
   {
     "discipline": "600 Metres Road",
-    "disciplineCode": "600R",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "600R"
   },
   {
     "discipline": "Mile Road",
-    "disciplineCode": "1MR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "1MR"
   },
   {
     "discipline": "5 Miles Road",
-    "disciplineCode": "5MR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "5MR"
   },
   {
     "discipline": "10 Miles Road",
-    "disciplineCode": "10MR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "10MR"
   },
   {
     "discipline": "8 Kilometres Road",
-    "disciplineCode": "8RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "8RR"
   },
   {
     "discipline": "Cross Country",
-    "disciplineCode": "XSE",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XSE"
   },
   {
     "discipline": "Cross Country Senior Race",
-    "disciplineCode": "XSE",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XSE"
   },
   {
     "discipline": "Cross Country U20 Race",
-    "disciplineCode": "XJ",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XJ"
   },
   {
     "discipline": "Cross Country U23 Race",
-    "disciplineCode": "XU23",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XU23"
   },
   {
     "discipline": "Cross Country Short Race",
-    "disciplineCode": "XC",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XC"
   },
   {
     "discipline": "Cross Country Long Race",
-    "disciplineCode": "XS",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XS"
   },
   {
     "discipline": "Cross Country 4000m",
-    "disciplineCode": "XC4KM",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "XC4KM"
   },
   {
     "discipline": "24 Hours",
-    "disciplineCode": "24H",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "24H"
   },
   {
-    "discipline": "Marathon Race Walk Mixed Relay",
-    "disciplineCode": "MARMXT",
-    "shortTrack": false,
-    "isTechnical": false
+    "discipline": "Marathon Race Walk Relay",
+    "disciplineCode": "MARMXT"
   },
   {
     "discipline": "100m Amputee",
-    "disciplineCode": "100A",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100A"
   },
   {
     "discipline": "200m Amputee",
-    "disciplineCode": "200A",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "200A"
   },
   {
     "discipline": "100m Blind",
-    "disciplineCode": "100B",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100B"
   },
   {
     "discipline": "200m Blind",
-    "disciplineCode": "200B",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "200B"
   },
   {
     "discipline": "400m Blind",
-    "disciplineCode": "400B",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "400B"
   },
   {
     "discipline": "400m Cerebral Palsy",
-    "disciplineCode": "400CP",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "400CP"
   },
   {
     "discipline": "800m Wheelchair",
-    "disciplineCode": "800W",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "800W"
   },
   {
     "discipline": "1500m Wheelchair",
-    "disciplineCode": "1500W",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "1500W"
   },
   {
     "discipline": "200m Visually Impaired",
-    "disciplineCode": "200VI",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "200VI"
   },
   {
     "discipline": "Javelin Throw Wheelchair",
-    "disciplineCode": "JTW",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "JTW"
   },
   {
     "discipline": "200m Wheelchair",
-    "disciplineCode": "200W",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "200W"
   },
   {
     "discipline": "400 Metres T53",
-    "disciplineCode": "400T53",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "400T53"
   },
   {
     "discipline": "100m Wheelchair",
-    "disciplineCode": "100W",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "100W"
   },
   {
     "discipline": "800 Metres T54",
-    "disciplineCode": "800T54",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "800T54"
   },
   {
     "discipline": "Road Race",
-    "disciplineCode": "RR",
-    "shortTrack": false,
-    "isTechnical": false
+    "disciplineCode": "RR"
   }
 ]
