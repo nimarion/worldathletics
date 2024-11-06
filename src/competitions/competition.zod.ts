@@ -1,4 +1,3 @@
-import mapDisciplineToCode from 'src/discipline.utils';
 import { DateSchema, DisciplineNameSchema, FullnameSchema, GenderSchema, MarkSchema, PhoneSchema, PlaceSchema, UrlSlugIdSchema, VenueSchema } from 'src/zod.schema';
 import { z } from 'zod';
 
@@ -14,7 +13,7 @@ export const CompetitionOrganiserInfoSchema = z.object({
   }),
   units: z.array(
     z.object({
-      events: z.array(z.string().transform(mapDisciplineToCode)).transform(val => [...new Set(val)]),
+      events: z.array(z.string()).transform(val => [...new Set(val)]),
       gender: GenderSchema,
     }),
   ),

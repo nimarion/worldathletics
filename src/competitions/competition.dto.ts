@@ -24,8 +24,7 @@ export class CompetitionOrganiserInfo {
   @ApiProperty({ type: [ContactPerson] })
   contactPersons!: ContactPerson[];
   @ApiProperty({
-    type: [Map<string, string[]>],
-    description: "Map with keys 'M', 'W' and 'X' and values the corresponding discipline codes"
+    type: [Map<string, string[]>]
   })
   events!: Map<Sex, string[]> | any | null; 
   @ApiProperty({ type: [Map<string, number[]>] })
