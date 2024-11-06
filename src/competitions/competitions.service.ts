@@ -49,16 +49,24 @@ export class CompetitionsService {
       unit.events.forEach((event) => {
         disciplines.push(event);
       });
-      if (unit.gender) {
-        events.set(unit.gender, disciplines);
-      }
+      events.set(unit.gender, disciplines);
+    });
+    const prizeMoney = new Map<Sex, number[]>();
+    response.getCompetitionOrganiserInfo.prizeMoney.forEach((prize) => {
+      const prizes: number[] = [];
+      prize.prizes.forEach((p) => {
+        prizes.push(p);
+      });
+      prizeMoney.set(prize.gender, prizes);
     });
 
     return {
       liveStreamUrl: response.getCompetitionOrganiserInfo.liveStreamingUrl,
       resultsUrl: response.getCompetitionOrganiserInfo.resultsPageUrl,
       websiteUrl: response.getCompetitionOrganiserInfo.websiteUrl,
-      events: JSON.parse(JSON.stringify(Object.fromEntries(events))),
+      additionalInfo: response.getCompetitionOrganiserInfo.additionalInfo,
+      events,
+      prizeMoney,
       contactPersons: response.getCompetitionOrganiserInfo.contactPersons.map(
         (contact) => {
           return {

@@ -25,8 +25,13 @@ export class CompetitionOrganiserInfo {
   contactPersons!: ContactPerson[];
   @ApiProperty({
     type: [Map<string, string[]>],
+    description: "Map with keys 'M', 'W' and 'X' and values the corresponding discipline codes"
   })
-  events: any;
+  events!: Map<Sex, string[]> | any | null; 
+  @ApiProperty({ type: [Map<string, number[]>] })
+  prizeMoney!: Map<Sex, number[]> | any | null;
+  @ApiProperty({ nullable: true, type : String })
+  additionalInfo!: string | null;
 }
 
 export class Competition {

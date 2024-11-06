@@ -42,7 +42,11 @@ export class CompetitionsController {
     if (!data) {
       throw new NotFoundException();
     }
-    return data;
+    return {
+      ...data,
+      events: JSON.parse(JSON.stringify(Object.fromEntries(data.events))),
+      prizeMoney: JSON.parse(JSON.stringify(Object.fromEntries(data.prizeMoney)))
+    }
   }
 
   @Get(':id/results')

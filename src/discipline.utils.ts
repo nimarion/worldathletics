@@ -15,15 +15,24 @@ export default function mapDisciplineToCode(discipline: string): string {
     }
     return disciplineItem.disciplineCode;
   }
+  console.error(`Discipline ${discipline} not found`);
   return discipline;
 }
 
 export function cleanupDiscipline(discipline: string): string {
-  return discipline
+  discipline = discipline
     .replace("Women's ", '')
     .replace("Men's ", '')
     .replace('Mixed ', '')
+    .replace(' sh', '')
     .replace('Short Track', '').trim();
+  if(discipline.endsWith('m')) {
+    discipline  = discipline.substring(0, discipline.length - 1) + ' Metres';
+  }
+  if(discipline.includes('km')) {
+    discipline = discipline.replace('km', ' Kilometres');
+  }
+  return discipline;
 }
 
 export function isTechnical({
