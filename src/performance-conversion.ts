@@ -26,18 +26,18 @@ export function performanceToFloat({
   const parts = performance.split(':');
 
   if (parts.length === 1) {
-    return parseFloat(parts[0]) * 1000;
+    return parseFloat(parts[0]) * 1000 | 0;
   }
 
   if (parts.length === 2) {
     const [minutes, rest] = parts;
     const seconds = parseFloat(rest);
-    return (parseInt(minutes) * 60 + seconds) * 1000;
+    return (parseInt(minutes) * 60 + seconds) * 1000 | 0;
   }
 
   if (parts.length === 3) {
     const [hours, minutes, seconds] = parts.map((part) => parseInt(part));
-    return (hours * 3600 + minutes * 60 + seconds) * 1000;
+    return (hours * 3600 + minutes * 60 + seconds) * 1000 | 0;
   }
 
   throw new Error(`Invalid performance: ${performance}`);
