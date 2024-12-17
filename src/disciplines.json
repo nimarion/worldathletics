@@ -504,11 +504,11 @@
     "disciplineCode": "8RR"
   },
   {
-    "discipline": "Cross Country",
+    "discipline": "Cross Country Senior Race",
     "disciplineCode": "XSE"
   },
   {
-    "discipline": "Cross Country Senior Race",
+    "discipline": "Cross Country",
     "disciplineCode": "XSE"
   },
   {
@@ -572,12 +572,20 @@
     "disciplineCode": "1500W"
   },
   {
+    "discipline": "Javelin Throw Wheelchair",
+    "disciplineCode": "JTW"
+  },
+  {
+    "discipline": "800 Metres T54",
+    "disciplineCode": "800T54"
+  },
+  {
     "discipline": "200m Visually Impaired",
     "disciplineCode": "200VI"
   },
   {
-    "discipline": "Javelin Throw Wheelchair",
-    "disciplineCode": "JTW"
+    "discipline": "100m Wheelchair",
+    "disciplineCode": "100W"
   },
   {
     "discipline": "200m Wheelchair",
@@ -586,14 +594,6 @@
   {
     "discipline": "400 Metres T53",
     "disciplineCode": "400T53"
-  },
-  {
-    "discipline": "100m Wheelchair",
-    "disciplineCode": "100W"
-  },
-  {
-    "discipline": "800 Metres T54",
-    "disciplineCode": "800T54"
   },
   {
     "discipline": "Road Race",
