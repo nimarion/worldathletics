@@ -8,6 +8,9 @@ import { Location } from './location.dto';
 import { Sex } from './athletes/athlete.dto';
 
 export function formatLastname(lastname: string): string {
+  if(lastname === ''){
+    return '';
+  }
   return (
     lastname
       .toLowerCase()
@@ -115,9 +118,11 @@ export function parsePhoneNumber(number: string): string | null {
 export function formatSex(input: string): Sex {
   switch (input.trim().toLowerCase()) {
     case 'men':
+    case 'male':
     case 'm':
       return 'M';
     case 'women':
+    case 'female':
     case 'w':
       return 'W';
     case 'x':
