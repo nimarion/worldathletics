@@ -19,13 +19,16 @@ export class LeadsService {
     leadType,
     disciplineCode,
     region,
+    year,
   }: {
     ageGroup: string;
     sex: "M" | "W" | "X";
     leadType: "AL" | "WL" | "NL";
     disciplineCode: string;
     region: string | null;
+    year: number;
   }): Promise<Record[]> {
+    console.log(year)
     const leads: Record[] = [];
     const leadsTs = await this.prisma.leads.findMany({
       where: {
@@ -34,6 +37,10 @@ export class LeadsService {
         recordType: leadType,
         region,
         sex,
+        date: {
+          gte: new Date(`${year}-01-01`),
+          lt: new Date(`${year+1}-01-01`)
+        }
       },
       orderBy: {
         rank: 'asc'

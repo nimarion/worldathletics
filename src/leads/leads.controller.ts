@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/comm
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { Record } from 'src/records/record.dto';
 import { LeadsService } from './leads.service';
-import { IsEnum, IsOptional } from 'class-validator';
+import { IsEnum, IsNumber, IsNumberString, IsOptional } from 'class-validator';
 
 class ParamsDto {
   @ApiProperty()
@@ -22,6 +22,10 @@ class QueryDto{
   @IsOptional()
   @ApiProperty({ required: false, type: String })
   region!: string | null;
+  @ApiProperty({ required: false, type: Number })
+  @IsNumberString()
+  @IsOptional()
+  year!: number | null;
 }
 
 @Controller('leads')
@@ -43,7 +47,8 @@ export class LeadsController {
       disciplineCode: params.discipline,
       leadType: query.leadType,
       region: query.region,
-      sex: params.sex
+      sex: params.sex,
+      year: query.year ? Number(query.year) : new Date().getFullYear()
     });
   }
 
