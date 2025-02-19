@@ -5,6 +5,7 @@ import { LeadsService } from './leads.service';
 import { IsEnum, IsOptional } from 'class-validator';
 
 class ParamsDto {
+  @ApiProperty()
   discipline!: string;
   @IsEnum(["senior", "u20"])
   @ApiProperty({ enum: ["senior", "u20"] })
