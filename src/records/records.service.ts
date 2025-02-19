@@ -45,6 +45,7 @@ export class RecordsService {
           performance: result.performance,
         });
         records.push({
+          place: 1,
           sex: record.gender,
           discipline: result.discipline,
           disciplineCode,

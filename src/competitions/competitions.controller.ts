@@ -55,6 +55,11 @@ export class CompetitionsController {
     required: false,
     type: Number,
   })
+  @ApiQuery({
+    name: 'day',
+    required: false,
+    type: Number,
+  })
   @ApiOkResponse({
     type: CompetitionResults,
     isArray: true,

@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BaseAthlete, BasePerformance, Sex } from 'src/athletes/athlete.dto';
 
 export class Record extends BasePerformance {
+  @ApiProperty()
+  place!: number;
   @ApiProperty({
     enum: ['M', 'W', 'X'],
   })

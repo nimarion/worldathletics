@@ -5,8 +5,8 @@ export class Location {
   country!: string;
   @ApiProperty({ nullable: true, type: String })
   stadium?: string;
-  @ApiProperty()
-  city!: string;
+  @ApiProperty({ nullable: true, type: String })
+  city?: string;
   @ApiProperty()
   indoor!: boolean;
 }
