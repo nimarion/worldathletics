@@ -420,6 +420,10 @@
     "disciplineCode": "50KR"
   },
   {
+    "discipline": "4x100 Metres Relay Mixed",
+    "disciplineCode": "4X1"
+  },
+  {
     "discipline": "4x100 Metres Relay",
     "disciplineCode": "4X1"
   },
@@ -572,28 +576,28 @@
     "disciplineCode": "1500W"
   },
   {
-    "discipline": "Javelin Throw Wheelchair",
-    "disciplineCode": "JTW"
-  },
-  {
     "discipline": "800 Metres T54",
     "disciplineCode": "800T54"
-  },
-  {
-    "discipline": "200m Visually Impaired",
-    "disciplineCode": "200VI"
   },
   {
     "discipline": "100m Wheelchair",
     "disciplineCode": "100W"
   },
   {
-    "discipline": "200m Wheelchair",
-    "disciplineCode": "200W"
+    "discipline": "Javelin Throw Wheelchair",
+    "disciplineCode": "JTW"
+  },
+  {
+    "discipline": "200m Visually Impaired",
+    "disciplineCode": "200VI"
   },
   {
     "discipline": "400 Metres T53",
     "disciplineCode": "400T53"
+  },
+  {
+    "discipline": "200m Wheelchair",
+    "disciplineCode": "200W"
   },
   {
     "discipline": "Road Race",
