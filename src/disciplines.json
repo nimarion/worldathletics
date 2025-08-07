@@ -272,11 +272,11 @@
     "disciplineCode": "DT"
   },
   {
-    "discipline": "Discus Throw (1.750kg)",
+    "discipline": "Discus Throw (1,75kg)",
     "disciplineCode": "DTJ"
   },
   {
-    "discipline": "Discus Throw (1.500kg)",
+    "discipline": "Discus Throw (1,5kg)",
     "disciplineCode": "DTY"
   },
   {
@@ -404,12 +404,12 @@
     "disciplineCode": "30KW"
   },
   {
-    "discipline": "30 Kilometres Race Walk",
-    "disciplineCode": "30KR"
-  },
-  {
     "discipline": "35,000 Metres Race Walk",
     "disciplineCode": "35KW"
+  },
+  {
+    "discipline": "30 Kilometres Race Walk",
+    "disciplineCode": "30KR"
   },
   {
     "discipline": "35 Kilometres Race Walk",
@@ -424,11 +424,11 @@
     "disciplineCode": "50KR"
   },
   {
-    "discipline": "4x100 Metres Relay",
+    "discipline": "4x100 Metres Relay Mixed",
     "disciplineCode": "4X1"
   },
   {
-    "discipline": "4x100 Metres Relay Mixed",
+    "discipline": "4x100 Metres Relay",
     "disciplineCode": "4X1"
   },
   {
@@ -436,11 +436,11 @@
     "disciplineCode": "4X2"
   },
   {
-    "discipline": "4x400 Metres Relay",
+    "discipline": "4x400 Metres Relay Mixed",
     "disciplineCode": "4X4"
   },
   {
-    "discipline": "4x400 Metres Relay Mixed",
+    "discipline": "4x400 Metres Relay",
     "disciplineCode": "4X4"
   },
   {
@@ -592,16 +592,16 @@
     "disciplineCode": "200W"
   },
   {
-    "discipline": "400 Metres T53",
-    "disciplineCode": "400T53"
+    "discipline": "800 Metres T54",
+    "disciplineCode": "800T54"
   },
   {
     "discipline": "200m Visually Impaired",
     "disciplineCode": "200VI"
   },
   {
-    "discipline": "800 Metres T54",
-    "disciplineCode": "800T54"
+    "discipline": "400 Metres T53",
+    "disciplineCode": "400T53"
   },
   {
     "discipline": "Road Race",
