@@ -32,7 +32,7 @@ export class ErrorsInterceptor implements NestInterceptor {
           }
           // Zod Schema Validation Error
           if (err instanceof ZodError) {
-            console.log(err.errors);
+            console.log(err);
             return new BadGatewayException();
           }
           console.error(err);
