@@ -11,17 +11,29 @@ export function formatLastname(lastname: string): string {
   if(lastname === ''){
     return '';
   }
-  return (
-    lastname
-      .toLowerCase()
-      .split(' ')
-      .filter((s) => s.length > 0)
-      .map((s) => s[0].toUpperCase() + s.slice(1))
-      .join(' ')
-      // if lastname contains "-" like Skupin-alfa -> capitalize both parts
-      .split('-')
-      .map((s) => s[0].toUpperCase() + s.slice(1))
-      .join('-')
+  console.log(lastname);
+
+  const capitalize = (s: string) => {
+    if (!s) return s;
+
+    // If all characters are the same (e.g., "II", "AAA"), keep original
+    if (s.split('').every(c => c === s[0])) {
+      return s;
+    }
+
+    return s[0].toUpperCase() + s.slice(1).toLowerCase();
+  };
+
+  return (lastname
+    .split(' ')
+    .filter(s => s.length > 0)
+    .map(part =>
+      part
+        .split('-') // // if lastname contains "-" like Skupin-alfa -> capitalize both parts
+        .map(capitalize)
+        .join('-')
+    )
+    .join(' ')
   );
 }
 
