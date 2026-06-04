@@ -8,33 +8,39 @@ import { Location } from './location.dto';
 import { Sex } from './athletes/athlete.dto';
 
 export function formatLastname(lastname: string): string {
-  if(lastname === ''){
+  if (lastname === '') {
     return '';
   }
-  console.log(lastname);
 
-  const capitalize = (s: string) => {
+  const capitalize = (s: string): string => {
     if (!s) return s;
 
     // If all characters are the same (e.g., "II", "AAA"), keep original
-    if (s.split('').every(c => c === s[0])) {
+    if (s.length > 1 && s === s[0].repeat(s.length)) {
       return s;
+    }
+
+    // Capitalize parts separated by apostrophe (e.g., "O'CONNOR" -> "O'Connor")
+    if (s.includes("'")) {
+      return s
+        .split("'")
+        .map(capitalize)
+        .join("'");
     }
 
     return s[0].toUpperCase() + s.slice(1).toLowerCase();
   };
 
-  return (lastname
+  return lastname
     .split(' ')
-    .filter(s => s.length > 0)
-    .map(part =>
+    .filter((s) => s.length > 0)
+    .map((part) =>
       part
-        .split('-') // // if lastname contains "-" like Skupin-alfa -> capitalize both parts
+        .split('-') // if lastname contains "-" like Skupin-alfa -> capitalize both parts
         .map(capitalize)
         .join('-')
     )
-    .join(' ')
-  );
+    .join(' ');
 }
 
 export function extractName(name: string) {
@@ -99,8 +105,8 @@ function parseCountryAndCity(countryAndCity: string): [string, string] {
   if (!matchResult) {
     throw new Error(`Cannot parse country and city from ${countryAndCity}`);
   }
-  const city = matchResult[1].replace(/, [A-Z]+$/, '');
-  const country = matchResult[2];
+  const city = matchResult[1].replace(/, [A-Z]+$/, '').trim();
+  const country = matchResult[2].trim();
   return [city, country];
 }
 
