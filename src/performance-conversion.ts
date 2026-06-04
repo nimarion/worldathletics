@@ -7,37 +7,56 @@ export function performanceToFloat({
   technical: boolean;
 }): number | null {
   // Empty performance (DNS, DNF, etc.)
-  if(performance === ""){
+  if (performance === "") {
     return null;
   }
-  // Combined Events or One Hour Race
-  if(technical && !isNaN(Number(performance)) && Number(performance) % 1 === 0) {
-    return Number(performance);
+
+  const normalized = performance.trim().replace(',', '.');
+  if (normalized === "") {
+    return null;
   }
-  performance = performance.trim().replace(',', '.');
+
+  // Combined Events or One Hour Race
+  if (technical) {
+    const num = Number(normalized);
+    if (!isNaN(num) && num % 1 === 0) {
+      return num;
+    }
+  }
 
   if (technical) {
-    const convertedPerformance = parseFloat(performance);
+    const convertedPerformance = parseFloat(normalized);
     return isNaN(convertedPerformance)
       ? 0
       : Math.round(convertedPerformance * 100);
   }
 
-  const parts = performance.split(':');
+  const parts = normalized.split(':');
 
   if (parts.length === 1) {
-    return parseFloat(parts[0]) * 1000 | 0;
+    const seconds = parseFloat(parts[0]);
+    return isNaN(seconds) ? 0 : Math.round(seconds * 1000);
   }
 
   if (parts.length === 2) {
-    const [minutes, rest] = parts;
-    const seconds = parseFloat(rest);
-    return (parseInt(minutes) * 60 + seconds) * 1000 | 0;
+    const [minutesStr, secondsStr] = parts;
+    const minutes = parseInt(minutesStr, 10);
+    const seconds = parseFloat(secondsStr);
+    if (isNaN(minutes) || isNaN(seconds)) {
+      return 0;
+    }
+    return Math.round((minutes * 60 + seconds) * 1000);
   }
 
   if (parts.length === 3) {
-    const [hours, minutes, seconds] = parts.map((part) => parseInt(part));
-    return (hours * 3600 + minutes * 60 + seconds) * 1000 | 0;
+    const [hoursStr, minutesStr, secondsStr] = parts;
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+    const seconds = parseFloat(secondsStr);
+    if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+      return 0;
+    }
+    return Math.round((hours * 3600 + minutes * 60 + seconds) * 1000);
   }
 
   throw new Error(`Invalid performance: ${performance}`);
