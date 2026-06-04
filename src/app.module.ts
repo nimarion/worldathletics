@@ -8,8 +8,6 @@ import { GraphqlModule } from './graphql/graphql.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { RecordsModule } from './records/records.module';
-import { LeadsModule } from './leads/leads.module';
-import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
@@ -23,10 +21,6 @@ import { PrismaService } from './prisma.service';
     GraphqlModule,
     CompetitionsModule,
     RecordsModule,
-    LeadsModule
-  ],
-  providers: [
-    PrismaService
   ]
 })
 export class AppModule {
