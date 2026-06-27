@@ -64,7 +64,12 @@ export class RecordsService {
               sex: null,
               ...competitor.name!!,
               country: competitor.country!!,
-              birthdate: competitor.birthDate,
+              birthdate: competitor.birthDate
+                ? competitor.birthDate.date
+                : null,
+              birthdateOnlyYear: competitor.birthDate
+                ? competitor.birthDate.birthdateOnlyYear
+                : false,
               id: competitor.id!!,
             };
           }),

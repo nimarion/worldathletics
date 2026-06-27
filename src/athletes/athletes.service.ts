@@ -35,7 +35,10 @@ export class AthletesService {
           country: item.country,
           firstname: item.givenName,
           lastname: item.familyName,
-          birthdate: item.birthDate,
+          birthdate: item.birthDate ? item.birthDate.date : null,
+          birthdateOnlyYear: item.birthDate
+            ? item.birthDate.birthdateOnlyYear
+            : false,
           levenshteinDistance: levenshteinDistance(
             name.toLowerCase().trim(),
             (item.givenName + ' ' + item.familyName).toLowerCase().trim(),
@@ -125,7 +128,8 @@ export class AthletesService {
       id,
       firstname,
       lastname,
-      birthdate,
+      birthdate: birthdate ? birthdate.date : null,
+      birthdateOnlyYear: birthdate ? birthdate.birthdateOnlyYear : false,
       country,
       sex,
       athleteRepresentativeId: athleteRepresentative,

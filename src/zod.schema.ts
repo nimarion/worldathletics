@@ -52,6 +52,16 @@ export const DateSchema = z
     return val;
   });
 
+export const BirthDateSchema = z.string().transform((val) => {
+  const onlyYear = /^\d{4}$/.test(val.trim());
+  const date = new Date(val);
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return {
+    date,
+    birthdateOnlyYear: onlyYear,
+  };
+});
+
 export const PlaceSchema = z.preprocess((val) => {
   // Out of competition results are marked as OC
   if (val === 'OC') {

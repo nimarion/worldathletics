@@ -1,6 +1,7 @@
 import {
   CountryCodeSchema,
   DateSchema,
+  BirthDateSchema,
   DisciplineNameSchema,
   FullnameSchema,
   GenderSchema,
@@ -24,14 +25,14 @@ export const RecordSchema = z.object({
       competitor: z.object({
         name: FullnameSchema,
         country: z.nullable(CountryCodeSchema),
-        birthDate: z.nullable(DateSchema),
+        birthDate: z.nullable(BirthDateSchema),
         id: z.number().nullable(),
         teamMembers: z
           .array(
             z.object({
               name: FullnameSchema,
               country: CountryCodeSchema,
-              birthDate: z.nullable(DateSchema),
+              birthDate: z.nullable(BirthDateSchema),
               id: z.number(),
             }),
           )

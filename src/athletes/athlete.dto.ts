@@ -13,6 +13,10 @@ export class BaseAthlete {
   lastname!: string;
   @ApiProperty({ nullable: true, type: Date })
   birthdate!: Date | null;
+  @ApiProperty({
+    description: 'Indicates if only the year of birthdate is correct/known',
+  })
+  birthdateOnlyYear!: boolean;
   @ApiProperty()
   country!: string;
   @ApiProperty({

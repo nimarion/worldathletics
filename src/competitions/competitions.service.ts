@@ -192,6 +192,7 @@ export class CompetitionsService {
                           firstname: teamMember.name!!.firstname,
                           lastname: teamMember.name!!.lastname,
                           birthdate: null,
+                          birthdateOnlyYear: false,
                           country: teamMember.urlSlug.country,
                           sex: event.gender != 'X' ? event.gender : null,
                         };
@@ -201,7 +202,12 @@ export class CompetitionsService {
                           id: result.competitor.urlSlug!!.id,
                           firstname: result.competitor.name!!.firstname,
                           lastname: result.competitor.name!!.lastname,
-                          birthdate: result.competitor.birthDate,
+                          birthdate: result.competitor.birthDate
+                            ? result.competitor.birthDate.date
+                            : null,
+                          birthdateOnlyYear: result.competitor.birthDate
+                            ? result.competitor.birthDate.birthdateOnlyYear
+                            : false,
                           country:
                             result.nationality ||
                             result.competitor.urlSlug!!.country,

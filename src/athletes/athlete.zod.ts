@@ -2,6 +2,7 @@ import {
   CompetitionNameSchema,
   CountryCodeSchema,
   DateSchema,
+  BirthDateSchema,
   DisciplineNameSchema,
   GenderSchema,
   LastnameSchema,
@@ -15,7 +16,7 @@ import { z } from 'zod';
 export const BasicData = z.object({
   givenName: FirstnameSchema,
   familyName: LastnameSchema,
-  birthDate: z.nullable(DateSchema),
+  birthDate: z.nullable(BirthDateSchema),
   countryCode: CountryCodeSchema,
   sexNameUrlSlug: z.nullable(GenderSchema),
 });
@@ -91,7 +92,7 @@ export const AthleteSearchSchema = z.object({
   aaAthleteId: z.coerce.number(),
   familyName: LastnameSchema,
   givenName: FirstnameSchema,
-  birthDate: z.nullable(DateSchema),
+  birthDate: z.nullable(BirthDateSchema),
   gender: GenderSchema,
   country: CountryCodeSchema,
 });

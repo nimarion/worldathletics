@@ -1,5 +1,6 @@
 import {
   DateSchema,
+  BirthDateSchema,
   DisciplineNameSchema,
   FullnameSchema,
   GenderSchema,
@@ -110,7 +111,7 @@ export const CompetitionResultsSchema = z.object({
                       .nullable(),
                     name: FullnameSchema,
                     urlSlug: z.nullable(UrlSlugIdSchema),
-                    birthDate: z.nullable(DateSchema),
+                    birthDate: z.nullable(BirthDateSchema),
                   }),
                   mark: MarkSchema,
                   nationality: z.string(),
