@@ -21,7 +21,7 @@ import { RecordsModule } from './records/records.module';
     GraphqlModule,
     CompetitionsModule,
     RecordsModule,
-  ]
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer): void {

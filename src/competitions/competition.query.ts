@@ -196,7 +196,7 @@ export const COMPETITON_RESULTS = gql`
         rankingCategory
         startDate
         venue
-      } 
+      }
       parameters {
         day
       }

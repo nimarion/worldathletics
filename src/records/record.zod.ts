@@ -1,4 +1,12 @@
-import { CountryCodeSchema, DateSchema, DisciplineNameSchema, FullnameSchema, GenderSchema, MarkSchema, VenueSchema } from 'src/zod.schema';
+import {
+  CountryCodeSchema,
+  DateSchema,
+  DisciplineNameSchema,
+  FullnameSchema,
+  GenderSchema,
+  MarkSchema,
+  VenueSchema,
+} from 'src/zod.schema';
 import { z } from 'zod';
 
 export const RecordSchema = z.object({

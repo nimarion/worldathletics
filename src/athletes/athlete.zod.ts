@@ -8,7 +8,7 @@ import {
   MarkSchema,
   PlaceSchema,
   FirstnameSchema,
-  VenueSchema
+  VenueSchema,
 } from 'src/zod.schema';
 import { z } from 'zod';
 
@@ -55,9 +55,7 @@ const Result = z.object({
 export const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
-    activeSeasons: z.array(
-      z.coerce.number()
-    ),
+    activeSeasons: z.array(z.coerce.number()),
     results: z.array(Performance).transform((val) => {
       return val.filter((result) => {
         if (!result.date) {

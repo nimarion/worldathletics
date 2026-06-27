@@ -23,18 +23,24 @@ export class DisciplinesService {
         }),
       })
       .parse(data);
-    const disciplines =  reponse.getMetaData.disciplineCodes.map((discipline) => {
-      return {
-        discipline: discipline.name,
-        disciplineCode: discipline.code,
-      };
-    });
+    const disciplines = reponse.getMetaData.disciplineCodes.map(
+      (discipline) => {
+        return {
+          discipline: discipline.name,
+          disciplineCode: discipline.code,
+        };
+      },
+    );
     return disciplines.filter((discipline) => {
-      if(!discipline.disciplineCode.endsWith('sh')){
+      if (!discipline.disciplineCode.endsWith('sh')) {
         return true;
       }
-      const existsOther =  disciplines.some((d) => d.discipline === discipline.discipline && d.disciplineCode !== discipline.disciplineCode);
-      if(existsOther){
+      const existsOther = disciplines.some(
+        (d) =>
+          d.discipline === discipline.discipline &&
+          d.disciplineCode !== discipline.disciplineCode,
+      );
+      if (existsOther) {
         return false;
       }
       discipline.disciplineCode = discipline.disciplineCode.slice(0, -2);

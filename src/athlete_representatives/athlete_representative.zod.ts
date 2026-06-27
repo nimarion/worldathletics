@@ -1,5 +1,9 @@
 import { parsePhoneNumber } from 'src/utils';
-import { CountryCodeSchema, FirstnameSchema, LastnameSchema } from 'src/zod.schema';
+import {
+  CountryCodeSchema,
+  FirstnameSchema,
+  LastnameSchema,
+} from 'src/zod.schema';
 import { z } from 'zod';
 
 function sanitizeEmail(email: string): string {

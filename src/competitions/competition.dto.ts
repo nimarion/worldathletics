@@ -24,12 +24,12 @@ export class CompetitionOrganiserInfo {
   @ApiProperty({ type: [ContactPerson] })
   contactPersons!: ContactPerson[];
   @ApiProperty({
-    type: [Map<string, string[]>]
+    type: [Map<string, string[]>],
   })
-  events!: Map<Sex, string[]> | any | null; 
+  events!: Map<Sex, string[]> | any | null;
   @ApiProperty({ type: [Map<string, number[]>] })
   prizeMoney!: Map<Sex, number[]> | any | null;
-  @ApiProperty({ nullable: true, type : String })
+  @ApiProperty({ nullable: true, type: String })
   additionalInfo!: string | null;
 }
 
@@ -103,10 +103,10 @@ export class CompetitionResultOptionDay {
   @ApiProperty()
   date!: Date;
   @ApiProperty()
-  day!: number
+  day!: number;
 }
 
-export class CompetitionResultOptionEvent extends BaseDiscipline{
+export class CompetitionResultOptionEvent extends BaseDiscipline {
   @ApiProperty()
   id!: number;
   @ApiProperty({
@@ -119,9 +119,9 @@ export class CompetitionResultOptionEvent extends BaseDiscipline{
 
 export class CompetitionResultOptions {
   @ApiProperty({ isArray: true, type: CompetitionResultOptionDay })
-  days! : CompetitionResultOptionDay[];
+  days!: CompetitionResultOptionDay[];
   @ApiProperty({ isArray: true, type: CompetitionResultOptionEvent })
-  events! : CompetitionResultOptionEvent[];
+  events!: CompetitionResultOptionEvent[];
 }
 
 export class CompetitionResults {
@@ -130,4 +130,3 @@ export class CompetitionResults {
   @ApiProperty()
   options!: CompetitionResultOptions;
 }
-

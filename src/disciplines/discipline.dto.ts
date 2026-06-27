@@ -7,7 +7,10 @@ export class BaseDiscipline {
   disciplineCode!: string;
 }
 
-export class Discipline extends BaseDiscipline{
-  @ApiProperty({ description: "Is also true for disciplines where the 'higher' result is better like Hep/Decathlon and One hour races" })
+export class Discipline extends BaseDiscipline {
+  @ApiProperty({
+    description:
+      "Is also true for disciplines where the 'higher' result is better like Hep/Decathlon and One hour races",
+  })
   isTechnical!: boolean;
 }

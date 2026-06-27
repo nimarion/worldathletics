@@ -7,12 +7,12 @@ export function performanceToFloat({
   technical: boolean;
 }): number | null {
   // Empty performance (DNS, DNF, etc.)
-  if (performance === "") {
+  if (performance === '') {
     return null;
   }
 
   const normalized = performance.trim().replace(',', '.');
-  if (normalized === "") {
+  if (normalized === '') {
     return null;
   }
 

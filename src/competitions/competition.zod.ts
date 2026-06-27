@@ -1,4 +1,14 @@
-import { DateSchema, DisciplineNameSchema, FullnameSchema, GenderSchema, MarkSchema, PhoneSchema, PlaceSchema, UrlSlugIdSchema, VenueSchema } from 'src/zod.schema';
+import {
+  DateSchema,
+  DisciplineNameSchema,
+  FullnameSchema,
+  GenderSchema,
+  MarkSchema,
+  PhoneSchema,
+  PlaceSchema,
+  UrlSlugIdSchema,
+  VenueSchema,
+} from 'src/zod.schema';
 import { z } from 'zod';
 
 export const CompetitionOrganiserInfoSchema = z.object({
@@ -13,14 +23,19 @@ export const CompetitionOrganiserInfoSchema = z.object({
   }),
   units: z.array(
     z.object({
-      events: z.array(z.string()).transform(val => [...new Set(val)]),
+      events: z.array(z.string()).transform((val) => [...new Set(val)]),
       gender: GenderSchema,
     }),
   ),
   prizeMoney: z.array(
     z.object({
       gender: GenderSchema,
-      prizes: z.array(z.string().transform(val => val.replace(',', '')).pipe(z.coerce.number())),
+      prizes: z.array(
+        z
+          .string()
+          .transform((val) => val.replace(',', ''))
+          .pipe(z.coerce.number()),
+      ),
     }),
   ),
   contactPersons: z.array(
@@ -55,7 +70,7 @@ export const CompetitionSchema = z.object({
   competitionSubgroup: z.string().nullable(),
 });
 
-export const CompetitionResultsSchema =  z.object({
+export const CompetitionResultsSchema = z.object({
   competition: z.object({
     venue: VenueSchema,
     name: z.string(),
@@ -102,9 +117,7 @@ export const CompetitionResultsSchema =  z.object({
                   place: PlaceSchema,
                   records: z.string().transform((val) => {
                     if (val === '') return [];
-                    return val
-                      .split(',')
-                      .map((record) => record.trim());
+                    return val.split(',').map((record) => record.trim());
                   }),
                   wind: z.coerce
                     .number()
@@ -134,9 +147,12 @@ export const CompetitionResultsSchema =  z.object({
         gender: GenderSchema,
         id: z.number(),
         name: DisciplineNameSchema,
-        combined: z.boolean().nullable().transform((val) => {
-          return val === null ? false : val;
-        }),
+        combined: z
+          .boolean()
+          .nullable()
+          .transform((val) => {
+            return val === null ? false : val;
+          }),
       }),
     ),
   }),

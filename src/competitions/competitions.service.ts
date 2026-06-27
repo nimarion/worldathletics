@@ -19,9 +19,7 @@ import {
   CompetitionResultsSchema,
   CompetitionSchema,
 } from './competition.zod';
-import mapDisciplineToCode, {
-  isTechnical,
-} from 'src/discipline.utils';
+import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { Sex } from 'src/athletes/athlete.dto';
 import { performanceToFloat } from 'src/performance-conversion';
 
@@ -145,26 +143,31 @@ export class CompetitionsService {
   }: {
     competitionId: number;
     eventId?: number;
-    day?: number
+    day?: number;
   }): Promise<CompetitionResults> {
     const data = await this.graphQLClient.request(COMPETITON_RESULTS, {
       competitionId,
       eventId,
-      day
+      day,
     });
     const response = z
       .object({
-        getCalendarCompetitionResults:CompetitionResultsSchema,
+        getCalendarCompetitionResults: CompetitionResultsSchema,
       })
       .parse(data);
-    
-    const competitionDate = response.getCalendarCompetitionResults.options.days.find((d) => d.day === response.getCalendarCompetitionResults.parameters.day)?.date ||  null;
-    const competitionDay = response.getCalendarCompetitionResults.parameters.day || undefined;
 
-    const competitionResults: CompetitionResultEvent[] = response.getCalendarCompetitionResults.eventTitles.flatMap((event) => {
-      const category = event.rankingCategory;
-      const eventName = event.eventTitle;
-      const data: CompetitionResultEvent[] = event.events.map((event) => {
+    const competitionDate =
+      response.getCalendarCompetitionResults.options.days.find(
+        (d) => d.day === response.getCalendarCompetitionResults.parameters.day,
+      )?.date || null;
+    const competitionDay =
+      response.getCalendarCompetitionResults.parameters.day || undefined;
+
+    const competitionResults: CompetitionResultEvent[] =
+      response.getCalendarCompetitionResults.eventTitles.flatMap((event) => {
+        const category = event.rankingCategory;
+        const eventName = event.eventTitle;
+        const data: CompetitionResultEvent[] = event.events.map((event) => {
           const technical = isTechnical({
             disciplineCode: mapDisciplineToCode(event.event),
             performance: event.races[0].results[0].mark,
@@ -178,7 +181,7 @@ export class CompetitionsService {
             discipline: event.event,
             isTechnical: technical,
             races: event.races.map((race) => {
-              const date =  race.date || competitionDate || null;
+              const date = race.date || competitionDate || null;
               const day = race.day || competitionDay || null;
               const results: CompetitionResult[] = race.results.map(
                 (result) => {
@@ -190,7 +193,7 @@ export class CompetitionsService {
                           lastname: teamMember.name!!.lastname,
                           birthdate: null,
                           country: teamMember.urlSlug.country,
-                          sex: event.gender != "X" ? event.gender : null,
+                          sex: event.gender != 'X' ? event.gender : null,
                         };
                       })
                     : [
@@ -199,12 +202,15 @@ export class CompetitionsService {
                           firstname: result.competitor.name!!.firstname,
                           lastname: result.competitor.name!!.lastname,
                           birthdate: result.competitor.birthDate,
-                          country: result.nationality || result.competitor.urlSlug!!.country,
-                          sex: event.gender != "X" ? event.gender : null,
+                          country:
+                            result.nationality ||
+                            result.competitor.urlSlug!!.country,
+                          sex: event.gender != 'X' ? event.gender : null,
                         },
                       ];
                   return {
-                    location: response.getCalendarCompetitionResults.competition.venue,
+                    location:
+                      response.getCalendarCompetitionResults.competition.venue,
                     disciplineCode: mapDisciplineToCode(event.event),
                     discipline: event.event,
                     date: race.date || competitionDate || null,
@@ -232,8 +238,8 @@ export class CompetitionsService {
             }),
           };
         });
-      return data;
-    });
+        return data;
+      });
     return {
       events: competitionResults,
       options: {
@@ -247,10 +253,10 @@ export class CompetitionsService {
               combined: event.combined,
               discipline: event.name,
               sex: event.gender,
-            }
-          }
-        )
-      }
-    }
+            };
+          },
+        ),
+      },
+    };
   }
 }

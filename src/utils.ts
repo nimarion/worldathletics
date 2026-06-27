@@ -22,10 +22,7 @@ export function formatLastname(lastname: string): string {
 
     // Capitalize parts separated by apostrophe (e.g., "O'CONNOR" -> "O'Connor")
     if (s.includes("'")) {
-      return s
-        .split("'")
-        .map(capitalize)
-        .join("'");
+      return s.split("'").map(capitalize).join("'");
     }
 
     return s[0].toUpperCase() + s.slice(1).toLowerCase();
@@ -38,7 +35,7 @@ export function formatLastname(lastname: string): string {
       part
         .split('-') // if lastname contains "-" like Skupin-alfa -> capitalize both parts
         .map(capitalize)
-        .join('-')
+        .join('-'),
     )
     .join(' ');
 }

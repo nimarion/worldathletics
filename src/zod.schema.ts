@@ -21,20 +21,20 @@ export const MarkSchema = z.string().transform(cleanupMark);
 export const GenderSchema = z.string().transform(formatSex);
 export const DisciplineNameSchema = z.string().transform(cleanupDiscipline);
 export const CountryCodeSchema = z.string().transform((val) => {
-  const country= findCountryByCode(val);
-  if(country){
+  const country = findCountryByCode(val);
+  if (country) {
     return country.id;
   }
   console.error(`Country ${val} not found`);
   return val;
-})
+});
 export const VenueSchema = z.string().transform(parseVenue);
 export const PhoneSchema = z.string().transform(parsePhoneNumber);
 
 // spain/alvaro-martin-14410246
 export const UrlSlugIdSchema = z.string().transform((val) => {
   const idMatch = val.match(/^([a-z-]+)\/[a-z-]+-(\d+)$/);
-  if(!idMatch) {
+  if (!idMatch) {
     throw new Error(`Invalid URL slug: ${val}`);
   }
   return {
