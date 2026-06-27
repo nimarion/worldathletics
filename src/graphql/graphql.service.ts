@@ -8,15 +8,16 @@ export class GraphqlService {
   private readonly logger = new Logger(GraphqlService.name);
   private graphqlClient!: GraphQLClient;
   private currentApiKey: string | undefined;
+  private currentEndpoint: string | undefined;
 
   constructor() {
     this.currentApiKey = process.env.GRAPHQL_API_KEY;
+    this.currentEndpoint = process.env.GRAPHQL_ENDPOINT;
     this.initializeClient();
   }
 
   private initializeClient(): void {
-    const graphqlHost = process.env.GRAPHQL_ENDPOINT;
-    if (!graphqlHost) {
+    if (!this.currentEndpoint) {
       throw new Error('GRAPHQL_ENDPOINT is not defined');
     }
 
@@ -29,7 +30,7 @@ export class GraphqlService {
       headers['x-api-key'] = this.currentApiKey;
     }
 
-    this.graphqlClient = new GraphQLClient(graphqlHost, {
+    this.graphqlClient = new GraphQLClient(this.currentEndpoint, {
       headers,
     });
   }
@@ -42,18 +43,33 @@ export class GraphqlService {
     return this.currentApiKey || '';
   }
 
+  getEndpoint(): string {
+    return this.currentEndpoint || '';
+  }
+
   updateApiKey(newApiKey: string): void {
     this.currentApiKey = newApiKey;
     process.env.GRAPHQL_API_KEY = newApiKey;
 
     // Persist to the local .env file
-    this.persistToEnvFile(newApiKey);
+    this.persistToEnvFile('GRAPHQL_API_KEY', newApiKey);
 
     // Re-initialize the GraphQLClient to use the new key immediately
     this.initializeClient();
   }
 
-  private persistToEnvFile(newApiKey: string): void {
+  updateEndpoint(newEndpoint: string): void {
+    this.currentEndpoint = newEndpoint;
+    process.env.GRAPHQL_ENDPOINT = newEndpoint;
+
+    // Persist to the local .env file
+    this.persistToEnvFile('GRAPHQL_ENDPOINT', newEndpoint);
+
+    // Re-initialize the GraphQLClient to use the new endpoint immediately
+    this.initializeClient();
+  }
+
+  private persistToEnvFile(key: string, value: string): void {
     const envFilePath = path.join(process.cwd(), '.env');
     try {
       let fileContent = '';
@@ -66,26 +82,22 @@ export class GraphqlService {
 
       const updatedLines = lines.map((line) => {
         const trimmed = line.trim();
-        // Match GRAPHQL_API_KEY with or without comments/spaces
-        if (trimmed.startsWith('GRAPHQL_API_KEY=')) {
+        if (trimmed.startsWith(`${key}=`)) {
           isKeyUpdated = true;
-          return `GRAPHQL_API_KEY="${newApiKey}"`;
+          return `${key}="${value}"`;
         }
         return line;
       });
 
       if (!isKeyUpdated) {
-        updatedLines.push(`GRAPHQL_API_KEY="${newApiKey}"`);
+        updatedLines.push(`${key}="${value}"`);
       }
 
       fs.writeFileSync(envFilePath, updatedLines.join('\n'), 'utf8');
-      this.logger.log('GRAPHQL_API_KEY successfully persisted to .env file.');
+      this.logger.log(`${key} successfully persisted to .env file.`);
     } catch (error) {
-      this.logger.error(
-        'Failed to persist GRAPHQL_API_KEY to .env file:',
-        error,
-      );
-      throw new Error('Failed to persist API key on disk.');
+      this.logger.error(`Failed to persist ${key} to .env file:`, error);
+      throw new Error(`Failed to persist ${key} on disk.`);
     }
   }
 }

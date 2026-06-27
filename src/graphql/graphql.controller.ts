@@ -6,7 +6,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GraphqlService } from './graphql.service';
-import { UpdateApiKeyDto, ApiKeyResponseDto } from './graphql.dto';
+import {
+  UpdateApiKeyDto,
+  ApiKeyResponseDto,
+  UpdateEndpointDto,
+  EndpointResponseDto,
+} from './graphql.dto';
 import { AdminGuard } from './admin.guard';
 
 @ApiTags('graphql')
@@ -47,5 +52,33 @@ export class GraphqlController {
   updateApiKey(@Body() body: UpdateApiKeyDto): ApiKeyResponseDto {
     this.graphqlService.updateApiKey(body.apiKey);
     return { apiKey: this.graphqlService.getApiKey() };
+  }
+
+  @Get('endpoint')
+  @ApiOkResponse({
+    type: EndpointResponseDto,
+    description: 'Returns the currently configured GraphQL endpoint URL',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'Invalid or missing admin secret, or admin secret is not set in the environment',
+  })
+  getEndpoint(): EndpointResponseDto {
+    return { endpoint: this.graphqlService.getEndpoint() };
+  }
+
+  @Put('endpoint')
+  @ApiOkResponse({
+    type: EndpointResponseDto,
+    description:
+      'Successfully updated and persisted the GraphQL endpoint URL at runtime',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'Invalid or missing admin secret, or admin secret is not set in the environment',
+  })
+  updateEndpoint(@Body() body: UpdateEndpointDto): EndpointResponseDto {
+    this.graphqlService.updateEndpoint(body.endpoint);
+    return { endpoint: this.graphqlService.getEndpoint() };
   }
 }

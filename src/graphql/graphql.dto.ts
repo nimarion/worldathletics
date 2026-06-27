@@ -13,3 +13,16 @@ export class ApiKeyResponseDto {
   @IsString()
   apiKey!: string;
 }
+
+export class UpdateEndpointDto {
+  @ApiProperty({ description: 'The new GraphQL endpoint URL' })
+  @IsString()
+  @IsNotEmpty()
+  endpoint!: string;
+}
+
+export class EndpointResponseDto {
+  @ApiProperty({ description: 'The currently configured GraphQL endpoint URL' })
+  @IsString()
+  endpoint!: string;
+}
