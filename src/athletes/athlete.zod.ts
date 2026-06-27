@@ -56,20 +56,25 @@ const Result = z.object({
 export const Athlete = z.object({
   basicData: BasicData,
   seasonsBests: z.object({
-    activeSeasons: z.array(z.coerce.number()),
-    results: z.array(Performance).transform((val) => {
-      return val.filter((result) => {
-        if (!result.date) {
-          return false;
-        }
-        const diff = new Date().getTime() - result.date.getTime();
-        const diffInMonths = diff / (1000 * 3600 * 24 * 30);
-        return diffInMonths < 12;
-      });
-    }),
+    activeSeasons: z
+      .nullable(z.array(z.coerce.number()))
+      .transform((val) => val ?? []),
+    results: z
+      .nullable(z.array(Performance))
+      .transform((val) => val ?? [])
+      .transform((val) => {
+        return val.filter((result) => {
+          if (!result.date) {
+            return false;
+          }
+          const diff = new Date().getTime() - result.date.getTime();
+          const diffInMonths = diff / (1000 * 3600 * 24 * 30);
+          return diffInMonths < 12;
+        });
+      }),
   }),
   personalBests: z.object({
-    results: z.array(Performance),
+    results: z.nullable(z.array(Performance)).transform((val) => val ?? []),
   }),
   worldRankings: z.object({
     best: z.array(WorldRanking),
