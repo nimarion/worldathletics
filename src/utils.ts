@@ -41,7 +41,7 @@ export function formatLastname(lastname: string): string {
 }
 
 export function extractName(name: string) {
-  const regex = /^(.*)\s+([A-Z\s\W]+)$/;
+  const regex = /^(.*?)\s+([A-Z\s\W]+)$/;
   const match = name.match(regex);
 
   if (match) {
@@ -50,8 +50,22 @@ export function extractName(name: string) {
       lastname: formatLastname(match[2].trim()),
     };
   }
-  console.error('Could not extract name from', name);
-  return null;
+
+  // Fallback: split by the last space if available
+  const trimmed = name.trim();
+  const lastSpaceIndex = trimmed.lastIndexOf(' ');
+  if (lastSpaceIndex !== -1) {
+    return {
+      firstname: trimmed.slice(0, lastSpaceIndex).trim(),
+      lastname: formatLastname(trimmed.slice(lastSpaceIndex + 1)),
+    };
+  }
+
+  // Fallback for single-word names
+  return {
+    firstname: '',
+    lastname: formatLastname(trimmed),
+  };
 }
 
 export function cleanupMark(mark: string): string {
