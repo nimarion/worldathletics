@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AthletesModule } from './athletes/athletes.module';
 import { CountriesModule } from './countries/countries.module';
 import { ConfigModule } from '@nestjs/config';
+import { CacheModule } from '@nestjs/cache-manager';
 import { DisciplinesModule } from './disciplines/disciplines.module';
 import { AthleteRepresentativesModule } from './athlete_representatives/athlete_representatives.module';
 import { GraphqlModule } from './graphql/graphql.module';
@@ -14,6 +15,9 @@ import { RecordsModule } from './records/records.module';
     AthletesModule,
     CountriesModule,
     ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    CacheModule.register({
       isGlobal: true,
     }),
     DisciplinesModule,

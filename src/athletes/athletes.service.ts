@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import { Athlete, AthleteSearchResult, Performance, Sex } from './athlete.dto';
@@ -12,7 +14,10 @@ import { performanceToFloat } from 'src/performance-conversion';
 @Injectable()
 export class AthletesService {
   private graphQLClient: GraphQLClient;
-  constructor(private readonly graphqlService: GraphqlService) {
+  constructor(
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly graphqlService: GraphqlService,
+  ) {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
@@ -50,6 +55,12 @@ export class AthletesService {
   }
 
   async getAthlete(id: number): Promise<Athlete | null> {
+    const cacheKey = `athlete:${id}`;
+    const cached = await this.cacheManager.get<Athlete>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphQLClient.request(
       ATHLETE_QUERY,
       {
@@ -124,7 +135,7 @@ export class AthletesService {
       };
     }
 
-    return {
+    const athlete = {
       id,
       firstname,
       lastname,
@@ -171,5 +182,8 @@ export class AthletesService {
         };
       }),
     };
+
+    await this.cacheManager.set(cacheKey, athlete, 15 * 60 * 1000); // cache for 15 minutes (900000ms)
+    return athlete;
   }
 }

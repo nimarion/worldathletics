@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import {
@@ -26,13 +28,23 @@ import { performanceToFloat } from 'src/performance-conversion';
 @Injectable()
 export class CompetitionsService {
   private graphQLClient: GraphQLClient;
-  constructor(private readonly graphqlService: GraphqlService) {
+  constructor(
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly graphqlService: GraphqlService,
+  ) {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
   async findCompetitionOrganiserInfo(
     competitionId: number,
   ): Promise<CompetitionOrganiserInfo | null> {
+    const cacheKey = `competition_organiser:${competitionId}`;
+    const cached =
+      await this.cacheManager.get<CompetitionOrganiserInfo>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphQLClient.request(COMPETITION_ORGANISER, {
       competitionId,
     });
@@ -58,7 +70,7 @@ export class CompetitionsService {
       prizeMoney.set(prize.gender, prizes);
     });
 
-    return {
+    const organiserInfo = {
       liveStreamUrl: response.getCompetitionOrganiserInfo.liveStreamingUrl,
       resultsUrl: response.getCompetitionOrganiserInfo.resultsPageUrl,
       websiteUrl: response.getCompetitionOrganiserInfo.websiteUrl,
@@ -76,6 +88,9 @@ export class CompetitionsService {
         },
       ),
     };
+
+    await this.cacheManager.set(cacheKey, organiserInfo, 24 * 60 * 60 * 1000); // cache for 24 hours
+    return organiserInfo;
   }
 
   // competitionGroupId: Int | null
@@ -102,6 +117,20 @@ export class CompetitionsService {
     permitLevelId?: number | null;
     query?: string;
   }): Promise<Competition[]> {
+    const cacheKey = `competitions:search:${JSON.stringify({
+      competitionGroupId,
+      disciplineId,
+      regionType,
+      regionId,
+      rankingCategoryId,
+      permitLevelId,
+      query,
+    })}`;
+    const cached = await this.cacheManager.get<Competition[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphQLClient.request(COMPETITION_CALENDAR, {
       competitionGroupId,
       disciplineId,
@@ -118,7 +147,7 @@ export class CompetitionsService {
         }),
       })
       .parse(data);
-    return response.getCalendarEvents.results.map((result) => {
+    const competitions = response.getCalendarEvents.results.map((result) => {
       return {
         id: result.id,
         name: result.name,
@@ -134,6 +163,9 @@ export class CompetitionsService {
         hasCompetitionInformation: result.hasCompetitionInformation,
       };
     });
+
+    await this.cacheManager.set(cacheKey, competitions, 60 * 60 * 1000); // cache for 1 hour
+    return competitions;
   }
 
   async findCompetitionResults({
@@ -145,6 +177,12 @@ export class CompetitionsService {
     eventId?: number;
     day?: number;
   }): Promise<CompetitionResults> {
+    const cacheKey = `competition_results:${competitionId}:${eventId ?? 'all'}:${day ?? 'all'}`;
+    const cached = await this.cacheManager.get<CompetitionResults>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphQLClient.request(COMPETITON_RESULTS, {
       competitionId,
       eventId,
@@ -246,7 +284,8 @@ export class CompetitionsService {
         });
         return data;
       });
-    return {
+
+    const resultsOutput = {
       events: competitionResults,
       options: {
         days: response.getCalendarCompetitionResults.options.days,
@@ -264,5 +303,8 @@ export class CompetitionsService {
         ),
       },
     };
+
+    await this.cacheManager.set(cacheKey, resultsOutput, 60 * 60 * 1000); // cache for 1 hour
+    return resultsOutput;
   }
 }

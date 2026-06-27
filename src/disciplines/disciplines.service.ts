@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import { BaseDiscipline } from './discipline.dto';
@@ -10,11 +12,20 @@ import { DisciplineSchema } from './disciplines.zod';
 @Injectable()
 export class DisciplinesService {
   private graphQLClient: GraphQLClient;
-  constructor(private readonly graphqlService: GraphqlService) {
+  constructor(
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly graphqlService: GraphqlService,
+  ) {
     this.graphQLClient = this.graphqlService.getClient();
   }
 
   async findAll(): Promise<BaseDiscipline[]> {
+    const cacheKey = 'disciplines:all';
+    const cached = await this.cacheManager.get<BaseDiscipline[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphQLClient.request(DISCIPLINES_QUERY);
     const reponse = z
       .object({
@@ -23,6 +34,7 @@ export class DisciplinesService {
         }),
       })
       .parse(data);
+
     const disciplines = reponse.getMetaData.disciplineCodes.map(
       (discipline) => {
         return {
@@ -31,7 +43,8 @@ export class DisciplinesService {
         };
       },
     );
-    return disciplines.filter((discipline) => {
+
+    const filteredDisciplines = disciplines.filter((discipline) => {
       if (!discipline.disciplineCode.endsWith('sh')) {
         return true;
       }
@@ -46,5 +59,12 @@ export class DisciplinesService {
       discipline.disciplineCode = discipline.disciplineCode.slice(0, -2);
       return true;
     });
+
+    await this.cacheManager.set(
+      cacheKey,
+      filteredDisciplines,
+      24 * 60 * 60 * 1000,
+    ); // cache for 24 hours (86400000ms)
+    return filteredDisciplines;
   }
 }
