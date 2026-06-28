@@ -19,5 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
     "strict": true,
+    "rootDir": "src",
+    "ignoreDeprecations": "6.0"
   }
 }

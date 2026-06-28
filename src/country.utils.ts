@@ -1,4 +1,4 @@
-import * as countries from './countries.json';
+import countries from './countries.json';
 
 export function mapCountryToCode(country: string): string {
   country = normalizeText(country);

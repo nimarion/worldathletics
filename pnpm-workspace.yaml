@@ -1,3 +1,9 @@
+allowBuilds:
+  '@scarf/scarf': false
+minimumReleaseAgeExclude:
+  - '@cacheable/utils@2.5.0'
+  - cache-manager@7.2.9
+  - prettier@3.9.1
 onlyBuiltDependencies:
   - '@nestjs/core'
   - '@scarf/scarf'

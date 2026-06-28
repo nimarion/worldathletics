@@ -1,4 +1,4 @@
-import * as disciplines from './disciplines.json';
+import disciplines from './disciplines.json';
 
 export default function mapDisciplineToCode(discipline: string): string {
   // Prefix is present in getCalendarEvents query
