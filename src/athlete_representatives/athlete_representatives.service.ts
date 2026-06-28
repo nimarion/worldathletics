@@ -2,11 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { GraphQLClient } from 'graphql-request';
-import { AthleteRepresentative } from './athlete_representative.dto';
-import { AthleteRepresentative as AthleteRepresentativeSchema } from './athlete_representative.zod';
+import { AthleteRepresentative, RepresentedAthlete } from './athlete_representative.dto';
+import {
+  AthleteRepresentative as AthleteRepresentativeSchema,
+  RepresentedAthleteSchema,
+} from './athlete_representative.zod';
 import {
   ATHLETE_REPRESENTATIVES_QUERY,
   ATHLETE_REPRESENTATIVE_QUERY,
+  REPRESENTED_ATHLETES_QUERY,
 } from './athlete_representatives.query';
 import { z } from 'zod';
 import { GraphqlService } from 'src/graphql/graphql.service';
@@ -121,5 +125,62 @@ export class AthleteRepresentativesService {
 
     await this.cacheManager.set(cacheKey, arResponse, 24 * 60 * 60 * 1000); // Cache for 24 hours
     return arResponse;
+  }
+
+  async getRepresentedAthletes(
+    id: number,
+  ): Promise<RepresentedAthlete[] | null> {
+    const cacheKey = `athlete_representative:athletes:${id}`;
+    const cached = await this.cacheManager.get<RepresentedAthlete[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const data = await this.graphQLClient.request(
+      REPRESENTED_ATHLETES_QUERY,
+      {
+        id: String(id),
+      },
+      {
+        'x-athlete-representative-id': String(id),
+      },
+    );
+
+    const response = z
+      .object({
+        getAthleteRepresentativeProfile: z
+          .object({
+            toplist: z
+              .object({
+                athletes: z.array(RepresentedAthleteSchema),
+              })
+              .nullable(),
+          })
+          .nullable(),
+      })
+      .parse(data);
+
+    if (
+      !response.getAthleteRepresentativeProfile ||
+      !response.getAthleteRepresentativeProfile.toplist ||
+      !response.getAthleteRepresentativeProfile.toplist.athletes
+    ) {
+      return null;
+    }
+
+    const athletes: RepresentedAthlete[] = response.getAthleteRepresentativeProfile.toplist.athletes.map(
+      (a) => ({
+        id: a.athleteId,
+        firstname: a.firstName,
+        lastname: a.lastName,
+        country: a.countryCode,
+        birthdate: a.birthdate ? a.birthdate.date : null,
+        birthdateOnlyYear: a.birthdate ? a.birthdate.birthdateOnlyYear : false,
+        sex: a.gender,
+      }),
+    );
+
+    await this.cacheManager.set(cacheKey, athletes, 24 * 60 * 60 * 1000); // Cache for 24 hours
+    return athletes;
   }
 }

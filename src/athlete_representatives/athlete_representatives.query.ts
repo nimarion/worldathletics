@@ -28,3 +28,21 @@ export const ATHLETE_REPRESENTATIVES_QUERY = gql`
     }
   }
 `;
+
+export const REPRESENTED_ATHLETES_QUERY = gql`
+  query getAthleteRepresentativeAthletes($id: Int) {
+    getAthleteRepresentativeProfile(athleteRepresentativeId: $id) {
+      toplist {
+        athletes {
+          athleteId
+          firstName
+          lastName
+          countryCode
+          birthdate
+          gender
+        }
+      }
+    }
+  }
+`;
+

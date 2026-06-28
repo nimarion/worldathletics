@@ -14,3 +14,21 @@ export class AthleteRepresentative {
   @ApiProperty({ nullable: true, type: String })
   phone!: string | null;
 }
+
+export class RepresentedAthlete {
+  @ApiProperty()
+  id!: number;
+  @ApiProperty()
+  firstname!: string;
+  @ApiProperty()
+  lastname!: string;
+  @ApiProperty()
+  country!: string;
+  @ApiProperty({ nullable: true, type: Date })
+  birthdate!: Date | null;
+  @ApiProperty()
+  birthdateOnlyYear!: boolean;
+  @ApiProperty()
+  sex!: string;
+}
+

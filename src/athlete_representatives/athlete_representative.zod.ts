@@ -3,6 +3,8 @@ import {
   CountryCodeSchema,
   FirstnameSchema,
   LastnameSchema,
+  GenderSchema,
+  BirthDateSchema,
 } from 'src/zod.schema';
 import { z } from 'zod';
 
@@ -49,3 +51,13 @@ export const AthleteRepresentative = z.object({
       return parsePhoneNumber(val[0]);
     }),
 });
+
+export const RepresentedAthleteSchema = z.object({
+  athleteId: z.number(),
+  firstName: FirstnameSchema,
+  lastName: LastnameSchema,
+  countryCode: CountryCodeSchema,
+  birthdate: z.nullable(BirthDateSchema),
+  gender: GenderSchema,
+});
+

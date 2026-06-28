@@ -173,10 +173,12 @@ export function formatSex(input: string): Sex {
   switch (input.trim().toLowerCase()) {
     case 'men':
     case 'male':
+    case 'man':
     case 'm':
       return 'M';
     case 'women':
     case 'female':
+    case 'woman':
     case 'w':
       return 'W';
     case 'x':
