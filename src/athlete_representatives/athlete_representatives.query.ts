@@ -45,4 +45,3 @@ export const REPRESENTED_ATHLETES_QUERY = gql`
     }
   }
 `;
-

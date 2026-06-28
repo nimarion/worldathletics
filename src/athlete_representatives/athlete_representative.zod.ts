@@ -60,4 +60,3 @@ export const RepresentedAthleteSchema = z.object({
   birthdate: z.nullable(BirthDateSchema),
   gender: GenderSchema,
 });
-

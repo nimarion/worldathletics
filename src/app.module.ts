@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { AppController } from './app.controller';
 import { AthletesModule } from './athletes/athletes.module';
 import { CountriesModule } from './countries/countries.module';
 import { ConfigModule } from '@nestjs/config';
@@ -26,6 +27,7 @@ import { RecordsModule } from './records/records.module';
     CompetitionsModule,
     RecordsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer): void {

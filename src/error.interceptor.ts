@@ -27,7 +27,10 @@ export class ErrorsInterceptor implements NestInterceptor {
             if (err.response.data != null) {
               return new NotFoundException();
             }
-            console.log(err.response.errors);
+            console.log(
+              'ClientError response:',
+              JSON.stringify(err.response, null, 2),
+            );
             return new BadGatewayException();
           }
           // Zod Schema Validation Error

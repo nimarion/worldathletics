@@ -31,4 +31,3 @@ export class RepresentedAthlete {
   @ApiProperty()
   sex!: string;
 }
-

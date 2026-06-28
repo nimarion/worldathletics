@@ -2,7 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { GraphQLClient } from 'graphql-request';
-import { AthleteRepresentative, RepresentedAthlete } from './athlete_representative.dto';
+import {
+  AthleteRepresentative,
+  RepresentedAthlete,
+} from './athlete_representative.dto';
 import {
   AthleteRepresentative as AthleteRepresentativeSchema,
   RepresentedAthleteSchema,
@@ -168,8 +171,8 @@ export class AthleteRepresentativesService {
       return null;
     }
 
-    const athletes: RepresentedAthlete[] = response.getAthleteRepresentativeProfile.toplist.athletes.map(
-      (a) => ({
+    const athletes: RepresentedAthlete[] =
+      response.getAthleteRepresentativeProfile.toplist.athletes.map((a) => ({
         id: a.athleteId,
         firstname: a.firstName,
         lastname: a.lastName,
@@ -177,8 +180,7 @@ export class AthleteRepresentativesService {
         birthdate: a.birthdate ? a.birthdate.date : null,
         birthdateOnlyYear: a.birthdate ? a.birthdate.birthdateOnlyYear : false,
         sex: a.gender,
-      }),
-    );
+      }));
 
     await this.cacheManager.set(cacheKey, athletes, 24 * 60 * 60 * 1000); // Cache for 24 hours
     return athletes;

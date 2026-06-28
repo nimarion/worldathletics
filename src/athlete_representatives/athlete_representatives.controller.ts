@@ -1,6 +1,9 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { AthleteRepresentativesService } from './athlete_representatives.service';
-import { AthleteRepresentative, RepresentedAthlete } from './athlete_representative.dto';
+import {
+  AthleteRepresentative,
+  RepresentedAthlete,
+} from './athlete_representative.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('ar')
@@ -37,7 +40,8 @@ export class AthleteRepresentativesController {
 
   @Get(':id/athletes')
   @ApiOkResponse({
-    description: 'Returns the list of athletes represented by the representative',
+    description:
+      'Returns the list of athletes represented by the representative',
     type: RepresentedAthlete,
     isArray: true,
   })
@@ -46,7 +50,9 @@ export class AthleteRepresentativesController {
       .getRepresentedAthletes(+id)
       .then((athletes) => {
         if (!athletes) {
-          throw new NotFoundException(`Representative with ID ${id} or their athletes list not found`);
+          throw new NotFoundException(
+            `Representative with ID ${id} or their athletes list not found`,
+          );
         }
         return athletes;
       });
