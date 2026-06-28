@@ -8,6 +8,7 @@ import { Location } from './location.dto';
 import { Sex } from './athletes/athlete.dto';
 
 export function formatLastname(lastname: string): string {
+  lastname = lastname.trim();
   if (lastname === '') {
     return '';
   }
@@ -126,20 +127,44 @@ export function isIndoor(venue: string): boolean {
 }
 
 export function parsePhoneNumber(number: string): string | null {
-  if (!isValidPhoneNumber(number, 'US')) {
-    if (isValidPhoneNumber(parseIncompletePhoneNumber(number), 'US')) {
-      number = formatIncompletePhoneNumber(number);
+  let cleaned = number.trim();
+
+  // Remove common European trunk prefix representation, e.g. +44 (0) 77 -> +44 77
+  cleaned = cleaned
+    .replace(/\s*\(0\)\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // If it does not start with '+' and is not a valid US number,
+  // try prepending '+' to see if it is a valid international number.
+  if (!cleaned.startsWith('+')) {
+    if (!isValidPhoneNumber(cleaned, 'US')) {
+      const withPlus = `+${cleaned}`;
+      if (isValidPhoneNumber(withPlus, 'US')) {
+        cleaned = withPlus;
+      }
+    }
+  }
+
+  if (!isValidPhoneNumber(cleaned, 'US')) {
+    const incompleteCleaned = parseIncompletePhoneNumber(cleaned);
+    if (isValidPhoneNumber(incompleteCleaned, 'US')) {
+      cleaned = formatIncompletePhoneNumber(cleaned);
+    } else if (
+      !cleaned.startsWith('+') &&
+      isValidPhoneNumber(`+${incompleteCleaned}`, 'US')
+    ) {
+      cleaned = `+${incompleteCleaned}`;
     } else {
-      console.error('invalid phone number', number);
       return null;
     }
   }
+
   try {
-    const phoneNumber = parsePhoneNumberWithError(number, 'US');
+    const phoneNumber = parsePhoneNumberWithError(cleaned, 'US');
     if (!phoneNumber) return null;
     return phoneNumber.formatInternational();
   } catch (error) {
-    console.error('error parsing phone number', number);
     return null;
   }
 }

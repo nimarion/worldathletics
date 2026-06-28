@@ -84,18 +84,40 @@ export class AthleteRepresentativesService {
         getAthleteRepresentativeDirectory: z.array(AthleteRepresentativeSchema),
       })
       .parse(data);
-    const arResponse: AthleteRepresentative[] = [];
-    const promises = response.getAthleteRepresentativeDirectory.map(
-      async (ar) => {
-        const arData = await this.getAthleteRepresentative(
-          ar.athleteRepresentativeId,
-        );
-        if (arData) {
-          arResponse.push(arData);
+
+    const directory = response.getAthleteRepresentativeDirectory;
+    const results: (AthleteRepresentative | null)[] = new Array(
+      directory.length,
+    ).fill(null);
+
+    // Use a concurrency-limited pool of 10 parallel requests to prevent overloading/timeout (ETIMEDOUT)
+    const concurrency = 10;
+    let index = 0;
+
+    const worker = async () => {
+      while (index < directory.length) {
+        const currentIndex = index++;
+        const ar = directory[currentIndex];
+        try {
+          const arData = await this.getAthleteRepresentative(
+            ar.athleteRepresentativeId,
+          );
+          results[currentIndex] = arData;
+        } catch (error) {
+          console.error(
+            `Failed to fetch representative profile for id ${ar.athleteRepresentativeId}:`,
+            error,
+          );
         }
-      },
+      }
+    };
+
+    const workers = Array.from({ length: concurrency }, () => worker());
+    await Promise.all(workers);
+
+    const arResponse = results.filter(
+      (ar): ar is AthleteRepresentative => ar !== null,
     );
-    await Promise.all(promises);
 
     await this.cacheManager.set(cacheKey, arResponse, 24 * 60 * 60 * 1000); // Cache for 24 hours
     return arResponse;
