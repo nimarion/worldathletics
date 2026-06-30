@@ -26,4 +26,5 @@ COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 RUN apt-get update -y && apt-get install -y openssl
 
+EXPOSE 8000
 CMD [ "node", "dist/main.js" ]
