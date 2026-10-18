@@ -20,6 +20,11 @@ export class CompetitionsController {
   constructor(private readonly competitionsService: CompetitionsService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    type: String,
+  })
   @ApiOkResponse({
     type: Competition,
     isArray: true,
@@ -58,7 +63,6 @@ export class CompetitionsController {
   })
   @ApiOkResponse({
     type: CompetitionResults,
-    isArray: true,
   })
   async findResults(
     @Param('id', ParseIntPipe) id: number,

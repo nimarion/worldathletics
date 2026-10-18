@@ -1,4 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { BaseAthlete, Sex } from 'src/athletes/athlete.dto';
 
 export class AthleteRepresentative {
   @ApiProperty()
@@ -15,19 +16,11 @@ export class AthleteRepresentative {
   phone!: string | null;
 }
 
-export class RepresentedAthlete {
-  @ApiProperty()
-  id!: number;
-  @ApiProperty()
-  firstname!: string;
-  @ApiProperty()
-  lastname!: string;
-  @ApiProperty()
-  country!: string;
-  @ApiProperty({ nullable: true, type: Date })
-  birthdate!: Date | null;
-  @ApiProperty()
-  birthdateOnlyYear!: boolean;
-  @ApiProperty()
-  sex!: string;
+export class RepresentedAthlete extends OmitType(BaseAthlete, [
+  'sex',
+] as const) {
+  @ApiProperty({
+    enum: ['M', 'W', 'X'],
+  })
+  sex!: Sex;
 }

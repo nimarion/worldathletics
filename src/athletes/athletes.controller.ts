@@ -23,8 +23,14 @@ export class AthletesController {
   ) {}
 
   @Get('/search')
+  @ApiQuery({
+    name: 'name',
+    required: true,
+    type: String,
+  })
   @ApiOkResponse({
     type: AthleteSearchResult,
+    isArray: true,
   })
   async searchAthlete(
     @Query('name') name: string,
