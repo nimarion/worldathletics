@@ -1,15 +1,31 @@
+import { Logger } from '@nestjs/common';
 import countries from './countries.json';
 
-export function mapCountryToCode(country: string): string {
-  country = normalizeText(country);
-  const countryItem = countries.find((c) => {
-    return normalizeText(c.countryName) === country;
-  });
-  if (countryItem) {
-    return countryItem.id;
+type CountryItem = (typeof countries)[number];
+
+const logger = new Logger('CountryUtils');
+
+const countryByNameMap = new Map<string, string>();
+const countryByCodeMap = new Map<string, CountryItem>();
+
+for (const c of countries) {
+  const normalizedName = normalizeText(c.countryName);
+  if (!countryByNameMap.has(normalizedName)) {
+    countryByNameMap.set(normalizedName, c.id);
   }
-  console.error(`Country ${country} not found`);
-  return country;
+  if (!countryByCodeMap.has(c.id)) {
+    countryByCodeMap.set(c.id, c);
+  }
+}
+
+export function mapCountryToCode(country: string): string {
+  const normalized = normalizeText(country);
+  const countryId = countryByNameMap.get(normalized);
+  if (countryId) {
+    return countryId;
+  }
+  logger.warn(`Country ${normalized} not found`);
+  return normalized;
 }
 
 function normalizeText(text: string): string {
@@ -23,12 +39,6 @@ function normalizeText(text: string): string {
   return text;
 }
 
-export function findCountryByCode(countryCode: string) {
-  const countryItem = countries.find((c) => {
-    return c.id === countryCode;
-  });
-  if (countryItem) {
-    return countryItem;
-  }
-  return null;
+export function findCountryByCode(countryCode: string): CountryItem | null {
+  return countryByCodeMap.get(countryCode) ?? null;
 }

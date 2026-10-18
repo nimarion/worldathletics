@@ -200,8 +200,9 @@ export class CompetitionsService {
         const category = event.rankingCategory;
         const eventName = event.eventTitle;
         const data: CompetitionResultEvent[] = event.events.map((event) => {
+          const disciplineCode = mapDisciplineToCode(event.event);
           const technical = isTechnical({
-            disciplineCode: mapDisciplineToCode(event.event),
+            disciplineCode,
             performance: event.races[0]?.results[0]?.mark ?? '',
           });
           return {
@@ -209,7 +210,7 @@ export class CompetitionsService {
             category,
             eventId: event.eventId,
             sex: event.gender,
-            disciplineCode: mapDisciplineToCode(event.event),
+            disciplineCode,
             discipline: event.event,
             isTechnical: technical,
             races: event.races.map((race) => {
@@ -251,7 +252,7 @@ export class CompetitionsService {
                   return {
                     location:
                       response.getCalendarCompetitionResults.competition.venue,
-                    disciplineCode: mapDisciplineToCode(event.event),
+                    disciplineCode,
                     discipline: event.event,
                     date: race.date || competitionDate || null,
                     isTechnical: technical,

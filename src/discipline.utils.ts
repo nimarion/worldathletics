@@ -9,20 +9,26 @@ const TECHNICAL_CODE_PREFIXES =
 const NON_TECHNICAL_CODE_PREFIXES =
   /^(MILE|HMAR|MAR|MEAD|EKID|DISMEAD|MIXREL|SHUTHUR|XSE|XJ|XC|XS|RR)/;
 
+const disciplineToCodeMap = new Map<string, string>([
+  // Not present in getMetaData > disciplineCodes
+  ['3x800 Metres Relay', '3X8'],
+]);
+
+for (const d of disciplines) {
+  if (!disciplineToCodeMap.has(d.discipline)) {
+    const code = d.disciplineCode.endsWith('sh')
+      ? d.disciplineCode.slice(0, -2)
+      : d.disciplineCode;
+    disciplineToCodeMap.set(d.discipline, code);
+  }
+}
+
 export default function mapDisciplineToCode(discipline: string): string {
   // Prefix is present in getCalendarEvents query
   discipline = cleanupDiscipline(discipline);
-  // Not present in getMetaData > disciplineCodes
-  if (discipline == '3x800 Metres Relay') {
-    return '3X8';
-  }
-  const disciplineItem = disciplines.find((d) => d.discipline === discipline);
-  if (disciplineItem) {
-    const disciplineCode = disciplineItem.disciplineCode;
-    if (disciplineCode.endsWith('sh')) {
-      return disciplineCode.substring(0, disciplineCode.length - 2);
-    }
-    return disciplineItem.disciplineCode;
+  const disciplineCode = disciplineToCodeMap.get(discipline);
+  if (disciplineCode) {
+    return disciplineCode;
   }
   logger.warn(`Discipline ${discipline} not found`);
   return discipline;
