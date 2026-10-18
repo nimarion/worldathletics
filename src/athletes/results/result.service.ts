@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { z } from 'zod';
 import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
@@ -9,12 +11,21 @@ import { toPerformance } from 'src/performance-conversion';
 
 @Injectable()
 export class ResultsService {
-  constructor(private readonly graphqlService: GraphqlService) {}
+  constructor(
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly graphqlService: GraphqlService,
+  ) {}
 
   async getResultsFromAthlete(
     id: number,
     year?: number,
   ): Promise<Performance[] | null> {
+    const cacheKey = `athlete_results:${id}:${year ?? 'latest'}`;
+    const cached = await this.cacheManager.get<Performance[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const data = await this.graphqlService.getClient().request(
       RESULTS_QUERY,
       {
@@ -50,6 +61,15 @@ export class ResultsService {
         });
       },
     );
-    return results.filter((result) => result.place && result.place > 0);
+    const filteredResults = results.filter(
+      (result) => result.place && result.place > 0,
+    );
+
+    const currentYear = new Date().getFullYear();
+    const ttl =
+      year && year < currentYear ? 24 * 60 * 60 * 1000 : 15 * 60 * 1000;
+    await this.cacheManager.set(cacheKey, filteredResults, ttl);
+
+    return filteredResults;
   }
 }
