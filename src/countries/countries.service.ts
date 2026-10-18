@@ -22,13 +22,13 @@ export class CountriesService {
     }
 
     const data = await this.graphqlService.getClient().request(COUNTRIES_QUERY);
-    const reponse = z
+    const response = z
       .object({
         getCountries: z.array(CountrySchema),
       })
       .parse(data);
 
-    const countries = reponse.getCountries
+    const countries = response.getCountries
       .filter((country) => country.isValid)
       .map((country) => {
         return {

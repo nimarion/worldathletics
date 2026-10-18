@@ -178,7 +178,7 @@ export const COMPETITION_CALENDAR_OPTIONS = gql`
   }
 `;
 
-export const COMPETITON_RESULTS = gql`
+export const COMPETITION_RESULTS = gql`
   query getCalendarCompetitionResults(
     $competitionId: Int
     $day: Int

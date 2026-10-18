@@ -20,6 +20,8 @@ import { RecordsModule } from './records/records.module';
     }),
     CacheModule.register({
       isGlobal: true,
+      ttl: 15 * 60 * 1000,
+      max: 1000,
     }),
     DisciplinesModule,
     AthleteRepresentativesModule,

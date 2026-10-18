@@ -2,13 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { z } from 'zod';
-import { Athlete, AthleteSearchResult, Performance } from './athlete.dto';
+import { Athlete, AthleteSearchResult } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
-import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { levenshteinDistance } from 'src/levenshtein-distance';
-import { performanceToFloat } from 'src/performance-conversion';
+import {
+  toPerformance,
+  toPerformanceFields,
+} from 'src/performance-conversion';
 
 @Injectable()
 export class AthletesService {
@@ -101,38 +103,6 @@ export class AthletesService {
       ? basicData.sexNameUrlSlug
       : worldRankingSex;
 
-    function resultToPerformance(
-      result: (typeof seasonsBests.results)[0],
-    ): Performance {
-      const disciplineCode = mapDisciplineToCode(result.discipline);
-      const technical = isTechnical({
-        disciplineCode,
-        performance: result.mark,
-      });
-      return {
-        date: result.date,
-        discipline: result.discipline,
-        disciplineCode,
-        mark: result.mark,
-        performanceValue: performanceToFloat({
-          performance: result.mark,
-          technical,
-        }),
-        isTechnical: technical,
-        location: result.venue,
-        legal: !result.notLegal,
-        resultScore: result.resultScore,
-        wind: result.wind,
-        competition: null,
-        category: null,
-        race: null,
-        place: null,
-        records: result.records,
-        competitionId: result.competitionId,
-        eventId: result.eventId,
-      };
-    }
-
     const athlete = {
       id,
       firstname,
@@ -149,34 +119,27 @@ export class AthletesService {
           place: ranking.place,
         };
       }),
-      seasonsbests: seasonsBests.results.map(resultToPerformance),
-      personalbests: personalBests.results.map(resultToPerformance),
+      seasonsbests: seasonsBests.results.map((result) =>
+        toPerformance(result),
+      ),
+      personalbests: personalBests.results.map((result) =>
+        toPerformance(result),
+      ),
       honours: honours.map((honour) => {
         return {
           category: honour.categoryName,
-          results: honour.results.map((result) => {
-            const disciplineCode = mapDisciplineToCode(result.discipline);
-            const technical = isTechnical({
-              disciplineCode,
-              performance: result.mark,
-            });
-            return {
-              date: result.date,
+          results: honour.results.map((result) => ({
+            ...toPerformanceFields({
               discipline: result.discipline,
-              disciplineCode,
               mark: result.mark,
-              performanceValue: performanceToFloat({
-                performance: result.mark,
-                technical,
-              }),
-              isTechnical: technical,
-              location: result.venue,
-              competition: result.competition,
-              place: result.place,
-              competitionId: result.competitionId,
-              eventId: result.eventId,
-            };
-          }),
+            }),
+            date: result.date,
+            location: result.venue,
+            competition: result.competition,
+            place: result.place,
+            competitionId: result.competitionId,
+            eventId: result.eventId,
+          })),
         };
       }),
     };

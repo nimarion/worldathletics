@@ -25,7 +25,7 @@ export class DisciplinesService {
     const data = await this.graphqlService
       .getClient()
       .request(DISCIPLINES_QUERY);
-    const reponse = z
+    const response = z
       .object({
         getMetaData: z.object({
           disciplineCodes: z.array(DisciplineSchema),
@@ -33,7 +33,7 @@ export class DisciplinesService {
       })
       .parse(data);
 
-    const disciplines = reponse.getMetaData.disciplineCodes.map(
+    const disciplines = response.getMetaData.disciplineCodes.map(
       (discipline) => {
         return {
           discipline: discipline.name,

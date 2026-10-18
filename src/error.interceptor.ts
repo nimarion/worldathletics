@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
   HttpException,
+  Logger,
 } from '@nestjs/common';
 import { ClientError } from 'graphql-request';
 import { Observable, throwError } from 'rxjs';
@@ -15,6 +16,8 @@ import { ZodError } from 'zod';
 
 @Injectable()
 export class ErrorsInterceptor implements NestInterceptor {
+  private readonly logger = new Logger(ErrorsInterceptor.name);
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       catchError((err) =>
@@ -27,18 +30,20 @@ export class ErrorsInterceptor implements NestInterceptor {
             if (err.response.data != null) {
               return new NotFoundException();
             }
-            console.log(
-              'ClientError response:',
-              JSON.stringify(err.response, null, 2),
+            this.logger.error(
+              `ClientError response: ${JSON.stringify(err.response, null, 2)}`,
             );
             return new BadGatewayException();
           }
           // Zod Schema Validation Error
           if (err instanceof ZodError) {
-            console.log(err);
+            this.logger.error(`Zod validation error: ${err.message}`, err.stack);
             return new BadGatewayException();
           }
-          console.error(err);
+          this.logger.error(
+            err instanceof Error ? err.message : String(err),
+            err instanceof Error ? err.stack : undefined,
+          );
           return new InternalServerErrorException();
         }),
       ),

@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Query,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { AthletesService } from './athletes.service';
 import { ApiOkResponse, ApiNotFoundResponse, ApiQuery } from '@nestjs/swagger';
@@ -14,6 +15,8 @@ import { ResultsService } from './results/result.service';
 
 @Controller('athletes')
 export class AthletesController {
+  private readonly logger = new Logger(AthletesController.name);
+
   constructor(
     private readonly athletesService: AthletesService,
     private readonly resultsService: ResultsService,
@@ -81,7 +84,10 @@ export class AthletesController {
             );
             return results ?? [];
           } catch (error) {
-            console.error(`Error fetching results for season ${season}:`, error);
+            this.logger.error(
+              `Error fetching results for season ${season}:`,
+              error,
+            );
             return [];
           }
         }),

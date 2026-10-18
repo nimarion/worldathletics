@@ -5,7 +5,7 @@ import { GraphqlService } from 'src/graphql/graphql.service';
 import {
   COMPETITION_CALENDAR,
   COMPETITION_ORGANISER,
-  COMPETITON_RESULTS,
+  COMPETITION_RESULTS,
 } from './competition.query';
 import { z } from 'zod';
 import {
@@ -177,7 +177,7 @@ export class CompetitionsService {
 
     const data = await this.graphqlService
       .getClient()
-      .request(COMPETITON_RESULTS, {
+      .request(COMPETITION_RESULTS, {
         competitionId,
         eventId,
         day,

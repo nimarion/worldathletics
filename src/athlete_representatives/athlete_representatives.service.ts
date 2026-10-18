@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import {
@@ -19,6 +19,8 @@ import { GraphqlService } from 'src/graphql/graphql.service';
 
 @Injectable()
 export class AthleteRepresentativesService {
+  private readonly logger = new Logger(AthleteRepresentativesService.name);
+
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly graphqlService: GraphqlService,
@@ -107,7 +109,7 @@ export class AthleteRepresentativesService {
           );
           results[currentIndex] = arData;
         } catch (error) {
-          console.error(
+          this.logger.error(
             `Failed to fetch representative profile for id ${ar.athleteRepresentativeId}:`,
             error,
           );

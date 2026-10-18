@@ -1,3 +1,7 @@
+import mapDisciplineToCode, { isTechnical } from './discipline.utils';
+import { Performance } from './athletes/athlete.dto';
+import { Location } from './location.dto';
+
 // Returns track events in milliseconds and field events in centimeters
 export function performanceToFloat({
   performance,
@@ -60,4 +64,79 @@ export function performanceToFloat({
   }
 
   throw new Error(`Invalid performance: ${performance}`);
+}
+
+export function toPerformanceFields({
+  discipline,
+  mark,
+  disciplineCode = mapDisciplineToCode(discipline),
+}: {
+  discipline: string;
+  mark: string;
+  disciplineCode?: string;
+}) {
+  const technical = isTechnical({
+    disciplineCode,
+    performance: mark,
+  });
+  return {
+    discipline,
+    disciplineCode,
+    mark,
+    isTechnical: technical,
+    performanceValue: performanceToFloat({
+      performance: mark,
+      technical,
+    }),
+  };
+}
+
+export function toPerformance({
+  date,
+  discipline,
+  disciplineCode,
+  mark,
+  venue,
+  notLegal,
+  resultScore,
+  wind,
+  competition = null,
+  category = null,
+  race = null,
+  place = null,
+  records = [],
+  competitionId,
+  eventId,
+}: {
+  date: Date | null;
+  discipline: string;
+  disciplineCode?: string;
+  mark: string;
+  venue: Location;
+  notLegal: boolean;
+  resultScore: number;
+  wind: number | null;
+  competition?: string | null;
+  category?: string | null;
+  race?: string | null;
+  place?: number | null;
+  records?: string[];
+  competitionId: number | null;
+  eventId: number | null;
+}): Performance {
+  return {
+    ...toPerformanceFields({ discipline, mark, disciplineCode }),
+    date,
+    location: venue,
+    legal: !notLegal,
+    resultScore,
+    wind,
+    competition,
+    category,
+    race,
+    place,
+    records,
+    competitionId,
+    eventId,
+  };
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class UpdateApiKeyDto {
   @ApiProperty({ description: 'The new GraphQL API key' })
@@ -18,6 +18,11 @@ export class UpdateEndpointDto {
   @ApiProperty({ description: 'The new GraphQL endpoint URL' })
   @IsString()
   @IsNotEmpty()
+  @IsUrl({
+    require_tld: false,
+    protocols: ['http', 'https'],
+    require_protocol: true,
+  })
   endpoint!: string;
 }
 

@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
   Logger,
 } from '@nestjs/common';
+import { timingSafeEqual } from 'crypto';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -28,7 +29,17 @@ export class AdminGuard implements CanActivate {
 
     const requestSecret = request.headers['x-admin-secret'];
 
-    if (!requestSecret || requestSecret !== adminSecret) {
+    if (typeof requestSecret !== 'string') {
+      throw new UnauthorizedException('Invalid or missing admin secret.');
+    }
+
+    const secretBuffer = Buffer.from(adminSecret);
+    const requestBuffer = Buffer.from(requestSecret);
+
+    if (
+      secretBuffer.length !== requestBuffer.length ||
+      !timingSafeEqual(secretBuffer, requestBuffer)
+    ) {
       throw new UnauthorizedException('Invalid or missing admin secret.');
     }
 

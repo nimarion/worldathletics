@@ -3,9 +3,9 @@ import { z } from 'zod';
 import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
 import { Performance } from '../athlete.dto';
-import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
+import mapDisciplineToCode from 'src/discipline.utils';
 import { GraphqlService } from 'src/graphql/graphql.service';
-import { performanceToFloat } from 'src/performance-conversion';
+import { toPerformance } from 'src/performance-conversion';
 
 @Injectable()
 export class ResultsService {
@@ -39,32 +39,14 @@ export class ResultsService {
         const discipline = event.discipline;
         const disciplineCode = mapDisciplineToCode(discipline);
         event.results.forEach((result) => {
-          const technical = isTechnical({
-            disciplineCode,
-            performance: result.mark,
-          });
-          results.push({
-            category: result.category,
-            competition: result.competition,
-            date: result.date,
-            discipline,
-            disciplineCode,
-            place: result.place,
-            resultScore: result.resultScore,
-            wind: result.wind,
-            mark: result.mark,
-            performanceValue: performanceToFloat({
-              performance: result.mark,
-              technical,
+          results.push(
+            toPerformance({
+              ...result,
+              discipline,
+              disciplineCode,
+              records: [],
             }),
-            isTechnical: technical,
-            legal: !result.notLegal,
-            location: result.venue,
-            race: result.race,
-            records: [],
-            competitionId: result.competitionId,
-            eventId: result.eventId,
-          });
+          );
         });
       },
     );
