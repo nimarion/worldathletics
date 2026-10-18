@@ -53,12 +53,11 @@ export class AthletesController {
     if (id < 1 || id > 2147483647) {
       throw new BadRequestException('Invalid value for athlete id');
     }
-    return this.athletesService.getAthlete(id).then((athlete) => {
-      if (!athlete) {
-        throw new NotFoundException();
-      }
-      return athlete;
-    });
+    const athlete = await this.athletesService.getAthlete(id);
+    if (!athlete) {
+      throw new NotFoundException();
+    }
+    return athlete;
   }
 
   @Get(':id/results')

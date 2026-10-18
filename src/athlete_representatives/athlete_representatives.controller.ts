@@ -33,15 +33,15 @@ export class AthleteRepresentativesController {
     description: 'Returns the athlete representative profile',
     type: AthleteRepresentative,
   })
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<AthleteRepresentative> {
-    return this.athleteRepresentativesService
-      .getAthleteRepresentative(id)
-      .then((ar) => {
-        if (!ar) {
-          throw new NotFoundException();
-        }
-        return ar;
-      });
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<AthleteRepresentative> {
+    const ar =
+      await this.athleteRepresentativesService.getAthleteRepresentative(id);
+    if (!ar) {
+      throw new NotFoundException();
+    }
+    return ar;
   }
 
   @Get(':id/athletes')
@@ -51,18 +51,16 @@ export class AthleteRepresentativesController {
     type: RepresentedAthlete,
     isArray: true,
   })
-  findAthletes(
+  async findAthletes(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<RepresentedAthlete[]> {
-    return this.athleteRepresentativesService
-      .getRepresentedAthletes(id)
-      .then((athletes) => {
-        if (!athletes) {
-          throw new NotFoundException(
-            `Representative with ID ${id} or their athletes list not found`,
-          );
-        }
-        return athletes;
-      });
+    const athletes =
+      await this.athleteRepresentativesService.getRepresentedAthletes(id);
+    if (!athletes) {
+      throw new NotFoundException(
+        `Representative with ID ${id} or their athletes list not found`,
+      );
+    }
+    return athletes;
   }
 }
