@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { GraphQLClient } from 'graphql-request';
 import { GraphqlService } from 'src/graphql/graphql.service';
 import {
   COMPETITION_CALENDAR,
@@ -27,13 +26,10 @@ import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class CompetitionsService {
-  private graphQLClient: GraphQLClient;
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly graphqlService: GraphqlService,
-  ) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  ) {}
 
   async findCompetitionOrganiserInfo(
     competitionId: number,
@@ -45,32 +41,26 @@ export class CompetitionsService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(COMPETITION_ORGANISER, {
-      competitionId,
-    });
+    const data = await this.graphqlService
+      .getClient()
+      .request(COMPETITION_ORGANISER, {
+        competitionId,
+      });
     const response = z
       .object({
         getCompetitionOrganiserInfo: CompetitionOrganiserInfoSchema,
       })
       .parse(data);
-    const events = new Map<Sex, string[]>();
+    const events: Partial<Record<Sex, string[]>> = {};
     response.getCompetitionOrganiserInfo.units.forEach((unit) => {
-      const disciplines: string[] = [];
-      unit.events.forEach((event) => {
-        disciplines.push(event);
-      });
-      events.set(unit.gender, disciplines);
+      events[unit.gender] = [...unit.events];
     });
-    const prizeMoney = new Map<Sex, number[]>();
+    const prizeMoney: Partial<Record<Sex, number[]>> = {};
     response.getCompetitionOrganiserInfo.prizeMoney.forEach((prize) => {
-      const prizes: number[] = [];
-      prize.prizes.forEach((p) => {
-        prizes.push(p);
-      });
-      prizeMoney.set(prize.gender, prizes);
+      prizeMoney[prize.gender] = [...prize.prizes];
     });
 
-    const organiserInfo = {
+    const organiserInfo: CompetitionOrganiserInfo = {
       liveStreamUrl: response.getCompetitionOrganiserInfo.liveStreamingUrl,
       resultsUrl: response.getCompetitionOrganiserInfo.resultsPageUrl,
       websiteUrl: response.getCompetitionOrganiserInfo.websiteUrl,
@@ -131,15 +121,17 @@ export class CompetitionsService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(COMPETITION_CALENDAR, {
-      competitionGroupId,
-      disciplineId,
-      regionType,
-      regionId,
-      rankingCategoryId,
-      permitLevelId,
-      query,
-    });
+    const data = await this.graphqlService
+      .getClient()
+      .request(COMPETITION_CALENDAR, {
+        competitionGroupId,
+        disciplineId,
+        regionType,
+        regionId,
+        rankingCategoryId,
+        permitLevelId,
+        query,
+      });
     const response = z
       .object({
         getCalendarEvents: z.object({
@@ -183,11 +175,13 @@ export class CompetitionsService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(COMPETITON_RESULTS, {
-      competitionId,
-      eventId,
-      day,
-    });
+    const data = await this.graphqlService
+      .getClient()
+      .request(COMPETITON_RESULTS, {
+        competitionId,
+        eventId,
+        day,
+      });
     const response = z
       .object({
         getCalendarCompetitionResults: CompetitionResultsSchema,
@@ -208,7 +202,7 @@ export class CompetitionsService {
         const data: CompetitionResultEvent[] = event.events.map((event) => {
           const technical = isTechnical({
             disciplineCode: mapDisciplineToCode(event.event),
-            performance: event.races[0].results[0].mark,
+            performance: event.races[0]?.results[0]?.mark ?? '',
           });
           return {
             eventName,

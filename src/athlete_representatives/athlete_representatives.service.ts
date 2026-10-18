@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { GraphQLClient } from 'graphql-request';
 import {
   AthleteRepresentative,
   RepresentedAthlete,
@@ -20,13 +19,10 @@ import { GraphqlService } from 'src/graphql/graphql.service';
 
 @Injectable()
 export class AthleteRepresentativesService {
-  private graphQLClient: GraphQLClient;
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly graphqlService: GraphqlService,
-  ) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  ) {}
 
   async getAthleteRepresentative(
     id: number,
@@ -37,7 +33,7 @@ export class AthleteRepresentativesService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(
+    const data = await this.graphqlService.getClient().request(
       ATHLETE_REPRESENTATIVE_QUERY,
       {
         id: String(id),
@@ -83,9 +79,9 @@ export class AthleteRepresentativesService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(
-      ATHLETE_REPRESENTATIVES_QUERY,
-    );
+    const data = await this.graphqlService
+      .getClient()
+      .request(ATHLETE_REPRESENTATIVES_QUERY);
     const response = z
       .object({
         getAthleteRepresentativeDirectory: z.array(AthleteRepresentativeSchema),
@@ -139,7 +135,7 @@ export class AthleteRepresentativesService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(
+    const data = await this.graphqlService.getClient().request(
       REPRESENTED_ATHLETES_QUERY,
       {
         id: String(id),

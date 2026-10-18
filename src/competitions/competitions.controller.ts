@@ -35,20 +35,14 @@ export class CompetitionsController {
     type: CompetitionOrganiserInfo,
   })
   async findOrganiser(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<CompetitionOrganiserInfo> {
     const data =
       await this.competitionsService.findCompetitionOrganiserInfo(id);
     if (!data) {
       throw new NotFoundException();
     }
-    return {
-      ...data,
-      events: JSON.parse(JSON.stringify(Object.fromEntries(data.events))),
-      prizeMoney: JSON.parse(
-        JSON.stringify(Object.fromEntries(data.prizeMoney)),
-      ),
-    };
+    return data;
   }
 
   @Get(':id/results')
@@ -67,7 +61,7 @@ export class CompetitionsController {
     isArray: true,
   })
   async findResults(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Query('eventId', new ParseIntPipe({ optional: true })) eventId?: number,
     @Query('day', new ParseIntPipe({ optional: true })) day?: number,
   ): Promise<CompetitionResults> {

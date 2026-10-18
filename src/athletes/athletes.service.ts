@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
-import { Athlete, AthleteSearchResult, Performance, Sex } from './athlete.dto';
+import { Athlete, AthleteSearchResult, Performance } from './athlete.dto';
 import ATHLETE_QUERY, { ATHLETE_SEARCH_QUERY } from './athlete.query';
 import { Athlete as AthleteSchema, AthleteSearchSchema } from './athlete.zod';
 import mapDisciplineToCode, { isTechnical } from 'src/discipline.utils';
@@ -13,18 +12,17 @@ import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class AthletesService {
-  private graphQLClient: GraphQLClient;
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly graphqlService: GraphqlService,
-  ) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  ) {}
 
   async searchAthlete(name: string): Promise<AthleteSearchResult[]> {
-    const data = await this.graphQLClient.request(ATHLETE_SEARCH_QUERY, {
-      name,
-    });
+    const data = await this.graphqlService
+      .getClient()
+      .request(ATHLETE_SEARCH_QUERY, {
+        name,
+      });
     const response = z
       .object({
         searchCompetitors: z.array(AthleteSearchSchema),
@@ -61,7 +59,7 @@ export class AthletesService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(
+    const data = await this.graphqlService.getClient().request(
       ATHLETE_QUERY,
       {
         id: String(id),

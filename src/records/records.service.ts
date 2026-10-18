@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { GraphQLClient } from 'graphql-request';
 
 import { GraphqlService } from 'src/graphql/graphql.service';
 import { RECORD_CATEGORIES_QUERY, RECORD_QUERY } from './record.query';
@@ -11,14 +10,11 @@ import { RecordSchema } from './record.zod';
 
 @Injectable()
 export class RecordsService {
-  private graphQLClient: GraphQLClient;
-  constructor(private readonly graphqlService: GraphqlService) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  constructor(private readonly graphqlService: GraphqlService) {}
 
   async find(categoryId: number): Promise<Record[] | null> {
     const records: Record[] = [];
-    const data = await this.graphQLClient.request(RECORD_QUERY, {
+    const data = await this.graphqlService.getClient().request(RECORD_QUERY, {
       categoryId,
     });
     const response = z
@@ -80,7 +76,9 @@ export class RecordsService {
   }
 
   async findCategories(): Promise<RecordCategory[]> {
-    const data = await this.graphQLClient.request(RECORD_CATEGORIES_QUERY);
+    const data = await this.graphqlService
+      .getClient()
+      .request(RECORD_CATEGORIES_QUERY);
     const response = z
       .object({
         getRecordsCategories: z.array(

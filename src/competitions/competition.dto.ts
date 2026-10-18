@@ -24,11 +24,11 @@ export class CompetitionOrganiserInfo {
   @ApiProperty({ type: [ContactPerson] })
   contactPersons!: ContactPerson[];
   @ApiProperty({
-    type: [Map<string, string[]>],
+    type: Object,
   })
-  events!: Map<Sex, string[]> | any | null;
-  @ApiProperty({ type: [Map<string, number[]>] })
-  prizeMoney!: Map<Sex, number[]> | any | null;
+  events!: Partial<Record<Sex, string[]>>;
+  @ApiProperty({ type: Object })
+  prizeMoney!: Partial<Record<Sex, number[]>>;
   @ApiProperty({ nullable: true, type: String })
   additionalInfo!: string | null;
 }

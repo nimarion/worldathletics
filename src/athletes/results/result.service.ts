@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import RESULTS_QUERY from './result.query';
 import { ResultsByEvent } from './result.zod';
@@ -10,16 +9,13 @@ import { performanceToFloat } from 'src/performance-conversion';
 
 @Injectable()
 export class ResultsService {
-  private graphQLClient: GraphQLClient;
-  constructor(private readonly graphqlService: GraphqlService) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  constructor(private readonly graphqlService: GraphqlService) {}
 
   async getResultsFromAthlete(
     id: number,
     year?: number,
   ): Promise<Performance[] | null> {
-    const data = await this.graphQLClient.request(
+    const data = await this.graphqlService.getClient().request(
       RESULTS_QUERY,
       {
         id: String(id),

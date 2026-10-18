@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { GraphQLClient } from 'graphql-request';
 import { z } from 'zod';
 import { BaseDiscipline } from './discipline.dto';
 
@@ -11,13 +10,10 @@ import { DisciplineSchema } from './disciplines.zod';
 
 @Injectable()
 export class DisciplinesService {
-  private graphQLClient: GraphQLClient;
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly graphqlService: GraphqlService,
-  ) {
-    this.graphQLClient = this.graphqlService.getClient();
-  }
+  ) {}
 
   async findAll(): Promise<BaseDiscipline[]> {
     const cacheKey = 'disciplines:all';
@@ -26,7 +22,9 @@ export class DisciplinesService {
       return cached;
     }
 
-    const data = await this.graphQLClient.request(DISCIPLINES_QUERY);
+    const data = await this.graphqlService
+      .getClient()
+      .request(DISCIPLINES_QUERY);
     const reponse = z
       .object({
         getMetaData: z.object({

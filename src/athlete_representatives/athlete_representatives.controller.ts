@@ -1,4 +1,10 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AthleteRepresentativesService } from './athlete_representatives.service';
 import {
   AthleteRepresentative,
@@ -27,9 +33,9 @@ export class AthleteRepresentativesController {
     description: 'Returns the athlete representative profile',
     type: AthleteRepresentative,
   })
-  findOne(@Param('id') id: string): Promise<AthleteRepresentative> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<AthleteRepresentative> {
     return this.athleteRepresentativesService
-      .getAthleteRepresentative(+id)
+      .getAthleteRepresentative(id)
       .then((ar) => {
         if (!ar) {
           throw new NotFoundException();
@@ -45,9 +51,11 @@ export class AthleteRepresentativesController {
     type: RepresentedAthlete,
     isArray: true,
   })
-  findAthletes(@Param('id') id: string): Promise<RepresentedAthlete[]> {
+  findAthletes(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<RepresentedAthlete[]> {
     return this.athleteRepresentativesService
-      .getRepresentedAthletes(+id)
+      .getRepresentedAthletes(id)
       .then((athletes) => {
         if (!athletes) {
           throw new NotFoundException(
