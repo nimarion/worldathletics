@@ -31,10 +31,11 @@ export class AthletesService {
       })
       .parse(data);
     return response.searchCompetitors
+      .filter(
+        (item): item is typeof item & { aaAthleteId: number } =>
+          item.aaAthleteId !== null,
+      )
       .map((item) => {
-        if (!item.aaAthleteId) {
-          throw new Error('Athlete ID is missing');
-        }
         return {
           id: item.aaAthleteId,
           country: item.country,

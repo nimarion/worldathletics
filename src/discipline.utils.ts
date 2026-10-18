@@ -1,4 +1,13 @@
+import { Logger } from '@nestjs/common';
 import disciplines from './disciplines.json';
+
+const logger = new Logger('DisciplineUtils');
+
+const TECHNICAL_CODE_PREFIXES =
+  /^(HJ|PV|LJ|TJ|SP|DT|HT|JT|WT|PEN|HEP|OCT|DEC|HOUR)/;
+
+const NON_TECHNICAL_CODE_PREFIXES =
+  /^(MILE|HMAR|MAR|MEAD|EKID|DISMEAD|MIXREL|SHUTHUR|XSE|XJ|XC|XS|RR)/;
 
 export default function mapDisciplineToCode(discipline: string): string {
   // Prefix is present in getCalendarEvents query
@@ -15,7 +24,7 @@ export default function mapDisciplineToCode(discipline: string): string {
     }
     return disciplineItem.disciplineCode;
   }
-  console.error(`Discipline ${discipline} not found`);
+  logger.warn(`Discipline ${discipline} not found`);
   return discipline;
 }
 
@@ -36,8 +45,13 @@ export function isTechnical({
   disciplineCode: string;
   performance: string;
 }): boolean {
-  const containsDigits = /\d/.test(disciplineCode);
-  if (containsDigits) {
+  if (TECHNICAL_CODE_PREFIXES.test(disciplineCode)) {
+    return true;
+  }
+  if (
+    NON_TECHNICAL_CODE_PREFIXES.test(disciplineCode) ||
+    /\d/.test(disciplineCode)
+  ) {
     return false;
   }
   if (performance.includes(':')) {

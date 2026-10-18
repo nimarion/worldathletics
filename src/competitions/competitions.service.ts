@@ -221,31 +221,33 @@ export class CompetitionsService {
                     ? result.competitor.teamMembers.map((teamMember) => {
                         return {
                           id: teamMember.id,
-                          firstname: teamMember.name!!.firstname,
-                          lastname: teamMember.name!!.lastname,
+                          firstname: teamMember.name.firstname,
+                          lastname: teamMember.name.lastname,
                           birthdate: null,
                           birthdateOnlyYear: false,
                           country: teamMember.urlSlug.country,
                           sex: event.gender != 'X' ? event.gender : null,
                         };
                       })
-                    : [
-                        {
-                          id: result.competitor.urlSlug!!.id,
-                          firstname: result.competitor.name!!.firstname,
-                          lastname: result.competitor.name!!.lastname,
-                          birthdate: result.competitor.birthDate
-                            ? result.competitor.birthDate.date
-                            : null,
-                          birthdateOnlyYear: result.competitor.birthDate
-                            ? result.competitor.birthDate.birthdateOnlyYear
-                            : false,
-                          country:
-                            result.nationality ||
-                            result.competitor.urlSlug!!.country,
-                          sex: event.gender != 'X' ? event.gender : null,
-                        },
-                      ];
+                    : result.competitor.urlSlug
+                      ? [
+                          {
+                            id: result.competitor.urlSlug.id,
+                            firstname: result.competitor.name.firstname,
+                            lastname: result.competitor.name.lastname,
+                            birthdate: result.competitor.birthDate
+                              ? result.competitor.birthDate.date
+                              : null,
+                            birthdateOnlyYear: result.competitor.birthDate
+                              ? result.competitor.birthDate.birthdateOnlyYear
+                              : false,
+                            country:
+                              result.nationality ||
+                              result.competitor.urlSlug.country,
+                            sex: event.gender != 'X' ? event.gender : null,
+                          },
+                        ]
+                      : [];
                   return {
                     location:
                       response.getCalendarCompetitionResults.competition.venue,

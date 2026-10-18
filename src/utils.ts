@@ -112,10 +112,9 @@ export function parseVenue(venue: string): Location {
 }
 
 function parseCountryAndCity(countryAndCity: string): [string, string] {
-  const regex = /(.+?)\s*\((\w+(?:\s+\w+)*)\)/;
-  const matchResult = countryAndCity.match(regex);
+  const matchResult = countryAndCity.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
   if (!matchResult) {
-    throw new Error(`Cannot parse country and city from ${countryAndCity}`);
+    return [countryAndCity.trim(), ''];
   }
   const city = matchResult[1].replace(/, [A-Z]+$/, '').trim();
   const country = matchResult[2].trim();

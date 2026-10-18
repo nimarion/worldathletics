@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { z } from 'zod';
 import {
   cleanupCompetitionName,
@@ -10,6 +11,8 @@ import {
 } from './utils';
 import { findCountryByCode, mapCountryToCode } from './country.utils';
 import { cleanupDiscipline } from './discipline.utils';
+
+const logger = new Logger('ZodSchema');
 
 export const FirstnameSchema = z.string();
 export const LastnameSchema = z.string().transform(formatLastname);
@@ -25,7 +28,7 @@ export const CountryCodeSchema = z.string().transform((val) => {
   if (country) {
     return country.id;
   }
-  console.error(`Country ${val} not found`);
+  logger.warn(`Country ${val} not found`);
   return val;
 });
 export const VenueSchema = z.string().transform(parseVenue);
@@ -33,7 +36,7 @@ export const PhoneSchema = z.string().transform(parsePhoneNumber);
 
 // spain/alvaro-martin-14410246
 export const UrlSlugIdSchema = z.string().transform((val) => {
-  const idMatch = val.match(/^([a-z-]+)\/[a-z-]+-(\d+)$/);
+  const idMatch = val.match(/^([^/]+)\/.*-(\d+)$/);
   if (!idMatch) {
     throw new Error(`Invalid URL slug: ${val}`);
   }
@@ -67,14 +70,9 @@ export const PlaceSchema = z.preprocess((val) => {
   if (val === 'OC') {
     return -1;
   }
-  try {
-    const number = Number(val);
-    if (isNaN(number)) {
-      return -1;
-    }
-    return number;
-  } catch (error) {
-    console.log(val, error);
+  const number = Number(val);
+  if (isNaN(number)) {
     return -1;
   }
+  return number;
 }, z.number());
