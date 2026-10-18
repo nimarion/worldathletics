@@ -44,9 +44,6 @@ importers:
       libphonenumber-js:
         specifier: ^1.13.7
         version: 1.13.7
-      rimraf:
-        specifier: ^6.1.3
-        version: 6.1.3
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -69,6 +66,9 @@ importers:
       prettier:
         specifier: ^3.9.1
         version: 3.9.1
+      rimraf:
+        specifier: ^6.1.3
+        version: 6.1.3
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
