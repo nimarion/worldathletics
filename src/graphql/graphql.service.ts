@@ -1,106 +1,197 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { GraphQLClient } from 'graphql-request';
-import * as fs from 'fs';
-import * as path from 'path';
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
+import { ClientError, GraphQLClient } from 'graphql-request';
+
+const BASE_URL = 'https://worldathletics.org';
+const PAGE_PATH = '/athletes/-/14193865';
+const USER_AGENT =
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+
+const SCRIPT_SRC_PATTERN = /src="(\/_next\/static\/[^"]+\.js)"/g;
+const GRAPHQL_BLOCK_PATTERN = /(?:^|[,{])graphql:\{([^}]+)\}/g;
+const ENDPOINT_PATTERN = /(?:^|[,{])endpoint:"([^"]+)"/;
+const API_KEY_PATTERN = /(?:^|[,{])apiKey:"([^"]+)"/;
+
+const REFRESH_INTERVAL_MS = 12 * 60 * 60 * 1000; // 12 hours
+const FETCH_TIMEOUT_MS = 10_000;
+const FETCH_RETRIES = 3;
+
+interface GraphqlCredentials {
+  endpoint: string;
+  apiKey: string;
+}
 
 @Injectable()
-export class GraphqlService {
+export class GraphqlService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(GraphqlService.name);
-  private graphqlClient!: GraphQLClient;
-  private currentApiKey: string | undefined;
-  private currentEndpoint: string | undefined;
+  private rawClient: GraphQLClient | null = null;
+  private readonly clientProxy: GraphQLClient;
+  private refreshPromise: Promise<void> | null = null;
+  private refreshTimer: NodeJS.Timeout | null = null;
 
   constructor() {
-    this.currentApiKey = process.env.GRAPHQL_API_KEY;
-    this.currentEndpoint = process.env.GRAPHQL_ENDPOINT;
-    this.initializeClient();
-  }
-
-  private initializeClient(): void {
-    if (!this.currentEndpoint) {
-      throw new Error('GRAPHQL_ENDPOINT is not defined');
-    }
-
-    const headers: { [key: string]: string } = {
-      'x-graphql-client-name': process.env.GRAPHQL_CLIENT_NAME
-        ? process.env.GRAPHQL_CLIENT_NAME
-        : 'worldathletics',
-    };
-    if (this.currentApiKey) {
-      headers['x-api-key'] = this.currentApiKey;
-    }
-
-    this.graphqlClient = new GraphQLClient(this.currentEndpoint, {
-      headers,
-    });
-  }
-
-  getClient(): GraphQLClient {
-    return this.graphqlClient;
-  }
-
-  getApiKey(): string {
-    return this.currentApiKey || '';
-  }
-
-  getEndpoint(): string {
-    return this.currentEndpoint || '';
-  }
-
-  updateApiKey(newApiKey: string): void {
-    this.currentApiKey = newApiKey;
-    process.env.GRAPHQL_API_KEY = newApiKey;
-
-    // Re-initialize the GraphQLClient to use the new key immediately
-    this.initializeClient();
-
-    // Persist to the local .env file (best-effort)
-    this.persistToEnvFile('GRAPHQL_API_KEY', newApiKey);
-  }
-
-  updateEndpoint(newEndpoint: string): void {
-    this.currentEndpoint = newEndpoint;
-    process.env.GRAPHQL_ENDPOINT = newEndpoint;
-
-    // Re-initialize the GraphQLClient to use the new endpoint immediately
-    this.initializeClient();
-
-    // Persist to the local .env file (best-effort)
-    this.persistToEnvFile('GRAPHQL_ENDPOINT', newEndpoint);
-  }
-
-  private persistToEnvFile(key: string, value: string): void {
-    const envFilePath = path.join(process.cwd(), '.env');
-    const sanitizedValue = value.replace(/[\r\n]/g, '').replace(/"/g, '\\"');
-    try {
-      let fileContent = '';
-      if (fs.existsSync(envFilePath)) {
-        fileContent = fs.readFileSync(envFilePath, 'utf8');
-      }
-
-      const lines = fileContent.split('\n');
-      let isKeyUpdated = false;
-
-      const updatedLines = lines.map((line) => {
-        const trimmed = line.trim();
-        if (trimmed.startsWith(`${key}=`)) {
-          isKeyUpdated = true;
-          return `${key}="${sanitizedValue}"`;
+    this.clientProxy = {
+      request: async (...args: Parameters<GraphQLClient['request']>) => {
+        if (!this.rawClient) {
+          await this.refreshCredentials();
         }
-        return line;
-      });
+        try {
+          return await (
+            this.rawClient!.request as (
+              ...a: Parameters<GraphQLClient['request']>
+            ) => Promise<unknown>
+          )(...args);
+        } catch (error) {
+          if (this.isAuthError(error)) {
+            this.logger.warn(
+              'GraphQL request failed with auth error; refreshing credentials and retrying...',
+            );
+            await this.refreshCredentials();
+            return await (
+              this.rawClient!.request as (
+                ...a: Parameters<GraphQLClient['request']>
+              ) => Promise<unknown>
+            )(...args);
+          }
+          throw error;
+        }
+      },
+    } as GraphQLClient;
+  }
 
-      if (!isKeyUpdated) {
-        updatedLines.push(`${key}="${sanitizedValue}"`);
-      }
-
-      fs.writeFileSync(envFilePath, updatedLines.join('\n'), 'utf8');
-      this.logger.log(`${key} successfully persisted to .env file.`);
+  async onModuleInit(): Promise<void> {
+    try {
+      await this.refreshCredentials();
     } catch (error) {
-      this.logger.warn(
-        `Failed to persist ${key} to .env file (continuing with in-memory value):`,
+      this.logger.error(
+        'Failed to fetch initial GraphQL credentials on startup (will retry on next request):',
         error,
       );
     }
+
+    this.refreshTimer = setInterval(() => {
+      this.refreshCredentials().catch((error) => {
+        this.logger.error(
+          'Scheduled GraphQL credentials refresh failed:',
+          error,
+        );
+      });
+    }, REFRESH_INTERVAL_MS);
+    this.refreshTimer.unref();
+  }
+
+  onModuleDestroy(): void {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+  }
+
+  getClient(): GraphQLClient {
+    return this.clientProxy;
+  }
+
+  async refreshCredentials(): Promise<void> {
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise = this.doRefreshCredentials().finally(() => {
+      this.refreshPromise = null;
+    });
+
+    return this.refreshPromise;
+  }
+
+  private async doRefreshCredentials(): Promise<void> {
+    const { endpoint, apiKey } = await this.fetchCredentials();
+    this.rawClient = new GraphQLClient(endpoint, {
+      headers: {
+        'x-graphql-client-name': 'worldathletics',
+        'x-api-key': apiKey,
+      },
+    });
+    this.logger.log(`GraphQL credentials updated (endpoint: ${endpoint})`);
+  }
+
+  private async fetchCredentials(): Promise<GraphqlCredentials> {
+    const html = await this.fetchWithRetry(PAGE_PATH);
+    const scriptMatches = html.matchAll(SCRIPT_SRC_PATTERN);
+
+    for (const match of scriptMatches) {
+      const scriptPath = match[1];
+      const js = await this.fetchWithRetry(scriptPath);
+      const blockMatches = js.matchAll(GRAPHQL_BLOCK_PATTERN);
+
+      for (const blockMatch of blockMatches) {
+        const block = blockMatch[1];
+        const endpointMatch = ENDPOINT_PATTERN.exec(block);
+        const apiKeyMatch = API_KEY_PATTERN.exec(block);
+
+        if (endpointMatch && apiKeyMatch) {
+          return {
+            endpoint: endpointMatch[1],
+            apiKey: apiKeyMatch[1],
+          };
+        }
+      }
+    }
+
+    throw new Error(
+      'Failed to extract GraphQL endpoint and API key from World Athletics static bundles',
+    );
+  }
+
+  private async fetchWithRetry(path: string): Promise<string> {
+    const url = `${BASE_URL}${path}`;
+    for (let attempt = 1; attempt <= FETCH_RETRIES; attempt++) {
+      try {
+        const response = await fetch(url, {
+          headers: {
+            'User-Agent': USER_AGENT,
+          },
+          signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        });
+        if (response.ok) {
+          return await response.text();
+        }
+      } catch {
+        // Retry up to FETCH_RETRIES times
+      }
+    }
+    throw new Error(`Failed to fetch ${url} after ${FETCH_RETRIES} attempts`);
+  }
+
+  private isAuthError(error: unknown): boolean {
+    if (!(error instanceof ClientError)) {
+      return false;
+    }
+
+    const status = error.response.status;
+    if (status === 401 || status === 403) {
+      return true;
+    }
+
+    const errors = error.response.errors;
+    if (Array.isArray(errors)) {
+      return errors.some((err) => {
+        const record = err as unknown as Record<string, unknown>;
+        const errorType =
+          typeof record.errorType === 'string' ? record.errorType : '';
+        const message =
+          typeof record.message === 'string' ? record.message : '';
+        return (
+          errorType === 'UnauthorizedException' ||
+          errorType === 'BadApiKeyException' ||
+          /unauthorized|not authorized|api.?key/i.test(message)
+        );
+      });
+    }
+
+    return false;
   }
 }
