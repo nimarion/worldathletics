@@ -25,13 +25,70 @@ export class CompetitionsController {
     required: false,
     type: String,
   })
+  @ApiQuery({
+    name: 'competitionGroupId',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'disciplineId',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'regionType',
+    required: false,
+    enum: ['area', 'world', 'country'],
+  })
+  @ApiQuery({
+    name: 'regionId',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'rankingCategoryId',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'permitLevelId',
+    required: false,
+    type: Number,
+  })
   @ApiOkResponse({
     type: Competition,
     isArray: true,
   })
-  findAll(@Query('name') name?: string): Promise<Competition[]> {
+  findAll(
+    @Query('name') name?: string,
+    @Query('competitionGroupId', new ParseIntPipe({ optional: true }))
+    competitionGroupId?: number,
+    @Query('disciplineId', new ParseIntPipe({ optional: true }))
+    disciplineId?: number,
+    @Query('regionType') regionType?: string,
+    @Query('regionId', new ParseIntPipe({ optional: true }))
+    regionId?: number,
+    @Query('rankingCategoryId', new ParseIntPipe({ optional: true }))
+    rankingCategoryId?: number,
+    @Query('permitLevelId', new ParseIntPipe({ optional: true }))
+    permitLevelId?: number,
+  ): Promise<Competition[]> {
+    if (
+      regionType !== undefined &&
+      !['area', 'world', 'country'].includes(regionType)
+    ) {
+      throw new BadRequestException(
+        'regionType must be one of: area, world, country',
+      );
+    }
     return this.competitionsService.findCompetitions({
       query: name,
+      competitionGroupId,
+      disciplineId,
+      regionType,
+      regionId,
+      rankingCategoryId,
+      permitLevelId,
     });
   }
 
